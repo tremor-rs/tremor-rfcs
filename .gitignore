@@ -1,0 +1,5 @@
+*~
+book/
+src/
+**/*.docx
+**/.DS_Store

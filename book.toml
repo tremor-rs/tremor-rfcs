@@ -1,0 +1,5 @@
+[book]
+title = "The Tremor RFC Book"
+
+[output.html]
+no-section-label = true
