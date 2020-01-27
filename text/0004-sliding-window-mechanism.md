@@ -10,8 +10,8 @@ The tremor-query language currently supports temporal window processing based on
 provided system ( wall ) clock or data-driven intervals. Currently, however, the only
 supported windowing style in `select` statements are tumbling.
 
-There is no mechanism for sliding windows where there may be multiple simultaneous
-windows
+There is no mechanism for tunbling windows where there may be multiple simultaneous
+(overlapping) windows. The sliding window mechanism corrects this.
 
 This RFC addresses these limitations by introducing a `sliding window` mechamism
 that can be configured with a number of steps.
