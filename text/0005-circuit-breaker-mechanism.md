@@ -1,7 +1,7 @@
 - Feature Name: rfc_0005_circuit_breaker_mechanism
 - Start Date: 2020-01-27
-- Issue: [wayfair-incubator/tremor-rfcs#0009](https://github.com/wayfair-incubator/tremor-rfcs/issues/9)
-- RFC PR: [wayfair-incubator/tremor-rfcs#00010](https://github.com/wayfair-incubator/tremor-rfcs/pull/10)
+- Issue: [wayfair-incubator/tremor-rfcs#0008](https://github.com/wayfair-incubator/tremor-rfcs/issues/8)
+- RFC PR: [wayfair-incubator/tremor-rfcs#0009](https://github.com/wayfair-incubator/tremor-rfcs/pull/9)
 
 # Summary
 [summary]: #summary
@@ -20,7 +20,7 @@ how failure detection signals, events and actions are communicated across the tr
 
 The absence of a standard and uniform circuit breaker interface prohibits authors of tremor-script / tremor-query
 from writing compensating logic and behaviours that are adaptive to failures in the runtime environment. The
-circuit breaker operator separates the signals, events and actions that are implied by circuit breakers with a
+circuit breaker operator separates the signals, events and actions that are implied by circuit breakers with
 an operator that allows circuit breaker events to be leveraged by user-defined logic in the tremor-runtime
 regardless of the point of origin of those signals, events and actions.
 
