@@ -77,7 +77,9 @@ logic.
 [prior-art]: #prior-art
 
 [Circuit Breaker Design Pattern](https://en.wikipedia.org/wiki/Circuit_breaker_design_pattern)
+
 [Crius](https://crates.io/crates/crius)
+
 [Failsafe](https://crates.io/crates/failsafe)
 
 
