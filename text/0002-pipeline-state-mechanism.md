@@ -50,10 +50,12 @@ actor currently handling an event.
 
 The runtime enforces read-only semantics as follows:
 
+
 |Region|Runtime|Operator|UserDefinedLogic|
-|---|---|---|---|---|---|---|
+|---|---|---|---|
 |`state.ops.{operator-id}`|ro|rw|-|
 |`state.exports`|ro|ro|rw|
+
 
 The `state` namespace will be initialialized on pipeline creation,
 and will be destroyed on destruction of a pipline when it is undeployed or
