@@ -31,6 +31,7 @@ The PDK supports plugins of the following kind:
 - Postprocessors
 - Operators
 - Functions
+- Extractors
 
 The resulting plugins can be loaded into a tremor instance either at start-time or dynamically and then used in deployments.
 
