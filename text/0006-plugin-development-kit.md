@@ -6,23 +6,22 @@
 # Summary
 [summary]: #summary
 
-A plugin development kind (PDK for short) allows modularizing tremor's components and decupling their development. The two main requirements for the PDK are loading linked libraries that expose the artifacts and extending the current hardcoded registry to allow referencing those artifacts.
+A plugin development kit ( PDK ) enables modularization of tremor components decoupling their software development lifecycle. 
+The two main requirements for the PDK are loading shared linked libraries via a standard plugin mechanism that expose the plugin artifacts and refactoring internal component registries to allow referencing plugins.
 
 # Motivation
 [motivation]: #motivation
 
-There are multiple motivating factors for allowing plugins to be loaded and developed seperately.
+The first benefit of a PDK is to decouple the deployment of the tremor executable and components. This enables shipping, deploying, or updating artifacts dynamically after initial deployment.
 
-The first benefit of a PDK is to decouple the deployment of the tremor executable and its plugins. Decupling allows shipping, deploying, or updating artifacts after initial deployment.
+The second benefit is separating core and non-core or extended features development lifecycles. It stabilizes and standardizes how new artifacts are developed, shipped, tested, and deployed whilst normalizing packaging, operations and management.
 
-The second benefit is taking the burden of the core project. It makes it easier and less involved to add new artifacts as they can be developed, shipped, and tested seperately without the requirement to always include them.
-
-Lastly, rust compile times are high. Excluding components such as ramps, and plugins from the compilation part, and allowing them to be compiled only when they change, reduces build times and in result that development times. 
+Lastly, rust compile times are high. Partitioning out components as plugins from the core runtime allows them to be compiled separately, and only when there are significant changes, reducing build times, and offering faster development cycles whilst simultaneously reducing overall compile times. 
 
 # Guide-level explanation
 [guide-level-explanation]: #guide-level-explanation
 
-The PDK allows to build linked libraries that can contain the following tremor components:
+The PDK supports plugins of the following kind:
 
 - Onramps
 - Offramps
@@ -37,40 +36,48 @@ The resulting plugins can be loaded into a tremor instance either at start-time 
 # Reference-level explanation
 [reference-level-explanation]: #reference-level-explanation
 
-The PDK requires to extend the registries we use for various artifacts; we need to allow registering additional dynamic elements in addition to the current hardcoded ones. It is worth to consider nested namespacing to prevent collisions.
+The PDK requires extending registries for various artifacts; we need to enable registering additional artefacts in addition to the supporting builtin ones. Nested namespaces may be of benefit to prevent collisions.
 
-We need to consider handling unloading, in this RFC, we suggest that this is forbidden to eliminate the complexity of dependency tracking, and the only way o unload a plugin is a restart of the runtime. The implementation still needs to consider not blocking later avenues of adding unloading plugins.
+Plugin unloading needs careful consideration. In this revision, we are making unloading illegal to eliminate the complexity of dependency tracking and live usage tracking. Unloading a plugin in the initial implementation will require a restart of the runtime. Plugin lifecycle with support for etherealization, destruction and unloading is envisaged. A future RFC revision may replace this one for this purpose.
 
-Lastly, developer tooling such as template projects, traits, examples, and eventually, testing frameworks will go a long way to make it easier and more accessible.
+Developer tooling such as template projects, traits, examples, and eventually, testing frameworks to facilitate higher developer experience for plugin developers is out of scope in this revision. A future RFC should cover off plugin developer experience once the PDK and a set of plugins have been implemented as concrete needs will become clearer over time.
 
 # Drawbacks
 [drawbacks]: #drawbacks
 
-Possible drawbacks to consider are the additional complexity of deployment. While right now, tremor is a single binary that can be deployed with ease, adding plugins means keeping not only that binary but all plugins in sync, especially when deploying multiple versions.
+Plugins add deployment complexity. Currently tremor is a single binary. A binary with plugins introduces versioning and dependency management complexities. For example, when to allow/disallow multiple versions in the same process.
 
-A secondary possible issue that is worth considering is versioning. Once the PDK is published, internal interfaces become public interfaces, and by that nature, a lot harder to change. So they need to be designed more carefully.
+Once the PDK is published, internal interfaces become public API surfaces. Binary compatibility, forward compatibility
+and separation of public from private or internal structures, types, behaviours and interfaces will be new concerns and
+constraints on the project.
 
-We need to consider ownership of plugins. Aside from code-related issues, we need a process for promoting plugins to officially maintained plugins and in some cases officially maintained into internalized artifacts.
+Plugin ownership and maintenance. Aside from code-related issues, we need a process for managing officially maintained plugins and for managing the promotion, demotion/deprecation and changes to maintership or ownership. The governance of plugins will require explicit consideration with respect to standards, processes and community governance.
 
 # Rationale and alternatives
 [rationale-and-alternatives]: #rationale-and-alternatives
 
-One alternative to plugins and a PDK is to internalize every artifact, this is the current approach, and while it is manageable with a singular development team, it quickly becomes a burden, with external contributors, and this is not maintainable in the long run.
+The simple alternative to a PDK, is to internalize every artifact explicitly. This limits scalability and effectivness
+and is not tenable in the medium to long term.
 
-Another alternative is to make it possible to 'soft code' plugins in tremor script or another dialect. For some artifacts, such as codecs, or pre and post processors, this might be an alternative and worth investigating. However, given the performance-critical nature of many of the artifacts and the existence of well tested and widely used libraries for many tasks, it is not a generally applicable approach, that could fully replace plugins.
+Another alternative is enhance tremor so that plugins can be 'soft coded' through a DSL. This may require extending existing
+languages, adding new DSLs and other changes to the tremor runtime. For some artifacts, such as codecs, or pre and post processors, this may be worth investigating. However, performance critical regions of the tremor runtime may limit the
+applicability of 'soft coded' plugins until the runtime evolves suitable APIs, facilities and development tooling.
 
 # Prior art
 [prior-art]: #prior-art
 
 - [Java package name conventions](https://docs.oracle.com/javase/tutorial/java/package/namingpkgs.html)
 - [libloading rust crate for dynamic library loading](https://docs.rs/libloading/0.5.2/libloading/index.html)
+- [Java WebStart](https://en.wikipedia.org/wiki/Java_Web_Start)
+- [Mac OS X Universal Binaries](https://en.wikipedia.org/wiki/Universal_binary)
 
 # Unresolved questions
 [unresolved-questions]: #unresolved-questions
 
-It remains to be discussed how clustering affects a PDK. It internalizes the deployment problem for an operational to a cluster concern. This makes loading plugins more complicated as it requires to ship, syncroniuze, and load those plugins from a central source..
+The impact of clustering on the PDK and plugin development and runtime lifecycle is unknown. As clustering support
+in tremor is in progress but not delivered at the time of writing, these questions are unexplored.
 
 # Future possibilities
 [future-possibilities]: #future-possibilities
 
-Future possibilities are a central plugin registry (think cargo for plugins), clustering and deployment of plugins, bundles, and dependencies amongst plugins.
+Central plugin registry (eg: maven repository, cargo for crates, CPAN), cluster-aware PDK, bundles, and dependency/usage tracking, version management.
