@@ -7,6 +7,7 @@
 [summary]: #summary
 
 A plugin development kit ( PDK ) enables modularization of tremor components decoupling their software development lifecycle. 
+
 The two main requirements for the PDK are loading shared linked libraries via a standard plugin mechanism that expose the plugin artifacts and refactoring internal component registries to allow referencing plugins.
 
 # Motivation
@@ -47,21 +48,18 @@ Developer tooling such as template projects, traits, examples, and eventually, t
 
 Plugins add deployment complexity. Currently tremor is a single binary. A binary with plugins introduces versioning and dependency management complexities. For example, when to allow/disallow multiple versions in the same process.
 
-Once the PDK is published, internal interfaces become public API surfaces. Binary compatibility, forward compatibility
-and separation of public from private or internal structures, types, behaviours and interfaces will be new concerns and
-constraints on the project.
+Once the PDK is published, internal interfaces become public API surfaces. Binary compatibility, forward compatibility and separation of public from private or internal structures, types, behaviours and interfaces will be new concerns and constraints on the project.
 
 Plugin ownership and maintenance. Aside from code-related issues, we need a process for managing officially maintained plugins and for managing the promotion, demotion/deprecation and changes to maintership or ownership. The governance of plugins will require explicit consideration with respect to standards, processes and community governance.
 
 # Rationale and alternatives
 [rationale-and-alternatives]: #rationale-and-alternatives
 
-The simple alternative to a PDK, is to internalize every artifact explicitly. This limits scalability and effectivness
-and is not tenable in the medium to long term.
+The simple alternative to a PDK, is to internalize every artifact explicitly. This limits scalability and effectivness and is not tenable in the medium to long term.
 
-Another alternative is enhance tremor so that plugins can be 'soft coded' through a DSL. This may require extending existing
-languages, adding new DSLs and other changes to the tremor runtime. For some artifacts, such as codecs, or pre and post processors, this may be worth investigating. However, performance critical regions of the tremor runtime may limit the
-applicability of 'soft coded' plugins until the runtime evolves suitable APIs, facilities and development tooling.
+Another alternative is enhance tremor so that plugins can be 'soft coded' through a DSL. This may require extending existing languages, adding new DSLs and other changes to the tremor runtime. For some artifacts, such as codecs, or pre and post processors, this may be worth investigating. However, performance critical regions of the tremor runtime may limit the applicability of 'soft coded' plugins until the runtime evolves suitable APIs, facilities and development tooling.
+
+Webassembly might be another way to get and deploy additional code to tremor without the need of linked libraries, however interaction with existing third party libraries is unresolved.
 
 # Prior art
 [prior-art]: #prior-art
@@ -70,12 +68,12 @@ applicability of 'soft coded' plugins until the runtime evolves suitable APIs, f
 - [libloading rust crate for dynamic library loading](https://docs.rs/libloading/0.5.2/libloading/index.html)
 - [Java WebStart](https://en.wikipedia.org/wiki/Java_Web_Start)
 - [Mac OS X Universal Binaries](https://en.wikipedia.org/wiki/Universal_binary)
+- [WebAssembly](https://webassembly.org/) [wasmer WebAssembly runtime](https://github.com/wasmerio/wasmer), [wasmtime WebAssembly runtime](wasmtime)
 
 # Unresolved questions
 [unresolved-questions]: #unresolved-questions
 
-The impact of clustering on the PDK and plugin development and runtime lifecycle is unknown. As clustering support
-in tremor is in progress but not delivered at the time of writing, these questions are unexplored.
+The impact of clustering on the PDK and plugin development and runtime lifecycle is unknown. As clustering support in tremor is in progress but not delivered at the time of writing, these questions are unexplored.
 
 # Future possibilities
 [future-possibilities]: #future-possibilities
