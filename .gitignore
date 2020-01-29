@@ -5,3 +5,5 @@ src/
 **/.DS_Store
 text/*.pdf
 missfont.log
+html/
+mkdocs.yml

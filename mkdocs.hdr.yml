@@ -1,0 +1,25 @@
+site_name: Tremor Usage Guide
+site_author: The Tremor Team
+repo_url: https://github.com/wayfair-tremor/tremor-rfcs
+repo_name: wayfair-tremor/tremor-rfcs
+edit_uri: edit/master/docs
+docs_dir: src
+site_dir: html
+pages:
+theme:
+  name: material
+  logo: img/logo.png
+extra:
+  repo_icon: github
+markdown_extensions:
+  - codehilite
+  - toc:
+      permalink: true
+nav:
+  - Home: README.md
+  - API Changes: api_changes.md
+  - Architectural Changes: arch_changes.md
+  - Language Changes: lang_changes.md
+  - Library Changes: libs_changes.md
+  - RFC Template: 0000-template.md
+  - RFCs:
