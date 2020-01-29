@@ -3,3 +3,5 @@ book/
 src/
 **/*.docx
 **/.DS_Store
+text/*.pdf
+missfont.log
