@@ -6,11 +6,13 @@
 # Summary
 [summary]: #summary
 
-As part of tremors execution engine, we transform the logic described in trickle trickle scripts into Directed Acyclic Graphs (DAGs). Each operation, operator, or action inside the trickle script gets represented as a node in this DAG. Every event passed through tremor traverses this graph of operators. When an event arrives at an operator, this operator can alter, discard, or route the event to influence which subgraph the event traverses afterward.
+As part of tremors execution engine, we transform the logic described in trickle query scripts into Directed Acyclic Graph (DAG) based pipelines. Each operation, operator, or action inside the query gets represented as a node in this graph. Every event passed through tremor traverses this graph of operators depth first. When an event arrives at an operator, this operator can alter, discard, or route the event to influence which following subgraph ( or subgraphs ) the event traverses afterward.
 
-The initial construction of the pipeline DAGs is naive and done in the most simplistic form possible to make extending it easy. After the construction of the initial graph, it may undergo one or more transformations to optimize the execution. This RFC aims to discuss those transformations.
+The initial construction of the pipeline DAGs is naive and done in the most simplistic way possible to make extending/evolving it relatively painless during development. After the construction of the initial graph, it may undergo one or more transformations to optimize execution; for example, it may apply constant folding to migrate some runtime calculations to compile time where possible.
 
-As transformations are an iterative process and tremors evolution may open new avenues for optimization, this RFC is not meant to be exhaustive but refect the current and near-future state of optimizations.
+This RFC aims to discuss these transformations and more complex transformations.
+
+As transformations may involve more than a single pass, and as tremors evolution may open new avenues for optimization, may introduce new domain languages, this RFC is not meant to be exhaustive but to refect the current and near-future state of optimizations.
 
 # Motivation
 [motivation]: #motivation
@@ -150,6 +152,6 @@ Concerning [Problem case 1](#case-1), an alternative approach for this would be 
 # Future possibilities
 [future-possibilities]: #future-possibilities
 
-The topic of pipeline optimization is never-ending endeavor as there are always further optimizations to be done. In the future, this could take the form of integration and interaction between different operators, extending pipeline level optimizations or go all the way to introducing a compiler.
+The topic of pipeline optimization is never-ending endeavour as there are always further optimizations to be done. In the future, this could take the form of integration and interaction between different operators, extending pipeline level optimizations or go all the way to introducing a compiler.
 
 While those future possibilities might not be of direct concern for any case, it is important to keep them in mind to ensure optimizations done today do not block off possibilities in the future.
