@@ -1,7 +1,7 @@
 - Feature Name: (fill me in with a unique ident, `my_awesome_feature`)
 - Start Date: (fill me in with today's date, YYYY-MM-DD)
-- Tremor Issue: [wayfair-incubator/tremor-rfcs#0000](https://github.com/wayfair-incubator/tremor-rfcs/issues/0000)
-- RFC PR: [wayfair-incubator/tremor-rfcs#0000](https://github.com/wayfair-incubator/tremor-rfcs/pull/0000)
+- Tremor Issue: [wayfair-tremor/tremor-runtime#0000](https://github.com/wayfair-tremor/tremor-runtime/issues/0000)
+- RFC PR: [wayfair-tremor/tremor-rfcs#0000](https://github.com/wayfair-tremor/tremor-rfcs/pull/0000)
 
 # Summary
 [summary]: #summary
