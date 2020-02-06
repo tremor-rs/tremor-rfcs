@@ -20,7 +20,6 @@ clearly not be done and further discussion is not necessary. In the latter two
 cases, the sub-team will give a detailed explanation. We'll follow the standard
 procedure for shepherding, final comment period, etc.
 
-
 ## Amendments
 
 Sometimes in the implementation of an RFC, changes are required. In general
