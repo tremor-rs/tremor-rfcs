@@ -7,3 +7,4 @@ text/*.pdf
 missfont.log
 html/
 mkdocs.yml
+.gitconfig
