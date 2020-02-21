@@ -150,10 +150,7 @@ merged into the RFC repository as a markdown file. At that point the RFC is
     this is often the point at which many subteam members first review the RFC
     in full depth.
   - The FCP lasts ten calendar days, so that it is open for at least 5 business
-    days. It is also advertised widely,
-    e.g. in [This Week in Tremor](https://twit.tremo.rs/). This way all
-    stakeholders have a chance to lodge any final objections before a decision
-    is reached.
+    days.
   - In most cases, the FCP period is quiet, and the RFC is either merged or
     closed. However, sometimes substantial new arguments or ideas are raised,
     the FCP is canceled, and the RFC goes back into development mode.

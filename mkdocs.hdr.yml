@@ -1,4 +1,4 @@
-site_name: Tremor Usage Guide
+site_name: Tremor RFCs
 site_author: The Tremor Team
 repo_url: https://github.com/wayfair-tremor/tremor-rfcs
 repo_name: wayfair-tremor/tremor-rfcs
@@ -9,6 +9,9 @@ pages:
 theme:
   name: material
   logo: img/logo.png
+  palette:
+    primary: 'black'
+    accent: 'indigo'
 extra:
   repo_icon: github
 markdown_extensions:
