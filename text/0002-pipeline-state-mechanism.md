@@ -1,7 +1,7 @@
 - Feature Name: rfc_0002_pipeline_state_mechanism
 - Start Date: 2020-01-22
-- Issue: [wayfair-incubator/tremor-rfcs#0003](https://github.com/wayfair-incubator/tremor-rfcs/issues/3)
-- RFC PR: [wayfair-incubator/tremor-rfcs#0004](https://github.com/wayfair-incubator/tremor-rfcs/pull/4)
+- Issue: [wayfair-tremor/tremor-rfcs#0003](https://github.com/wayfair-tremor/tremor-rfcs/issues/3)
+- RFC PR: [wayfair-tremor/tremor-rfcs#0004](https://github.com/wayfair-tremor/tremor-rfcs/pull/4)
 
 # Summary
 [summary]: #summary

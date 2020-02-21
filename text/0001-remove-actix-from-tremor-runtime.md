@@ -1,7 +1,7 @@
 - Feature Name: rfc_0001_remove_actix
 - Start Date: 2020-01-20
-- Issue: [wayfair-incubator/tremor-rfcs#0001](https://github.com/wayfair-incubator/tremor-rfcs/issues/1)
-- RFC PR: [wayfair-incubator/tremor-rfcs#0002](https://github.com/wayfair-incubator/tremor-rfcs/pull/2)
+- Issue: [wayfair-tremor/tremor-rfcs#0001](https://github.com/wayfair-tremor/tremor-rfcs/issues/1)
+- RFC PR: [wayfair-tremor/tremor-rfcs#0002](https://github.com/wayfair-tremor/tremor-rfcs/pull/2)
 
 # Summary
 [summary]: #summary

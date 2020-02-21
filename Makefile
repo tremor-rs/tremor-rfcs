@@ -4,7 +4,7 @@ docs: mkdocs.yml
 mkdocs.yml: mkdocs.hdr.yml text/*.md *.md
 	- mkdir src
 	cp *.md src/
-	cp -r img src/
+	cp -rf img src/
 	./build-yml.sh
 
 

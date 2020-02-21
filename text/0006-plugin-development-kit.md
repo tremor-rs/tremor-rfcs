@@ -1,7 +1,7 @@
 - Feature Name: plugin_development_kit
 - Start Date: (fill me in with today's date, YYYY-MM-DD)
-- Tremor Issue: [wayfair-incubator/tremor-runtime#0037](https://github.com/wayfair-incubator/tremor-runtime/issues/37)
-- RFC PR: [wayfair-incubator/tremor-rfcs#0010](https://github.com/wayfair-incubator/tremor-rfcs/pull/0010)
+- Tremor Issue: [wayfair-tremor/tremor-runtime#0037](https://github.com/wayfair-tremor/tremor-runtime/issues/37)
+- RFC PR: [wayfair-tremor/tremor-rfcs#0010](https://github.com/wayfair-tremor/tremor-rfcs/pull/0010)
 
 # Summary
 [summary]: #summary

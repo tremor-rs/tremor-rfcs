@@ -1,7 +1,7 @@
 - Feature Name: pipeline-optimizations
 - Start Date: 2020-01-29
-- Tremor Issue: [wayfair-incubator/tremor-runtime#0033](https://github.com/wayfair-incubator/tremor-runtime/issues/0033)
-- RFC PR: [wayfair-incubator/tremor-rfcs#0011](https://github.com/wayfair-incubator/tremor-rfcs/pull/0011)
+- Tremor Issue: [wayfair-tremor/tremor-runtime#0033](https://github.com/wayfair-tremor/tremor-runtime/issues/0033)
+- RFC PR: [wayfair-tremor/tremor-rfcs#0011](https://github.com/wayfair-tremor/tremor-rfcs/pull/0011)
 
 # Summary
 [summary]: #summary

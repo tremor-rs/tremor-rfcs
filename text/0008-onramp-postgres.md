@@ -1,8 +1,8 @@
 - Feature Name: `rfc_0008_onramp_postgres`
 - Start Date: 2020-01-21
 - Tremor Issue:
-  [wayfair-tremor/tremor-runtime#0015](https://github.com/wayfair-incubator/tremor-rfcs/issues/15)
-- RFC PR: [wayfair-tremor/tremor-rfcs#0008](https://github.com/wayfair-incubator/tremor-rfcs/pull/14)
+  [wayfair-tremor/tremor-runtime#0015](https://github.com/wayfair-tremor/tremor-rfcs/issues/15)
+- RFC PR: [wayfair-tremor/tremor-rfcs#0008](https://github.com/wayfair-tremor/tremor-rfcs/pull/14)
 
 # Summary
 [summary]: #summary

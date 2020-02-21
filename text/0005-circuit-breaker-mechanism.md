@@ -1,7 +1,7 @@
 - Feature Name: rfc_0005_circuit_breaker_mechanism
 - Start Date: 2020-01-27
-- Issue: [wayfair-incubator/tremor-rfcs#0008](https://github.com/wayfair-incubator/tremor-rfcs/issues/8)
-- RFC PR: [wayfair-incubator/tremor-rfcs#0009](https://github.com/wayfair-incubator/tremor-rfcs/pull/9)
+- Issue: [wayfair-tremor/tremor-rfcs#0008](https://github.com/wayfair-tremor/tremor-rfcs/issues/8)
+- RFC PR: [wayfair-tremor/tremor-rfcs#0009](https://github.com/wayfair-tremor/tremor-rfcs/pull/9)
 
 # Summary
 [summary]: #summary

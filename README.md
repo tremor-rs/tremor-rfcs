@@ -88,9 +88,8 @@ beforehand, to ascertain that the RFC may be desirable; having a consistent
 impact on the project requires concerted effort toward consensus-building.
 
 The most common preparations for writing and submitting an RFC include talking
-the idea over on our [tremor chat], discussing the topic on our
-[tremor forum], and occasionally posting "pre-RFCs" on the
-developer forum. You may file issues on this repo for discussion, but these are
+the idea over on our [tremor chat], and occasionally posting "pre-RFCs" on the
+chat environment. You may file issues on this repo for discussion, but these are
 not actively looked at by the teams.
 
 As a rule of thumb, receiving encouraging feedback from long-standing project
@@ -246,9 +245,8 @@ circumstances. As usual, we are trying to let the process be driven by
 consensus and community norms, not impose more structure than necessary.
 
 
-[tremor chat]: https://chat.tremo.rs/
-[tremor forum]: https://forum.tremo.rs/
-[RFC repository]: http://github.com/wayfair-incubator/tremor-rfcs
+[tremor chat]: [Slack](https://join.slack.com/t/tremor-debs/shared_invite/enQtOTMxNzY3NDg0MjI2LTQ4MTU4NjlkZDk0MmJmNmIwYjU0ZDc1OTNjMGRmNzUwZTdlZGVkMWFmNGFkZTAwOWJlYjlkMDZkNGNiMjQ2NzI)
+[RFC repository]: http://github.com/wayfair-tremor/tremor-rfcs
 [sub-team]: http://www.tremo.rs/team.html
 
 ## License

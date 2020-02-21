@@ -1,7 +1,7 @@
 - Feature Name: rfc_0004_sliding_window_mechanism
 - Start Date: 2020-01-27
-- Issue: [wayfair-incubator/tremor-rfcs#0007](https://github.com/wayfair-incubator/tremor-rfcs/issues/7)
-- RFC PR: [wayfair-incubator/tremor-rfcs#0008](https://github.com/wayfair-incubator/tremor-rfcs/pull/8)
+- Issue: [wayfair-tremor/tremor-rfcs#0007](https://github.com/wayfair-tremor/tremor-rfcs/issues/7)
+- RFC PR: [wayfair-tremor/tremor-rfcs#0008](https://github.com/wayfair-tremor/tremor-rfcs/pull/8)
 
 # Summary
 [summary]: #summary
