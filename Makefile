@@ -3,7 +3,7 @@ docs: mkdocs.yml
 
 mkdocs.yml: mkdocs.hdr.yml text/*.md *.md
 	- mkdir src
-	cp *.md src/
+	cp favicon.ico *.md src/
 	cp -rf img src/
 	./build-yml.sh
 
