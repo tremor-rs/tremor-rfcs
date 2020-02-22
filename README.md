@@ -245,9 +245,8 @@ circumstances. As usual, we are trying to let the process be driven by
 consensus and community norms, not impose more structure than necessary.
 
 
-* [tremor chat](https://join.slack.com/t/tremor-debs/shared_invite/enQtOTMxNzY3NDg0MjI2LTQ4MTU4NjlkZDk0MmJmNmIwYjU0ZDc1OTNjMGRmNzUwZTdlZGVkMWFmNGFkZTAwOWJlYjlkMDZkNGNiMjQ2NzI)
-* [RFC repository](http://github.com/wayfair-tremor/tremor-rfcs)
-* [sub-team](http://www.tremor.rs/team.html)
+[tremor chat]: [Slack](https://join.slack.com/t/tremor-debs/shared_invite/enQtOTMxNzY3NDg0MjI2LTQ4MTU4NjlkZDk0MmJmNmIwYjU0ZDc1OTNjMGRmNzUwZTdlZGVkMWFmNGFkZTAwOWJlYjlkMDZkNGNiMjQ2NzI)
+[RFC repository]: http://github.com/wayfair-tremor/tremor-rfcs
 
 ## License
 [License]: #license
