@@ -1,0 +1,723 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+      
+        <meta name="author" content="The Tremor Team">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.3">
+    
+    
+      
+        <title>Library Changes - Tremor RFCs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application.adb8469c.css">
+      
+        <link rel="stylesheet" href="../assets/stylesheets/application-palette.a8b3c06d.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="">
+      
+    
+    
+      <script src="../assets/javascripts/modernizr.86422ebf.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
+    
+    
+      
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="__github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#rfc-guidelines-libraries-sub-team" tabindex="0" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href=".." title="Tremor RFCs" aria-label="Tremor RFCs" class="md-header-nav__button md-logo">
+          
+            <img alt="logo" src="../img/logo.png" width="24" height="24">
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              Tremor RFCs
+            </span>
+            <span class="md-header-nav__topic">
+              
+                Library Changes
+              
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" aria-label="search" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+<a href="https://github.com/wayfair-tremor/tremor-rfcs/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    wayfair-tremor/tremor-rfcs
+  </div>
+</a>
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main" role="main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href=".." title="Tremor RFCs" class="md-nav__button md-logo">
+      
+        <img alt="logo" src="../img/logo.png" width="48" height="48">
+      
+    </a>
+    Tremor RFCs
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+<a href="https://github.com/wayfair-tremor/tremor-rfcs/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    wayfair-tremor/tremor-rfcs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href=".." title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../api_changes/" title="API Changes" class="md-nav__link">
+      API Changes
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../arch_changes/" title="Architectural Changes" class="md-nav__link">
+      Architectural Changes
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../lang_changes/" title="Language Changes" class="md-nav__link">
+      Language Changes
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Library Changes
+      </label>
+    
+    <a href="./" title="Library Changes" class="md-nav__link md-nav__link--active">
+      Library Changes
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#motivation" class="md-nav__link">
+    Motivation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#is-an-rfc-required" class="md-nav__link">
+    Is an RFC required?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#non-rfc-process" class="md-nav__link">
+    Non-RFC process
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../0000-template/" title="RFC Template" class="md-nav__link">
+      RFC Template
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      RFCs
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        RFCs
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../0001-remove-actix-from-tremor-runtime/" title="0001-remove-actix-from-tremor-runtime" class="md-nav__link">
+      0001-remove-actix-from-tremor-runtime
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../0002-pipeline-state-mechanism/" title="0002-pipeline-state-mechanism" class="md-nav__link">
+      0002-pipeline-state-mechanism
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../0003-linked-transports/" title="0003-linked-transports" class="md-nav__link">
+      0003-linked-transports
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../0004-sliding-window-mechanism/" title="0004-sliding-window-mechanism" class="md-nav__link">
+      0004-sliding-window-mechanism
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../0005-circuit-breaker-mechanism/" title="0005-circuit-breaker-mechanism" class="md-nav__link">
+      0005-circuit-breaker-mechanism
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../0006-plugin-development-kit/" title="0006-plugin-development-kit" class="md-nav__link">
+      0006-plugin-development-kit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../0007-pipeline-optimizations/" title="0007-pipeline-optimizations" class="md-nav__link">
+      0007-pipeline-optimizations
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../0008-onramp-postgres/" title="0008-onramp-postgres" class="md-nav__link">
+      0008-onramp-postgres
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#motivation" class="md-nav__link">
+    Motivation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#is-an-rfc-required" class="md-nav__link">
+    Is an RFC required?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#non-rfc-process" class="md-nav__link">
+    Non-RFC process
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/wayfair-tremor/tremor-rfcs/edit/master/docs/libs_changes.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="rfc-guidelines-libraries-sub-team">RFC guidelines - libraries sub-team<a class="headerlink" href="#rfc-guidelines-libraries-sub-team" title="Permanent link">&para;</a></h1>
+<h2 id="motivation">Motivation<a class="headerlink" href="#motivation" title="Permanent link">&para;</a></h2>
+<ul>
+<li>RFCs are heavyweight:</li>
+<li>RFCs generally take at minimum 2 weeks from posting to land. In
+    practice it can be more on the order of months for particularly
+    controversial changes.</li>
+<li>RFCs are a lot of effort to write; especially for non-native speakers or
+    for members of the community whose strengths are more technical than literary.</li>
+<li>RFCs may involve pre-RFCs and several rewrites to accommodate feedback.</li>
+<li>RFCs require a dedicated shepherd to herd the community and author towards
+    consensus.</li>
+<li>RFCs require review from a majority of the subteam, as well as an official
+    vote.</li>
+<li>RFCs can't be downgraded based on their complexity. Full process always applies.
+    Easy RFCs may certainly land faster, though.</li>
+<li>
+<p>RFCs can be very abstract and hard to grok the consequences of (no implementation).</p>
+</li>
+<li>
+<p>PRs are low <em>overhead</em> but potentially expensive nonetheless:</p>
+</li>
+<li>Easy PRs can get insta-merged by any tremor libraries sub-team contributor.</li>
+<li>Harder PRs can be easily escalated. You can ping subject-matter experts for second
+    opinions. Ping the whole team!</li>
+<li>Easier to grok the full consequences. Lots of tests and Crater to save the day.</li>
+<li>PRs can be accepted optimistically with bors, buildbot, and the trains to guard
+    us from major mistakes making it into stable. The size of the nightly community
+    at this point in time can still mean major community breakage regardless of trains,
+    however.</li>
+<li>
+<p>HOWEVER: Big PRs can be a lot of work to make only to have that work rejected for
+    details that could have been hashed out first.</p>
+</li>
+<li>
+<p>RFCs are <em>only</em> meaningful if a significant and diverse portion of the
+community actively participates in them. The official teams are not
+sufficiently diverse to establish meaningful community consensus by agreeing
+amongst themselves.</p>
+</li>
+<li>
+<p>If there are <em>tons</em> of RFCs -- especially trivial ones -- people are less
+likely to engage with them. Official team members are super busy. Domain experts
+and industry professionals are super busy <em>and</em> have no responsibility to engage
+in RFCs. Since these are <em>exactly</em> the most important people to get involved in
+the RFC process, it is important that we be maximally friendly towards their
+needs.</p>
+</li>
+</ul>
+<h2 id="is-an-rfc-required">Is an RFC required?<a class="headerlink" href="#is-an-rfc-required" title="Permanent link">&para;</a></h2>
+<p>The overarching philosophy is: <em>do whatever is easiest</em>. If an RFC
+would be less work than an implementation, that's a good sign that an RFC is
+necessary. That said, if you anticipate controversy, you might want to short-circuit
+straight to an RFC.</p>
+<ul>
+<li><strong>Submit a PR</strong> if the change is a:</li>
+<li>Bugfix</li>
+<li>Docfix</li>
+<li>Perffixes (with no further impact)</li>
+<li><strong>Submit an RFC</strong> if the change is a:</li>
+<li>Deprecation of a stable components</li>
+<li>Nontrivial New components</li>
+<li>Architectural changes</li>
+<li><strong>Do the easier thing</strong> if uncertain. (choosing a path is not final)</li>
+</ul>
+<h2 id="non-rfc-process">Non-RFC process<a class="headerlink" href="#non-rfc-process" title="Permanent link">&para;</a></h2>
+<ul>
+<li>A (non-RFC) PR is likely to be <strong>asked to be reopend as a RFC</strong> if clearly not acceptable:</li>
+<li>Disproportionate breaking change (small inference breakage may be acceptable)</li>
+<li>Unsound</li>
+<li>Doesn't fit our general design philosophy around the problem</li>
+<li>Better as a crate</li>
+<li>Too marginal for std</li>
+<li>
+<p>Significant implementation problems</p>
+</li>
+<li>
+<p>A PR may also be <strong>asked to be reopend as a RFC</strong> because an RFC is approriate.</p>
+</li>
+<li>
+<p>A (non-RFC) PR  may be <strong>merged as unstable</strong>. In this case, the feature
+should have a fresh feature gate and an associated tracking issue for
+stabilisation. Docs are insta-stable and thus have no tracking issue.
+This may imply requiring a higher level of scrutiny for such changes.</p>
+</li>
+</ul>
+<p>However, an accepted RFC is not a rubber-stamp for merging an implementation PR.
+Nor must an implementation PR perfectly match the RFC text. Implementation details
+may merit deviations, though obviously they should be justified. The RFC may be
+amended if deviations are substantial, but are not generally necessary. RFCs should
+favour immutability. The RFC + Issue + PR should form a total explanation of the
+current implementation.</p>
+<ul>
+<li>
+<p>Once something has been merged as unstable, a shepherd should be assigned
+  to promote and obtain feedback on the design.</p>
+</li>
+<li>
+<p>Every time a release cycle ends, the libs teams assesses the current unstable
+  APIs and selects some number of them for potential stabilization during the
+  next cycle. These are announced for FCP at the beginning of the cycle, and
+  (possibly) stabilized just before the beta is cut.</p>
+</li>
+<li>
+<p>After the final comment period, an API should ideally take one of two paths:</p>
+</li>
+<li><strong>Stabilize</strong> if the change is desired, and consensus is reached</li>
+<li><strong>Deprecate</strong> is the change is undesired, and consensus is reached</li>
+<li>
+<p><strong>Extend the FCP</strong> is the change cannot meet consensus</p>
+<ul>
+<li>If consensus <em>still</em> can't be reached, consider requiring a new RFC or
+  just deprecating as "too controversial for std".</li>
+</ul>
+</li>
+<li>
+<p>If any problems are found with a newly stabilized API during its beta period,
+  <em>strongly</em> favour reverting stability in order to prevent stabilizing a bad
+  API. Due to the speed of the trains, this is not a serious delay (~2-3 months
+  if it's not a major problem).</p>
+</li>
+</ul>
+                
+                  
+                
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../lang_changes/" title="Language Changes" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Language Changes
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../0000-template/" title="RFC Template" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                RFC Template
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org" target="_blank" rel="noopener">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs</a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application.c33a9706.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      
+    
+  </body>
+</html>

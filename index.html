@@ -1,0 +1,974 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+      
+        <meta name="author" content="The Tremor Team">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.3">
+    
+    
+      
+        <title>Tremor RFCs</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/application.adb8469c.css">
+      
+        <link rel="stylesheet" href="assets/stylesheets/application-palette.a8b3c06d.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="">
+      
+    
+    
+      <script src="assets/javascripts/modernizr.86422ebf.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="assets/fonts/material-icons.css">
+    
+    
+    
+      
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="__github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#tremor-rfcs-active-rfc-list" tabindex="0" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="." title="Tremor RFCs" aria-label="Tremor RFCs" class="md-header-nav__button md-logo">
+          
+            <img alt="logo" src="img/logo.png" width="24" height="24">
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              Tremor RFCs
+            </span>
+            <span class="md-header-nav__topic">
+              
+                Home
+              
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" aria-label="search" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+<a href="https://github.com/wayfair-tremor/tremor-rfcs/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    wayfair-tremor/tremor-rfcs
+  </div>
+</a>
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main" role="main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="." title="Tremor RFCs" class="md-nav__button md-logo">
+      
+        <img alt="logo" src="img/logo.png" width="48" height="48">
+      
+    </a>
+    Tremor RFCs
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+<a href="https://github.com/wayfair-tremor/tremor-rfcs/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    wayfair-tremor/tremor-rfcs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Home
+      </label>
+    
+    <a href="." title="Home" class="md-nav__link md-nav__link--active">
+      Home
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    Table of Contents
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-you-need-to-follow-this-process" class="md-nav__link">
+    When you need to follow this process
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sub-team-specific-guidelines" class="md-nav__link">
+    Sub-team specific guidelines
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#before-creating-an-rfc" class="md-nav__link">
+    Before creating an RFC
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-the-process-is" class="md-nav__link">
+    What the process is
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-rfc-life-cycle" class="md-nav__link">
+    The RFC life-cycle
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reviewing-rfcs" class="md-nav__link">
+    Reviewing RFCs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementing-an-rfc" class="md-nav__link">
+    Implementing an RFC
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rfc-postponement" class="md-nav__link">
+    RFC Postponement
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#help-this-is-all-too-informal" class="md-nav__link">
+    Help this is all too informal!
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#license" class="md-nav__link">
+    License
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#contributions" class="md-nav__link">
+    Contributions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#origins" class="md-nav__link">
+    Origins
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="api_changes/" title="API Changes" class="md-nav__link">
+      API Changes
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="arch_changes/" title="Architectural Changes" class="md-nav__link">
+      Architectural Changes
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="lang_changes/" title="Language Changes" class="md-nav__link">
+      Language Changes
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="libs_changes/" title="Library Changes" class="md-nav__link">
+      Library Changes
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="0000-template/" title="RFC Template" class="md-nav__link">
+      RFC Template
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      RFCs
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        RFCs
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="0001-remove-actix-from-tremor-runtime/" title="0001-remove-actix-from-tremor-runtime" class="md-nav__link">
+      0001-remove-actix-from-tremor-runtime
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="0002-pipeline-state-mechanism/" title="0002-pipeline-state-mechanism" class="md-nav__link">
+      0002-pipeline-state-mechanism
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="0003-linked-transports/" title="0003-linked-transports" class="md-nav__link">
+      0003-linked-transports
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="0004-sliding-window-mechanism/" title="0004-sliding-window-mechanism" class="md-nav__link">
+      0004-sliding-window-mechanism
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="0005-circuit-breaker-mechanism/" title="0005-circuit-breaker-mechanism" class="md-nav__link">
+      0005-circuit-breaker-mechanism
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="0006-plugin-development-kit/" title="0006-plugin-development-kit" class="md-nav__link">
+      0006-plugin-development-kit
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="0007-pipeline-optimizations/" title="0007-pipeline-optimizations" class="md-nav__link">
+      0007-pipeline-optimizations
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="0008-onramp-postgres/" title="0008-onramp-postgres" class="md-nav__link">
+      0008-onramp-postgres
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    Table of Contents
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-you-need-to-follow-this-process" class="md-nav__link">
+    When you need to follow this process
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sub-team-specific-guidelines" class="md-nav__link">
+    Sub-team specific guidelines
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#before-creating-an-rfc" class="md-nav__link">
+    Before creating an RFC
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-the-process-is" class="md-nav__link">
+    What the process is
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-rfc-life-cycle" class="md-nav__link">
+    The RFC life-cycle
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reviewing-rfcs" class="md-nav__link">
+    Reviewing RFCs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementing-an-rfc" class="md-nav__link">
+    Implementing an RFC
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rfc-postponement" class="md-nav__link">
+    RFC Postponement
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#help-this-is-all-too-informal" class="md-nav__link">
+    Help this is all too informal!
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#license" class="md-nav__link">
+    License
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#contributions" class="md-nav__link">
+    Contributions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#origins" class="md-nav__link">
+    Origins
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/wayfair-tremor/tremor-rfcs/edit/master/docs/README.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="tremor-rfcs-active-rfc-list">Tremor RFCs - <a href="https://rfcs.tremor.rs/">Active RFC List</a><a class="headerlink" href="#tremor-rfcs-active-rfc-list" title="Permanent link">&para;</a></h1>
+<p>Many changes, including bug fixes and documentation improvements can be
+implemented and reviewed via the normal GitHub pull request workflow.</p>
+<p>Some changes though are "substantial", and we ask that these be put through a
+bit of a design process and produce a consensus among the Tremor community and
+the sub-teams.</p>
+<p>The "RFC" (request for comments) process is intended to provide a consistent
+and controlled path for new features to enter the project and associated sub
+projects and libraries, so that all stakeholders can be confident about the
+direction the project is evolving in.</p>
+<h2 id="table-of-contents">Table of Contents<a class="headerlink" href="#table-of-contents" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="#tremor-rfcs">Opening</a></li>
+<li><a href="#table-of-contents">Table of Contents</a></li>
+<li><a href="#when-you-need-to-follow-this-process">When you need to follow this process</a></li>
+<li><a href="#before-creating-an-rfc">Before creating an RFC</a></li>
+<li><a href="#what-the-process-is">What the process is</a></li>
+<li><a href="#the-rfc-life-cycle">The RFC life-cycle</a></li>
+<li><a href="#reviewing-rfcs">Reviewing RFCs</a></li>
+<li><a href="#implementing-an-rfc">Implementing an RFC</a></li>
+<li><a href="#rfc-postponement">RFC Postponement</a></li>
+<li><a href="#help-this-is-all-too-informal">Help this is all too informal!</a></li>
+<li><a href="#license">License</a></li>
+<li><a href="#origins">Origins</a></li>
+</ul>
+<h2 id="when-you-need-to-follow-this-process">When you need to follow this process<a class="headerlink" href="#when-you-need-to-follow-this-process" title="Permanent link">&para;</a></h2>
+<p>You need to follow this process if you intend to make "substantial" changes to
+Tremor, Tremor-Script, Tremor-Query, Tremor pipelines, concurrency model,
+or the RFC process itself. What constitutes a "substantial" change is evolving
+based on community norms and varies depending on what part of the ecosystem you
+are proposing to change, but may include the following.</p>
+<ul>
+<li>Any semantic or syntactic change to the project that is not a bugfix.</li>
+<li>Removing features, including those that are feature-gated.</li>
+<li>Changes to the interface between the components, sub-systems and
+    libraries, including tremor script function library and tremor query
+    aggregate function library</li>
+</ul>
+<p>Some changes do not require an RFC:</p>
+<ul>
+<li>Rephrasing, reorganizing, refactoring, or otherwise "changing shape does
+    not change meaning".</li>
+<li>Additions that strictly improve objective, numerical quality criteria
+    (warning removal, speedup, better platform coverage, more parallelism, trap
+    more errors, etc.)</li>
+<li>Additions only likely to be <em>noticed by</em> other developers-of-tremor,
+    invisible to users-of-tremor.</li>
+</ul>
+<p>If you submit a pull request to implement a new feature without going through
+the RFC process, it may be closed with a polite request to submit an RFC first.</p>
+<h3 id="sub-team-specific-guidelines">Sub-team specific guidelines<a class="headerlink" href="#sub-team-specific-guidelines" title="Permanent link">&para;</a></h3>
+<p>For more details on when an RFC is required for the following areas, please see
+the Tremor community's [sub-team] specific guidelines for:</p>
+<ul>
+<li><a href="lang_changes/">language changes</a>,</li>
+<li><a href="libs_changes/">library changes</a>,</li>
+<li><a href="api_changes/">api changes</a>.</li>
+<li><a href="arch_changes/">architecture changes</a>.</li>
+</ul>
+<h2 id="before-creating-an-rfc">Before creating an RFC<a class="headerlink" href="#before-creating-an-rfc" title="Permanent link">&para;</a></h2>
+<p>A hastily-proposed RFC can hurt its chances of acceptance. Low quality
+proposals, proposals for previously-rejected features, or those that don't fit
+into the near-term roadmap, may be quickly rejected, which can be demotivating
+for the unprepared contributor. Laying some groundwork ahead of the RFC can
+make the process smoother.</p>
+<p>Although there is no single way to prepare for submitting an RFC, it is
+generally a good idea to pursue feedback from other project developers
+beforehand, to ascertain that the RFC may be desirable; having a consistent
+impact on the project requires concerted effort toward consensus-building.</p>
+<p>The most common preparations for writing and submitting an RFC include talking
+the idea over on our <a href="https://join.slack.com/t/tremor-debs/shared_invite/enQtOTMxNzY3NDg0MjI2LTQ4MTU4NjlkZDk0MmJmNmIwYjU0ZDc1OTNjMGRmNzUwZTdlZGVkMWFmNGFkZTAwOWJlYjlkMDZkNGNiMjQ2NzI">tremor chat</a>, and occasionally posting "pre-RFCs" on the
+chat environment. You may file issues on this repo for discussion, but these are
+not actively looked at by the teams.</p>
+<p>As a rule of thumb, receiving encouraging feedback from long-standing project
+developers, and particularly members of the relevant [sub-team] is a good
+indication that the RFC is worth pursuing.</p>
+<h2 id="what-the-process-is">What the process is<a class="headerlink" href="#what-the-process-is" title="Permanent link">&para;</a></h2>
+<p>In short, to get a major feature added to Tremor, one must first get the RFC
+merged into the RFC repository as a markdown file. At that point the RFC is
+"active" and may be implemented with the goal of eventual inclusion into Tremor.</p>
+<ul>
+<li>Fork the RFC repo [RFC repository]</li>
+<li>Copy <code>0000-template.md</code> to <code>text/0000-my-feature.md</code> (where "my-feature" is
+    descriptive. don't assign an RFC number yet).</li>
+<li>Fill in the RFC. Put care into the details: RFCs that do not present
+    convincing motivation, demonstrate lack of understanding of the design's
+    impact, or are disingenuous about the drawbacks or alternatives tend to
+    be poorly-received.</li>
+<li>Submit a pull request. As a pull request the RFC will receive design
+    feedback from the larger community, and the author should be prepared to
+    revise it in response.</li>
+<li>Each pull request will be labeled with the most relevant [sub-team], which
+    will lead to its being triaged by that team in a future meeting and assigned
+    to a member of the subteam.</li>
+<li>Build consensus and integrate feedback. RFCs that have broad support are
+    much more likely to make progress than those that don't receive any
+    comments. Feel free to reach out to the RFC assignee in particular to get
+    help identifying stakeholders and obstacles.</li>
+<li>The sub-team will discuss the RFC pull request, as much as possible in the
+    comment thread of the pull request itself. Offline discussion will be
+    summarized on the pull request comment thread.</li>
+<li>RFCs rarely go through this process unchanged, especially as alternatives
+    and drawbacks are shown. You can make edits, big and small, to the RFC to
+    clarify or change the design, but make changes as new commits to the pull
+    request, and leave a comment on the pull request explaining your changes.
+    Specifically, do not squash or rebase commits after they are visible on the
+    pull request.</li>
+<li>At some point, a member of the subteam will propose a "motion for final
+    comment period" (FCP), along with a <em>disposition</em> for the RFC (merge, close,
+    or postpone).</li>
+<li>This step is taken when enough of the tradeoffs have been discussed that
+    the subteam is in a position to make a decision. That does not require
+    consensus amongst all participants in the RFC thread (which is usually
+    impossible). However, the argument supporting the disposition on the RFC
+    needs to have already been clearly articulated, and there should not be a
+    strong consensus <em>against</em> that position outside of the subteam. Subteam
+    members use their best judgment in taking this step, and the FCP itself
+    ensures there is ample time and notification for stakeholders to push back
+    if it is made prematurely.<ul>
+<li>For RFCs with lengthy discussion, the motion to FCP is usually preceded by
+  a <em>summary comment</em> trying to lay out the current state of the discussion
+  and major tradeoffs/points of disagreement.</li>
+<li>Before actually entering FCP, <em>all</em> members of the subteam must sign off;
+this is often the point at which many subteam members first review the RFC
+in full depth.</li>
+</ul>
+</li>
+<li>The FCP lasts ten calendar days, so that it is open for at least 5 business
+    days.</li>
+<li>In most cases, the FCP period is quiet, and the RFC is either merged or
+    closed. However, sometimes substantial new arguments or ideas are raised,
+    the FCP is canceled, and the RFC goes back into development mode.</li>
+</ul>
+<h2 id="the-rfc-life-cycle">The RFC life-cycle<a class="headerlink" href="#the-rfc-life-cycle" title="Permanent link">&para;</a></h2>
+<p>Once an RFC becomes "active" then authors may implement it and submit the
+feature as a pull request to the Tremor repo. Being "active" is not a rubber
+stamp, and in particular still does not mean the feature will ultimately be
+merged; it does mean that in principle all the major stakeholders have agreed
+to the feature and are amenable to merging it.</p>
+<p>Furthermore, the fact that a given RFC has been accepted and is "active"
+implies nothing about what priority is assigned to its implementation, nor does
+it imply anything about whether a Tremor contributor has been assigned the task of
+implementing the task. While it is not <em>necessary</em> that the author of the
+RFC also pursue the implementation, it is by far the most effective way to see
+an RFC through to completion: authors should not expect that other project
+stakeholders will take on responsibility for implementing their accepted feature.</p>
+<p>Modifications to "active" RFCs can be done in follow-up pull requests. We
+strive to write each RFC in a manner that it will reflect the final design of
+the feature; but the nature of the process means that we cannot expect every
+merged RFC to actually reflect what the end result will be at the time of the
+next major release.</p>
+<p>In general, once accepted, RFCs should not be substantially changed. Only very
+minor changes should be submitted as amendments. More substantial changes
+should be new RFCs, with a note added to the original RFC. Exactly what counts
+as a "very minor change" is up to the sub-team to decide; check
+<a href="#sub-team-specific-guidelines">Sub-team specific guidelines</a> for more details.</p>
+<h2 id="reviewing-rfcs">Reviewing RFCs<a class="headerlink" href="#reviewing-rfcs" title="Permanent link">&para;</a></h2>
+<p>While the RFC pull request is up, the sub-team may schedule meetings with the
+author and/or relevant stakeholders to discuss the issues in greater detail,
+and in some cases the topic may be discussed at a sub-team meeting. In either
+case a summary from the meeting will be posted back to the RFC pull request.</p>
+<p>A sub-team makes final decisions about RFCs after the benefits and drawbacks
+are well understood. These decisions can be made at any time, but the sub-team
+will regularly issue decisions. When a decision is made, the RFC pull request
+will either be merged or closed. In either case, if the reasoning is not clear
+from the discussion in thread, the sub-team will add a comment describing the
+rationale for the decision.</p>
+<h2 id="implementing-an-rfc">Implementing an RFC<a class="headerlink" href="#implementing-an-rfc" title="Permanent link">&para;</a></h2>
+<p>Some accepted RFCs represent vital features that need to be implemented right
+away. Other accepted RFCs can represent features that can wait until some
+arbitrary developer feels like doing the work. Every accepted RFC has an
+associated issue tracking its implementation in the Rust repository; thus that
+associated issue can be assigned a priority via the triage process that the
+team uses for all issues in the Rust repository.</p>
+<p>The author of an RFC is not obligated to implement it. Of course, the RFC
+author (like any other developer) is welcome to post an implementation for
+review after the RFC has been accepted.</p>
+<p>If you are interested in working on the implementation for an "active" RFC, but
+cannot determine if someone else is already working on it, feel free to ask
+(e.g. by leaving a comment on the associated issue).</p>
+<h2 id="rfc-postponement">RFC Postponement<a class="headerlink" href="#rfc-postponement" title="Permanent link">&para;</a></h2>
+<p>Some RFC pull requests are tagged with the "postponed" label when they are
+closed (as part of the rejection process). An RFC closed with "postponed" is
+marked as such because we want neither to think about evaluating the proposal
+nor about implementing the described feature until some time in the future, and
+we believe that we can afford to wait until then to do so.  Postponed pull
+requests may be re-opened when the time is right. We don't have any formal
+process for that, you should ask members of the relevant sub-team.</p>
+<p>Usually an RFC pull request marked as "postponed" has already passed an
+informal first round of evaluation, namely the round of "do we think we would
+ever possibly consider making this change, as outlined in the RFC pull request,
+or some semi-obvious variation of it." (When the answer to the latter question
+is "no", then the appropriate response is to close the RFC, not postpone it.)</p>
+<h3 id="help-this-is-all-too-informal">Help this is all too informal!<a class="headerlink" href="#help-this-is-all-too-informal" title="Permanent link">&para;</a></h3>
+<p>The process is intended to be as lightweight as reasonable for the present
+circumstances. As usual, we are trying to let the process be driven by
+consensus and community norms, not impose more structure than necessary.</p>
+<ul>
+<li><a href="https://join.slack.com/t/tremor-debs/shared_invite/enQtOTMxNzY3NDg0MjI2LTQ4MTU4NjlkZDk0MmJmNmIwYjU0ZDc1OTNjMGRmNzUwZTdlZGVkMWFmNGFkZTAwOWJlYjlkMDZkNGNiMjQ2NzI">tremor chat</a></li>
+<li><a href="http://github.com/wayfair-tremor/tremor-rfcs">RFC repository</a></li>
+<li><a href="http://www.tremor.rs/team.html">sub-team</a></li>
+</ul>
+<h2 id="license">License<a class="headerlink" href="#license" title="Permanent link">&para;</a></h2>
+<p>This repository is currently licensed under:</p>
+<ul>
+<li>Apache License, Version 2.0, (<a href="LICENSE">LICENSE</a> or http://www.apache.org/licenses/LICENSE-2.0)</li>
+</ul>
+<h3 id="contributions">Contributions<a class="headerlink" href="#contributions" title="Permanent link">&para;</a></h3>
+<p>Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in the work by you, as defined in the Apache-2.0 license, shall be licensed as above, without any additional terms or conditions.</p>
+<h3 id="origins">Origins<a class="headerlink" href="#origins" title="Permanent link">&para;</a></h3>
+<p>This process derives from and is based on the rust language community rfc process <a href="https://github.com/rust-lang/rfcs">from here</a></p>
+                
+                  
+                
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+        
+          <a href="api_changes/" title="API Changes" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                API Changes
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org" target="_blank" rel="noopener">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs</a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="assets/javascripts/application.c33a9706.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"."}})</script>
+      
+    
+  </body>
+</html>
