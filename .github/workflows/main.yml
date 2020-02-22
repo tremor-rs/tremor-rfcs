@@ -18,6 +18,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+        
     - name: Install tremor lexer
       run: ./.github/scripts/install-lexer.sh
     - name: Build docs
