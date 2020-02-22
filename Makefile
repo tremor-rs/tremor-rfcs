@@ -4,6 +4,7 @@ docs: mkdocs.yml
 mkdocs.yml: mkdocs.hdr.yml text/*.md *.md
 	- mkdir src
 	cp favicon.ico *.md src/
+	cp LICENSE src/LICENSE.txt
 	cp -rf img src/
 	./build-yml.sh
 

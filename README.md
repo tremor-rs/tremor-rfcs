@@ -253,7 +253,7 @@ consensus and community norms, not impose more structure than necessary.
 
 This repository is currently licensed under:
 
-* Apache License, Version 2.0, ([LICENSE](LICENSE) or http://www.apache.org/licenses/LICENSE-2.0)
+* Apache License, Version 2.0, ([LICENSE](./LICENSE.txt) or http://www.apache.org/licenses/LICENSE-2.0)
 
 ### Contributions
 
