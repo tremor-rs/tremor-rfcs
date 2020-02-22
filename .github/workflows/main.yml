@@ -22,6 +22,8 @@ jobs:
       run: ./.github/scripts/install-lexer.sh
     - name: Build docs
       run: make
+    - name: Add CNAME
+      run: cp CNAME.txt html/CNAME
     - name: Deploy docs
       uses: peaceiris/actions-gh-pages@v2
       env:
