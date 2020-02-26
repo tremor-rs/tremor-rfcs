@@ -34,7 +34,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.3">
+      <meta name="generator" content="mkdocs-1.1, mkdocs-material-4.6.3">
     
     
       
@@ -470,47 +470,66 @@ custom operators that maintain state such as the 'bucket' or 'batch' operators.<
 stateful algorithms for session tracking, building and maintaining application state
 or for the query language to evolve support for in memory or persistent tables.</p>
 <h1 id="guide-level-explanation">Guide-level explanation<a class="headerlink" href="#guide-level-explanation" title="Permanent link">&para;</a></h1>
-<p>The state mechanism in tremor pipelines allows user defined state management and
-storage that persists for the running lifetime of a pipeline algorithm deployed
-into the tremor runtime.</p>
+<p>The state mechanism in tremor pipelines allows operator node-level state
+management and storage that persists for the running lifetime of a pipeline
+algorithm deployed into the tremor runtime.</p>
 <p>The state mechanism introduces the <code>state</code> keyword into the tremor scripting
-language.</p>
-<p>The state keyword introduces a special runtime-managed namespace that is protected for
-mutation by the runtime and its facilities.</p>
+language. This new keyword provides access to the state storage contents via path
+expressions (much like how the <code>event</code> keyword works, with the key difference
+being that the state storage is shared across events). On pipeline initialization,
+the state will be initialized as <code>null</code> and users are free to set it to arbitrary
+value over the course of processing.</p>
+<p>Here's a tremor-script example demonstrating the usage of state mechanism --
+it maintains a counter for the events coming in and emits the count alongside
+the event:</p>
+<div class="codehilite"><pre><span></span><code><span class="w">  </span><span class="kd">match</span><span class="w"> </span><span class="nx">type</span><span class="err">::</span><span class="nx">is_null</span><span class="err">(</span><span class="nx">state</span><span class="err">)</span><span class="w"> </span><span class="kd">of</span><span class="w"></span>
+<span class="w">    </span><span class="kd">case</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"></span>
+<span class="w">      </span><span class="kd">let</span><span class="w"> </span><span class="nx">state</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="err">{</span><span class="s">&quot;count&quot;</span><span class="err">:</span><span class="w"> </span><span class="mi">1</span><span class="err">}</span><span class="w"></span>
+<span class="w">    </span><span class="kd">default</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"></span>
+<span class="w">      </span><span class="kd">let</span><span class="w"> </span><span class="nx">state</span><span class="err">.</span><span class="nx">count</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="nx">state</span><span class="err">.</span><span class="nx">count</span><span class="w"> </span><span class="err">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">  </span><span class="kd">end</span><span class="err">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="err">{</span><span class="w"></span>
+<span class="w">    </span><span class="s">&quot;count&quot;</span><span class="err">:</span><span class="w"> </span><span class="nx">state</span><span class="err">.</span><span class="nx">count</span><span class="err">,</span><span class="w"></span>
+<span class="w">    </span><span class="s">&quot;event&quot;</span><span class="err">:</span><span class="w"> </span><span class="kc">event</span><span class="w"></span>
+<span class="w">  </span><span class="err">}</span><span class="w"></span>
+</code></pre></div>
+
+
+<p>This will work as part of the <code>runtime::tremor</code> operator confguration in the legacy
+pipeline yaml setup, and also as an embedded script in the trickle definition of
+the pipeline.</p>
+<p>Other pipeline operators can utilize the same underlying state storage. An example
+is the new <code>generic::counter</code> operator that replicates the functionality above:</p>
+<div class="codehilite"><pre><span></span><code><span class="kd">define</span><span class="w"> </span><span class="nx">generic</span><span class="err">::</span><span class="nx">counter</span><span class="w"> </span><span class="kd">operator</span><span class="w"> </span><span class="nx">my_counter</span><span class="err">;</span><span class="w"></span>
+
+<span class="kd">create</span><span class="w"> </span><span class="kd">operator</span><span class="w"> </span><span class="nx">my_counter</span><span class="err">;</span><span class="w"></span>
+
+<span class="kd">select</span><span class="w"> </span><span class="kc">event</span><span class="w"> </span><span class="kd">from</span><span class="w"> </span><span class="nx">in</span><span class="w"> </span><span class="kd">into</span><span class="w"> </span><span class="nx">my_counter</span><span class="err">;</span><span class="w"></span>
+<span class="kd">select</span><span class="w"> </span><span class="kc">event</span><span class="w"> </span><span class="kd">from</span><span class="w"> </span><span class="nx">my_counter</span><span class="w"> </span><span class="kd">into</span><span class="w"> </span><span class="nx">out</span><span class="err">;</span><span class="w"></span>
+</code></pre></div>
+
+
+<p>State is not shared across operator nodes i.e. we have separate state storage for
+each operator instance and an operator can access only the storage associated with
+the operator.</p>
 <h1 id="reference-level-explanation">Reference-level explanation<a class="headerlink" href="#reference-level-explanation" title="Permanent link">&para;</a></h1>
-<p>To minimise observable changes to behaviour in tremor the <code>state</code> namespace
-will be runtime managed.</p>
-<p>A special sub-region will also be defined for user defined logic.</p>
-<p>The <code>state</code> keyword and namespace are of record type. Sub regions supported in
-the initial implementation are effectively record fields. In general fields
-will be read-mostly, but some regions will be read-write depending on the
-actor currently handling an event.</p>
-<p>The runtime enforces read-only semantics as follows:</p>
-<table>
-<thead>
-<tr>
-<th>Region</th>
-<th>Runtime</th>
-<th>Operator</th>
-<th>UserDefinedLogic</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>state.ops.{operator-id}</code></td>
-<td>ro</td>
-<td>rw</td>
-<td>-</td>
-</tr>
-<tr>
-<td><code>state.exports</code></td>
-<td>ro</td>
-<td>ro</td>
-<td>rw</td>
-</tr>
-</tbody>
-</table>
-<p>The <code>state</code> namespace will be initialialized on pipeline creation,
+<p>A new struct to encapsulate state across each of the operator nodes should be
+introduced. Example:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">struct</span> <span class="nc">State</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// this vector holds the state value for each operator node</span>
+<span class="w">    </span><span class="n">ops</span>: <span class="nb">Vec</span><span class="o">&lt;</span><span class="n">Value</span><span class="o">&lt;</span><span class="nb">&#39;static</span><span class="o">&gt;&gt;</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+
+
+<p>Inside the struct, the operator node-level state can then be ordered in the same
+way as nodes in the pipeline graph, following the strategy we have in use already
+for storing the node-level metrics in the graph. When the event is passed to
+the operator node for processing, state specific to the operator can then be
+passed on by keying on the index of the node in the graph. This ensures that
+state is not shared across the operator instances.</p>
+<p>The <code>State</code> struct will be initialialized on pipeline creation,
 and will be destroyed on destruction of a pipline when it is undeployed or
 the host process is shut down.</p>
 <p>Effectively the <code>state</code> mechanism encapsulates the entire micro-state of
@@ -520,23 +539,26 @@ in a snapshot to support advanced use cases such as pipeline migration through
 coordinated passivation, serialization, migration, deserialization and re-activation
 of a pipeline on a different tremor-runtime node without loss of state.</p>
 <p>In the tremor scripting / query language the <code>state</code> keyword provides a reference
-onto the user defined sub-region of the state record managed by the runtime. The
-operator state is not visible to user-defined logic as this would render user-defined
-logic to be brittle under refactoring.</p>
-<p>In effect the <code>state</code> keyword references <code>state.exports</code> in the runtime managed
-state. The entire state also includes operator state, however: the full state is
-not visible to either operators ( who also see a restricited view ) or user defined
-logic.</p>
+onto the associated operator specifc state managed by the runtime.</p>
 <h1 id="drawbacks">Drawbacks<a class="headerlink" href="#drawbacks" title="Permanent link">&para;</a></h1>
-<p>Tremor-runtime is a working system and is currently stable.</p>
+<p>Tremor-runtime is a working system and is currently stable. Since the implementation
+of the state mechanism will touch the main event pathways throughout the pipeline
+as well as across the scripting language, it has the potential to introduce
+inefficiencies as well as instability, if not done right.</p>
 <p>By consolidating on a single namespace <code>state</code> we remain consistent with
 other specialized keyword forms such as <code>args</code>, <code>group</code>, <code>window</code> that have
-special meaning in tremor in different contexts/situations. This minimises
-any introduces cognitive dissonance to the user but in a managed way.</p>
+special meaning in tremor in different contexts/situations. This introduces
+cognitive dissonance to the user (but in a managed way).</p>
+<p>Regarding the <code>generic::counter</code> operator that we have proposed to introduce as
+a demonstration of the state mechanism usage in a custom in-built operator, it
+may be that it won't find actual real-world usage and it will continue to languish
+in our codebase just as an example. Even for the case when people need such a
+functionality, it is trivially replicated from tremor-script (such an example was
+presented above too).</p>
 <h1 id="rationale-and-alternatives">Rationale and alternatives<a class="headerlink" href="#rationale-and-alternatives" title="Permanent link">&para;</a></h1>
 <p>In this RFC, the basic mechanism as outlined can be implemented and exposed
-to the user facing region with minimal changes to the script / query language
-required to support an implementation.</p>
+to the user with fairly minimal changes to the script / query language required
+to support an implementation.</p>
 <p>An alternative leveraging the metadata facility and usurping the <code>$state</code>
 namespace would result in marginally less implementation effort, but risks
 opening up other constraints to the metadata namespace. Such changes are
@@ -544,15 +566,29 @@ user-impacting and as such not desired.</p>
 <h1 id="prior-art">Prior art<a class="headerlink" href="#prior-art" title="Permanent link">&para;</a></h1>
 <p>None.</p>
 <h1 id="unresolved-questions">Unresolved questions<a class="headerlink" href="#unresolved-questions" title="Permanent link">&para;</a></h1>
-<p>This RFC does not specify internals or implementation of the state mechanism
-as applies to operators. It is assumed that a <code>state</code> variable will be available
-to signal, contraflow and event handlers by the runtime that are managed by the
-runtime and partitioned by operator.</p>
+<p>This RFC does not specify full internals or implementation of the state mechanism
+as it applies to operators. It is assumed that a <code>state</code> variable will be available
+to event handlers by the runtime that are managed by the runtime and partitioned
+by operator.</p>
+<p>This RFC limits the state that an operator can have to the <code>Value</code> type, which may
+not be suitable for all our operator state needs. An example is the LRU cache
+currently in use by the bucketing operator, or the desire to seed and cache a
+random number generator for use in tremor-script's random module functions. For
+such needs, we can continue to implement stateful implementations outside of the
+pipeline state mechanism and for the cases when we do need to store them somewhere
+central (eg: to enable pipeline migrations as part of clustering effort), we can
+opt to serialize these data structures into (and deserialize out) of the pipeline
+state. We will revisit this topic in the future when such needs arise.</p>
 <h1 id="future-possibilities">Future possibilities<a class="headerlink" href="#future-possibilities" title="Permanent link">&para;</a></h1>
 <p>This RFC normatively reserves the <code>state</code> keyword for pipeline state
-management. The internal structure ( schema ) of the implied state record
+management. The internal structure (schema) of the implied state struct
 is managed by this RFC. This RFC should be updated if the internal structure
-( schema ) of the implied state record is further specified in the future.</p>
+(schema) of the implied state record is further specified in the future (eg:
+we add an attribute to the struct to support state global to the pipeline).</p>
+<p>Other operators that maintain state can be migrated to use the new pipeline
+state mechanism (eg: for the batch or backpressure operator) -- this would
+be a necissity when we want to support pipeline migration to a different tremor
+node, when we have clustering for tremor.</p>
                 
                   
                 
@@ -625,7 +661,7 @@ is managed by this RFC. This RFC should be updated if the internal structure
     
       <script src="../assets/javascripts/application.c33a9706.js"></script>
       
-      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      <script>app.initialize({version:"1.1",url:{base:".."}})</script>
       
     
   </body>
