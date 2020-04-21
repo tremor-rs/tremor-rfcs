@@ -2,7 +2,7 @@
 - Start Date: 2020-04-02
 - Tremor Issue: [wayfair-tremor/tremor-runtime#0174](https://github.com/wayfair-tremor/tremor-runtime/pull/174)
 
-- RFC PR: [wayfair-tremor/tremor-rfcs\#0000](https://github.com/wayfair-tremor/tremor-rfcs/pull/0000)
+- RFC PR: [wayfair-tremor/tremor-rfcs#0021](https://github.com/wayfair-tremor/tremor-rfcs/pull/0021)
 
 # Summary
 [summary]: #summary
