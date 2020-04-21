@@ -324,7 +324,7 @@ end;
 
 ### Limitations and constraints:
 
-**Functions can only be defined with a singular arity
+#### Functions can only be defined with a singular arity
 
 **Functions currently can not be redefined with multiple arities. So a
 function `foo(n)` precludes a second definition of a function called
@@ -333,13 +333,13 @@ defines a function that can take one or more arguments. This constraint
 may be lifted in the future once usage and adoption favor enhancing
 functionality.
 
-**Higher Order functions are not supported**
+#### Higher Order functions are not supported
 
 As the type system underpinning tremor-script and tremor-query does not
 support expression or function references, higher order functions are
 thus not supported at this time.
 
-**Hardcoded Recursion Depth**
+#### Hardcoded Recursion Depth
 
 Although functions are tail-recursive and stack limits are not a
 functional concern, the tremor event processing system is primarily
