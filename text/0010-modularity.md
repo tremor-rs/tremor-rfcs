@@ -87,7 +87,10 @@ In tremor-query, only the top-level module can create nodes in the
 active query pipeline graph. A module logically encapsulates a reusable
 sub-graph in a query pipeline. The definitions of windows, operators or
 scripts can be reused. Within embedded scripts, modules used in scripts
-are constrained to the rules for modules for tremor-script.
+are constrained to the rules for modules for tremor-script. In addition
+tremor-script modules can be included in trickle files to expose their
+functions and constants for use in `select`, `group by`, `having` and 
+`where`.
 
 
 In both the tremor-script and tremor-query DSLs, modules can be defined
