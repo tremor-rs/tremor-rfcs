@@ -94,7 +94,7 @@ In both the tremor-script and tremor-query DSLs, modules can be defined
 physically on the file system. For example given the following modular
 hierarchy configured on the module path:
 
-```bash
+```text
 
   +-- foo
     +-- bar
@@ -132,7 +132,6 @@ let snot = foo::bar::snot;
 let badger = foo::baz::badger;
 
 "{snot}-{badger}";
-
 ```
 
 Modules can be loaded via the use clause which in turn loads module
@@ -151,7 +150,7 @@ use foo::bar as fleek;
 ```
 
 Modules in tremor query follow the same semantics and behaviour with
-respect to physical verses inline definition, aliasing to avoid naming
+respect to physical versus inline definition, aliasing to avoid naming
 scope clashes
 
 ## Preprocessor
@@ -228,112 +227,100 @@ the `recur` expression that gets passed data from the current
 iteration as arguments for the following invocation. Functions may
 access constants but cannot access external mutable state.
 
-**Functions come in multiple forms:**
+### Functions come in multiple forms:
 
-- **Intrinsic functions**
-
-
-  Intrinsic functions provide the signature of a builtin function.
-  These are provided for documentation purposes and so that API
-  documentation can be provided for builtin functions in the same way as
-  user defined functions.
-  
-  ```
-  ### The `test` module is used for writing tremor unit
-  tests.
- 
-  ## Runs an assertion for a test, ensures that `expected` and
-  `got` are the
- 
-  ## same. If not errors.
-  ##
-  ## **WARNING**: Do not run assertions in production code!
-  ##
-  ## ```tremor
-  ## assert(\"one equals one\", 1, 1) == true; # success
-  ## assert(\"one equals one\", 1, 2); # errors
-  ## ```
-  ##
-  ##
-  ## Returns an \`bool\`.
- 
-  intrinsic fn assert(name, expected, got) as test::assert;
-  
-  ```
+#### Intrinsic functions
 
 
-- **Ordinary functions**
+Intrinsic functions provide the signature of a builtin function.
+These are provided for documentation purposes and so that API
+documentation can be provided for builtin functions in the same way as
+user defined functions.
+
+```tremor
+### The `test` module is used for writing tremor unit
+### tests.
+
+## Runs an assertion for a test, ensures that `expected` and
+## `got` are the
+
+## same. If not errors.
+##
+## **WARNING**: Do not run assertions in production code!
+##
+## Returns an \`bool\`.
+
+intrinsic fn assert(name, expected, got) as test::assert;
+
+```
 
 
-  Of the form `**fn** <name>([<args>][,...]) **with**`
-  provide named arguments with optional variable arguments through the
-  ellipses `...` or varargs operator. Varargs are stored in the
-  `args` array.
-  
-  The ordinary form does not support partial functions.
-  
-  An ordinary function wrapping a call to a tail recursive fibonacci
-  function:
-  
-  ```tremor
-  fn fib(n) with
-    fib_(0, 1, n)
-  end;
-  
-  fib(7); # Call locally defined function fib
- 
-  ```
+#### Ordinary functions
+Of the form `fn <name>([<args>][,...]) with` provide named arguments with
+optional variable arguments through the ellipses `...` or varargs operator.
+Varargs are stored in the `args` array.
+
+The ordinary form does not support partial functions.
+
+An ordinary function wrapping a call to a tail recursive fibonacci
+function:
+
+```tremor
+fn fib(n) with
+  fib_(0, 1, n)
+end;
+
+fib(7); # Call locally defined function fib
+
+```
 
 
-- **Matching Functions**
+#### Matching Functions
+Matching functions using `fn <name>(<args>) of`
+followed by case expressions and an optional default statement that
+match.
+
+The match form supports partial functions.
+
+The matching function form imposes a default case requirement so that
+unmatches cases have error handling defined. Unlike match expressions
+the default case in user defined functions must not ( and can not ) be
+omitted.
+
+A contrived example showing math functions with value matching,
+extractor matching and function case guards.
+
+```tremor
+use std::type;
+
+fn snottify(s) of
+  case ("badger") => "snot badger, hell yea!"
+  case (\~ json||) => let s.snot = true, s
+  case (s) when type::is_string(s) => "snot {s}"
+  default => "snot caller, you can't snottify that!"
+end;
+```
 
 
-  Matching functions using `**fn** <name>(<args>) **of**`
-  followed by case expressions and an optional default statement that
-  match.
-  
-  The match form supports partial functions.
-  
-  The matching function form imposes a default case requirement so that
-  unmatches cases have error handling defined. Unlike match expressions
-  the default case in user defined functions must not ( and can not ) be
-  omitted.
-  
-  A contrived example showing math functions with value matching,
-  extractor matching and function case guards.
-  
-  ```tremor
-  use std::type;
- 
-  fn snottify(s) of
-    case ("badger") => "snot badger, hell yea!"
-    case (\~ json||) => let s.snot = true, s
-    case (s) when type::is_string(s) => "snot {s}"
-    default => "snot caller, you can't snottify that!"
-  end;
-  ```
+#### Recursive Functions
+Tail recursive functions follow the signature of the function over
+which recursion is being invoked and use a `recur(<args>)`
+call expression.
 
+If the signature of a recursive call supports partial function
+semantics then this is respected under tail recursion.
 
-- **Recursive Functions**
+If the signature of a recursive call supports varargs semantics then
+this is respected under tail recursion.
 
-  Tail recursive functions follow the signature of the function over
-  which recursion is being invoked and use a `**recur**(<args>)`
-  call expression.
-  
-  If the signature of a recursive call supports partial function
-  semantics then this is respected under tail recursion.
- 
-  If the signature of a recursive call supports varargs semantics then
-  this is respected under tail recursion.
- 
-  A tail-recursive implementation of fibonacci called by fib(n) above:
+A tail-recursive implementation of fibonacci called by fib(n) above:
 
-  ```tremor
-  fn fib_(a, b, n) of
-    case (a, b, n) when n > 0 => recur(b, a + b, n - 1)
-    default => a
-  end;
-  ```
+```tremor
+fn fib_(a, b, n) of
+  case (a, b, n) when n > 0 => recur(b, a + b, n - 1)
+  default => a
+end;
+```
 
 ### Limitations and constraints:
 
