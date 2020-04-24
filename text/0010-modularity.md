@@ -230,9 +230,10 @@ Side effecting operations to the data flow through a script such as the
 `emit` or `drop` keywords are also not allowed in functions.
 
 Recursion, specifically tail recursion, is supported in functions but a
-maximum recursion depth (of currently 1024) is imposed. As tremor is
-primarily an event processing engine there are no facilities for user
-defined logic to loop or recurse infinitely. Recursion is indicated by
+maximum recursion depth (of currently 1024 by default) is imposed. The limit
+can be changed in tremor-server using the `--recursion-limit LIMIT` argument.
+As tremor is primarily an event processing engine there are no facilities for
+user defined logic to loop or recurse infinitely. Recursion is indicated by
 the `recur` expression that gets passed data from the current
 iteration as arguments for the following invocation. Functions may
 access constants but cannot access external mutable state.
