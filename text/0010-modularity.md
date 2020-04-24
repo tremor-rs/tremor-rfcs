@@ -1,13 +1,12 @@
 - Feature Name: rfc-0010-modularity
 - Start Date: 2020-04-02
 - Tremor Issue: [wayfair-tremor/tremor-runtime#0174](https://github.com/wayfair-tremor/tremor-runtime/pull/174)
-
 - RFC PR: [wayfair-tremor/tremor-rfcs#0021](https://github.com/wayfair-tremor/tremor-rfcs/pull/0021)
 
 # Summary
 [summary]: #summary
 
-Provide mechanisms for sharing, reuse and composition of user defined
+Provide mechanisms for sharing, reuse and composition of user-defined
 logic in tremor.
 
 # Motivation
@@ -92,7 +91,6 @@ tremor-script modules can be included in trickle files to expose their
 functions and constants for use in `select`, `group by`, `having` and 
 `where`.
 
-
 In both the tremor-script and tremor-query DSLs, modules can be defined
 physically on the file system. For example given the following modular
 hierarchy configured on the module path:
@@ -137,7 +135,7 @@ let badger = foo::baz::badger;
 "{snot}-{badger}";
 ```
 
-Modules can be loaded via the use clause which in turn loads module
+Modules can be loaded via the `use` clause which in turn loads a module
 from the physical file system via the module path.
 
 Inline and externalized modules can be used separately or together as
@@ -154,7 +152,12 @@ use foo::bar as fleek;
 
 Modules in tremor query follow the same semantics and behaviour with
 respect to physical versus inline definition, aliasing to avoid naming
-scope clashes
+scope clashes.
+
+It is to be noted that inclusion via `use` will prevent circular inclusion as in
+file `a.tremor` can use `b.tremor` but at that point `b.tremor` can no longer
+use `a.tremor` as this would create a circle. This is a restriction of the
+current implementation and may or may not be relaxed in the future.
 
 ## Preprocessor
 [preprocessor]: #preprocessor
@@ -182,6 +185,10 @@ This PR introduces two preprocessor directives:
     > 
     > For each folder/directory that an included source traverses a
     > module statement is injected into the consolidated source.
+    >
+    > The #!line macro is a implementation detail mentioned here for the same
+    > of completeness and not meant to be used or relied on by end users. It
+    > may, without prior warning, be removed in the future.
 
 2)  `#!config <key> = <const-expr>`
 
@@ -217,10 +224,10 @@ emit c
 While constants in modules offer the ability to have reusable data,
 functions allow for reusable logic.
 
-Functions are expression based - so every function returns a data
+Functions are expression-based - so every function returns a data
 value. Functions cannot manipulate or mutate events, metadata or state.
-Side effecting operations such as with the `emit` or `drop` are also
-not allowed in functions.
+Side effecting operations to the data flow through a script such as the
+`emit` or `drop` keywords are also not allowed in functions.
 
 Recursion, specifically tail recursion, is supported in functions but a
 maximum recursion depth (of currently 1024) is imposed. As tremor is
@@ -230,10 +237,13 @@ the `recur` expression that gets passed data from the current
 iteration as arguments for the following invocation. Functions may
 access constants but cannot access external mutable state.
 
+Functions are limited to only call functions that were defined prior to
+themselves, this limits the risk of cyclic recursion between multiple functions
+and ensure that every call is guaranteed to terminate.
+
 ### Functions come in multiple forms:
 
 #### Intrinsic functions
-
 
 Intrinsic functions provide the signature of a builtin function.
 These are provided for documentation purposes and so that API
@@ -251,7 +261,7 @@ user defined functions.
 ##
 ## **WARNING**: Do not run assertions in production code!
 ##
-## Returns an \`bool\`.
+## Returns an `bool`.
 
 intrinsic fn assert(name, expected, got) as test::assert;
 
@@ -277,21 +287,17 @@ fib(7); # Call locally defined function fib
 
 ```
 
-
 #### Matching Functions
-Matching functions using `fn <name>(<args>) of`
-followed by case expressions and an optional default statement that
-match.
-
-The match form supports partial functions.
+Matching functions using `fn <name>(<args>) of` followed by case expressions
+and an optional default statement that match.
 
 The matching function form imposes a default case requirement so that
 unmatches cases have error handling defined. Unlike match expressions
 the default case in user defined functions must not ( and can not ) be
 omitted.
 
-A contrived example showing math functions with value matching,
-extractor matching and function case guards.
+A contrived example showing math functions with value matching, extractor
+matching and function case guards.
 
 ```tremor
 use std::type;
@@ -307,8 +313,7 @@ end;
 
 #### Recursive Functions
 Tail recursive functions follow the signature of the function over
-which recursion is being invoked and use a `recur(<args>)`
-call expression.
+which recursion is being invoked and use a `recur(<args>)` call expression.
 
 If the signature of a recursive call supports partial function
 semantics then this is respected under tail recursion.
@@ -329,7 +334,7 @@ end;
 
 #### Functions can only be defined with a singular arity
 
-**Functions currently can not be redefined with multiple arities. So a
+Functions currently can not be redefined with multiple arities. So a
 function `foo(n)` precludes a second definition of a function called
 `foo` with two or more arguments. However the function `foo(n,...)`
 defines a function that can take one or more arguments. This constraint
