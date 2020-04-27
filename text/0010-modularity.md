@@ -4,12 +4,14 @@
 - RFC PR: [wayfair-tremor/tremor-rfcs#0021](https://github.com/wayfair-tremor/tremor-rfcs/pull/0021)
 
 # Summary
+
 [summary]: #summary
 
 Provide mechanisms for sharing, reuse and composition of user-defined
 logic in tremor.
 
 # Motivation
+
 [motivation]: #motivation
 
 As user-defined logic deployed with tremor script and query pipelines
@@ -24,34 +26,36 @@ tremor grows this is no longer tenable in the long term.
 
 Identified requirements
 
--   As tremor has multiple DSLs, the building blocks for reusing units
-    of code from the file system should be common across
-    DSLs.
+- As tremor has multiple DSLs, the building blocks for reusing units
+  of code from the file system should be common across
+  DSLs.
 
--   For tremor-script, code should be modularisable through the
-    introduction of functions.
+- For tremor-script, code should be modularisable through the
+  introduction of functions.
 
--   For tremor-query, code should be modularisable through modular
-    definitions and/or reusable sub-queries
+- For tremor-query, code should be modularisable through modular
+  definitions and/or reusable sub-queries
 
--   Modules should be nestable on the file system, and within DSLs with
-    a consistent means to reference units of code or values defined
-    within nested modules regardless of their origin ( within the same
-    unit of code, from some external module ).
+- Modules should be nestable on the file system, and within DSLs with
+  a consistent means to reference units of code or values defined
+  within nested modules regardless of their origin ( within the same
+  unit of code, from some external module ).
 
--   There should be a mechanism to load external libraries or packages
-    of code from well-known locations.
+- There should be a mechanism to load external libraries or packages
+  of code from well-known locations.
 
--   The module mechanism should be usable by multiple DSLs with minimal
-    effort and with the same basic behaviour, structure. However, this
-    RFC does not place constraints on any DSL specifics per se.
+- The module mechanism should be usable by multiple DSLs with minimal
+  effort and with the same basic behaviour, structure. However, this
+  RFC does not place constraints on any DSL specifics per se.
 
 # Guide-level explanation
+
 [guide-level-explanation]: #guide-level-explanation
 
 Elements of modular user defined logic in the tremor project.
 
 ## Module Path
+
 [module_path]: #module_path
 
 A module path is a set of URLs ( normatively directories on a file
@@ -68,6 +72,7 @@ TREMOR_PATH="/etc/tremor/lib:/opt/shared/framework/lib:/opt/myproject/mylib"
 ```
 
 ## Modules
+
 [modules]: #modules
 
 Modules in tremor are the lowest unit of compilation available to
@@ -88,7 +93,7 @@ sub-graph in a query pipeline. The definitions of windows, operators or
 scripts can be reused. Within embedded scripts, modules used in scripts
 are constrained to the rules for modules for tremor-script. In addition
 tremor-script modules can be included in trickle files to expose their
-functions and constants for use in `select`, `group by`, `having` and 
+functions and constants for use in `select`, `group by`, `having` and
 `where`.
 
 In both the tremor-script and tremor-query DSLs, modules can be defined
@@ -160,6 +165,7 @@ use `a.tremor` as this would create a circle. This is a restriction of the
 current implementation and may or may not be relaxed in the future.
 
 ## Preprocessor
+
 [preprocessor]: #preprocessor
 
 In order to support the module mechanism with minimal changes to the
@@ -178,11 +184,11 @@ The preprocessor defends this guarantee on behalf of our users.
 
 This PR introduces two preprocessor directives:
 
-1)  `#!line <byte offset> <line> <column> <compilation unit> <filename>`
+1.  `#!line <byte offset> <line> <column> <compilation unit> <filename>`
 
     > This directive tells the preprocessor that it is
     > now in a logically different position of the file.
-    > 
+    >
     > For each folder/directory that an included source traverses a
     > module statement is injected into the consolidated source.
     >
@@ -190,7 +196,7 @@ This PR introduces two preprocessor directives:
     > of completeness and not meant to be used or relied on by end users. It
     > may, without prior warning, be removed in the future.
 
-2)  `#!config <key> = <const-expr>`
+2.  `#!config <key> = <const-expr>`
 
     > Pipeline level configuration in trickle, this allows setting
     > compile time pipeline configuration such as `metrics_interval_s`.
@@ -219,6 +225,7 @@ emit c
 ```
 
 ## Functions
+
 [functions]: #functions
 
 While constants in modules offer the ability to have reusable data,
@@ -268,8 +275,8 @@ intrinsic fn assert(name, expected, got) as test::assert;
 
 ```
 
-
 #### Ordinary functions
+
 Of the form `fn <name>([<args>][,...]) with` provide named arguments with
 optional variable arguments through the ellipses `...` or varargs operator.
 Varargs are stored in the `args` array.
@@ -289,6 +296,7 @@ fib(7); # Call locally defined function fib
 ```
 
 #### Matching Functions
+
 Matching functions using `fn <name>(<args>) of` followed by case expressions
 and an optional default statement that match.
 
@@ -311,8 +319,8 @@ fn snottify(s) of
 end;
 ```
 
-
 #### Recursive Functions
+
 Tail recursive functions follow the signature of the function over
 which recursion is being invoked and use a `recur(<args>)` call expression.
 
@@ -362,7 +370,43 @@ when developing will behaved functions.
 At this point in time the maximum depth is 1024 and can not be changed
 without recompiling tremor.
 
+## Tuple patterns
+
+As a side effect of adding functions this RFC introduces tuple patterns.
+Internally they are used to implement Matching functions but are available for
+use in match statements as well.
+
+Tuple patterns are written in the form of `%(<pattern 1>, <pattern 2>)` for
+patterns with a fixed number of elements or `%(<pattern 1>, <pattern 2>, ...)`
+with literal `...` for open patterns.
+
+Tuple patterns with a fixed number of elements match arrays, with the same
+number of elements where each element matches the pattern in the same place. So
+the first pattern must match the first element of the array, the second pattern
+the second element and so on.
+
+An open pattern matches an array that is at lest the same number of elements as
+the pattern but can have more otherwise the rules are the same.
+
+There is also a new pattern introduced to predicate patterns which is the "I
+don't care" pattern `_` which will match every element on an array.
+
+So:
+
+```tremor
+let o = origin::as_uri_record();
+match o of
+  # matches for the path:
+  # "/api/v1/get/<something>"
+  # "/api/v1/get/<something>/snot"
+  # "/api/v1/get/<something>/snot/badger"
+  # and so one
+  case %("api", "v1", "get", _, ...) => "get request"
+end;
+```
+
 # Reference-level explanation
+
 [reference-level-explanation]: #reference-level-explanation
 
 The module path, modules and `use` rule provide the language and
@@ -406,6 +450,7 @@ path will be available. This is reflected in the docker
 image.
 
 # Drawbacks
+
 [drawbacks]: #drawbacks
 
 Modularising logic in tremor increases complexity of the engine and
@@ -424,6 +469,7 @@ pipeline graph nodes or link of nodes in a graph is not supported in
 external modules.
 
 # Rationale and alternatives
+
 [rationale-and-alternatives]: #rationale-and-alternatives
 
 The design of the module mechanism and its application to tremor-script
@@ -432,6 +478,7 @@ lowest runtime impact today and without closing off opportunities for
 evolving and improving the mechanisms in future.
 
 # Prior art
+
 [prior-art]: #prior-art
 
 This RFC and it's implementation draws inspiration from the C
@@ -440,6 +487,7 @@ functional pattern matching style from the Erlang programming
 language.
 
 # Unresolved questions
+
 [unresolved-questions]: #unresolved-questions
 
 None.
