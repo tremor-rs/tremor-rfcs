@@ -538,11 +538,11 @@ hierarchy configured on the module path:</p>
 
 <p>The same module hierarchy can be created in a tremor file directly as
 follows:</p>
-<div class="codehilite"><pre><span></span><code><span class="nx">mod</span><span class="w"> </span><span class="nx">foo</span><span class="w"> </span><span class="nx">with</span><span class="w"></span>
-<span class="w">  </span><span class="nx">mod</span><span class="w"> </span><span class="nx">bar</span><span class="w"> </span><span class="nx">with</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="kd">mod</span><span class="w"> </span><span class="nx">foo</span><span class="w"> </span><span class="kd">with</span><span class="w"></span>
+<span class="w">  </span><span class="kd">mod</span><span class="w"> </span><span class="nx">bar</span><span class="w"> </span><span class="kd">with</span><span class="w"></span>
 <span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">snot</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="s">&quot;beep&quot;</span><span class="err">;</span><span class="w"></span>
 <span class="w">  </span><span class="kd">end</span><span class="err">;</span><span class="w"></span>
-<span class="w">  </span><span class="nx">mod</span><span class="w"> </span><span class="nx">baz</span><span class="w"> </span><span class="nx">with</span><span class="w"></span>
+<span class="w">  </span><span class="kd">mod</span><span class="w"> </span><span class="nx">baz</span><span class="w"> </span><span class="kd">with</span><span class="w"></span>
 <span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">badger</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="s">&quot;boop&quot;</span><span class="err">;</span><span class="w"></span>
 <span class="w">  </span><span class="kd">end</span><span class="err">;</span><span class="w"></span>
 <span class="kd">end</span><span class="err">;</span><span class="w"></span>
@@ -560,7 +560,7 @@ from the physical file system via the module path.</p>
 appropriate.</p>
 <p>Where there are existing references a module can be aliased to avoid
 clashes in the local scope:</p>
-<div class="codehilite"><pre><span></span><code><span class="nx">use</span><span class="w"> </span><span class="nx">foo</span><span class="err">::</span><span class="nx">bar</span><span class="w"> </span><span class="nx">as</span><span class="w"> </span><span class="nx">fleek</span><span class="err">;</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="nx">use</span><span class="w"> </span><span class="nx">foo</span><span class="err">::</span><span class="nx">bar</span><span class="w"> </span><span class="kd">as</span><span class="w"> </span><span class="nx">fleek</span><span class="err">;</span><span class="w"></span>
 
 <span class="s">&quot;Hello {fleek::snot}&quot;</span><span class="w"></span>
 </code></pre></div>
@@ -610,13 +610,13 @@ compile time pipeline configuration such as <code>metrics_interval_s</code>.</p>
 <p>Preprocessing our script from the module section produces a single
 consolidated source file as follows:</p>
 <div class="codehilite"><pre><span></span><code><span class="cp">#!line 0 0 0 1 ./foo/bar/snot.tremor</span><span class="w"></span>
-<span class="nx">mod</span><span class="w"> </span><span class="nx">snot</span><span class="w"> </span><span class="nx">with</span><span class="w"></span>
+<span class="kd">mod</span><span class="w"> </span><span class="nx">snot</span><span class="w"> </span><span class="kd">with</span><span class="w"></span>
 <span class="cp">#!line 0 0 0 1 ./foo/bar/snot.tremor</span><span class="w"></span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">snot</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="s">&quot;beep&quot;</span><span class="err">;</span><span class="w"></span>
 <span class="kd">end</span><span class="err">;</span><span class="w"></span>
 <span class="cp">#!line 19 1 0 0 script.tremor</span><span class="w"></span>
 <span class="cp">#!line 0 0 0 2 ./foo/baz/badger.tremor</span><span class="w"></span>
-<span class="nx">mod</span><span class="w"> </span><span class="nx">badger</span><span class="w"> </span><span class="nx">with</span><span class="w"></span>
+<span class="kd">mod</span><span class="w"> </span><span class="nx">badger</span><span class="w"> </span><span class="kd">with</span><span class="w"></span>
 <span class="cp">#!line 0 0 0 2 ./foo/baz/badger.tremor</span><span class="w"></span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">badger</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="s">&quot;boop&quot;</span><span class="err">;</span><span class="w"></span>
 <span class="kd">end</span><span class="err">;</span><span class="w"></span>
@@ -664,7 +664,7 @@ user defined functions.</p>
 <span class="c1">##</span>
 <span class="c1">## Returns an `bool`.</span>
 
-<span class="nx">intrinsic</span><span class="w"> </span><span class="nx">fn</span><span class="w"> </span><span class="nx">assert</span><span class="err">(</span><span class="nx">name</span><span class="err">,</span><span class="w"> </span><span class="nx">expected</span><span class="err">,</span><span class="w"> </span><span class="nx">got</span><span class="err">)</span><span class="w"> </span><span class="nx">as</span><span class="w"> </span><span class="nx">test</span><span class="err">::</span><span class="nx">assert</span><span class="err">;</span><span class="w"></span>
+<span class="kd">intrinsic</span><span class="w"> </span><span class="kd">fn</span><span class="w"> </span><span class="nx">assert</span><span class="err">(</span><span class="nx">name</span><span class="err">,</span><span class="w"> </span><span class="nx">expected</span><span class="err">,</span><span class="w"> </span><span class="nx">got</span><span class="err">)</span><span class="w"> </span><span class="kd">as</span><span class="w"> </span><span class="nx">test</span><span class="err">::</span><span class="nx">assert</span><span class="err">;</span><span class="w"></span>
 </code></pre></div>
 
 
@@ -675,7 +675,7 @@ Varargs are stored in the <code>args</code> array.</p>
 <p>The ordinary form does not support partial functions.</p>
 <p>An ordinary function wrapping a call to a tail recursive fibonacci
 function:</p>
-<div class="codehilite"><pre><span></span><code><span class="nx">fn</span><span class="w"> </span><span class="nx">fib</span><span class="err">(</span><span class="nx">n</span><span class="err">)</span><span class="w"> </span><span class="nx">with</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="kd">fn</span><span class="w"> </span><span class="nx">fib</span><span class="err">(</span><span class="nx">n</span><span class="err">)</span><span class="w"> </span><span class="kd">with</span><span class="w"></span>
 <span class="w">  </span><span class="nx">fib_</span><span class="err">(</span><span class="mi">0</span><span class="err">,</span><span class="w"> </span><span class="mi">1</span><span class="err">,</span><span class="w"> </span><span class="nx">n</span><span class="err">)</span><span class="w"></span>
 <span class="kd">end</span><span class="err">;</span><span class="w"></span>
 
@@ -694,7 +694,7 @@ omitted.</p>
 matching and function case guards.</p>
 <div class="codehilite"><pre><span></span><code><span class="nx">use</span><span class="w"> </span><span class="nx">std</span><span class="err">::</span><span class="nx">type</span><span class="err">;</span><span class="w"></span>
 
-<span class="nx">fn</span><span class="w"> </span><span class="nx">snottify</span><span class="err">(</span><span class="nx">s</span><span class="err">)</span><span class="w"> </span><span class="kd">of</span><span class="w"></span>
+<span class="kd">fn</span><span class="w"> </span><span class="nx">snottify</span><span class="err">(</span><span class="nx">s</span><span class="err">)</span><span class="w"> </span><span class="kd">of</span><span class="w"></span>
 <span class="w">  </span><span class="kd">case</span><span class="w"> </span><span class="err">(</span><span class="s">&quot;badger&quot;</span><span class="err">)</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="s">&quot;snot badger, hell yea!&quot;</span><span class="w"></span>
 <span class="w">  </span><span class="kd">case</span><span class="w"> </span><span class="err">(\~</span><span class="w"> </span><span class="nx">json</span><span class="err">||)</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nx">s</span><span class="err">.</span><span class="nx">snot</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="kc">true</span><span class="err">,</span><span class="w"> </span><span class="nx">s</span><span class="w"></span>
 <span class="w">  </span><span class="kd">case</span><span class="w"> </span><span class="err">(</span><span class="nx">s</span><span class="err">)</span><span class="w"> </span><span class="kd">when</span><span class="w"> </span><span class="nx">type</span><span class="err">::</span><span class="nx">is_string</span><span class="err">(</span><span class="nx">s</span><span class="err">)</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="s">&quot;snot {s}&quot;</span><span class="w"></span>
@@ -711,8 +711,8 @@ semantics then this is respected under tail recursion.</p>
 <p>If the signature of a recursive call supports varargs semantics then
 this is respected under tail recursion.</p>
 <p>A tail-recursive implementation of fibonacci called by fib(n) above:</p>
-<div class="codehilite"><pre><span></span><code><span class="nx">fn</span><span class="w"> </span><span class="nx">fib_</span><span class="err">(</span><span class="nx">a</span><span class="err">,</span><span class="w"> </span><span class="nx">b</span><span class="err">,</span><span class="w"> </span><span class="nx">n</span><span class="err">)</span><span class="w"> </span><span class="kd">of</span><span class="w"></span>
-<span class="w">  </span><span class="kd">case</span><span class="w"> </span><span class="err">(</span><span class="nx">a</span><span class="err">,</span><span class="w"> </span><span class="nx">b</span><span class="err">,</span><span class="w"> </span><span class="nx">n</span><span class="err">)</span><span class="w"> </span><span class="kd">when</span><span class="w"> </span><span class="nx">n</span><span class="w"> </span><span class="err">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="nx">recur</span><span class="err">(</span><span class="nx">b</span><span class="err">,</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="err">+</span><span class="w"> </span><span class="nx">b</span><span class="err">,</span><span class="w"> </span><span class="nx">n</span><span class="w"> </span><span class="err">-</span><span class="w"> </span><span class="mi">1</span><span class="err">)</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="kd">fn</span><span class="w"> </span><span class="nx">fib_</span><span class="err">(</span><span class="nx">a</span><span class="err">,</span><span class="w"> </span><span class="nx">b</span><span class="err">,</span><span class="w"> </span><span class="nx">n</span><span class="err">)</span><span class="w"> </span><span class="kd">of</span><span class="w"></span>
+<span class="w">  </span><span class="kd">case</span><span class="w"> </span><span class="err">(</span><span class="nx">a</span><span class="err">,</span><span class="w"> </span><span class="nx">b</span><span class="err">,</span><span class="w"> </span><span class="nx">n</span><span class="err">)</span><span class="w"> </span><span class="kd">when</span><span class="w"> </span><span class="nx">n</span><span class="w"> </span><span class="err">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="kd">recur</span><span class="err">(</span><span class="nx">b</span><span class="err">,</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="err">+</span><span class="w"> </span><span class="nx">b</span><span class="err">,</span><span class="w"> </span><span class="nx">n</span><span class="w"> </span><span class="err">-</span><span class="w"> </span><span class="mi">1</span><span class="err">)</span><span class="w"></span>
 <span class="w">  </span><span class="kd">default</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="nx">a</span><span class="w"></span>
 <span class="kd">end</span><span class="err">;</span><span class="w"></span>
 </code></pre></div>
@@ -763,7 +763,7 @@ don't care" pattern <code>_</code> which will match every element on an array.</
 <span class="w">  </span><span class="c1"># &quot;/api/v1/get/&lt;something&gt;/snot&quot;</span>
 <span class="w">  </span><span class="c1"># &quot;/api/v1/get/&lt;something&gt;/snot/badger&quot;</span>
 <span class="w">  </span><span class="c1"># and so one</span>
-<span class="w">  </span><span class="kd">case</span><span class="w"> </span><span class="err">%(</span><span class="s">&quot;api&quot;</span><span class="err">,</span><span class="w"> </span><span class="s">&quot;v1&quot;</span><span class="err">,</span><span class="w"> </span><span class="s">&quot;get&quot;</span><span class="err">,</span><span class="w"> </span><span class="nx">_</span><span class="err">,</span><span class="w"> </span><span class="err">...)</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="s">&quot;get request&quot;</span><span class="w"></span>
+<span class="w">  </span><span class="kd">case</span><span class="w"> </span><span class="err">%(</span><span class="s">&quot;api&quot;</span><span class="err">,</span><span class="w"> </span><span class="s">&quot;v1&quot;</span><span class="err">,</span><span class="w"> </span><span class="s">&quot;get&quot;</span><span class="err">,</span><span class="w"> </span><span class="kc">_</span><span class="err">,</span><span class="w"> </span><span class="err">...)</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="s">&quot;get request&quot;</span><span class="w"></span>
 <span class="kd">end</span><span class="err">;</span><span class="w"></span>
 </code></pre></div>
 
