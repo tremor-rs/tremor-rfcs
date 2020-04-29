@@ -527,8 +527,8 @@ hierarchy configured on the module path:</p>
 
 
 <p>A modular tremor-script can refer to the constant values as follows:</p>
-<div class="codehilite"><pre><span></span><code><span class="nx">use</span><span class="w"> </span><span class="nx">foo</span><span class="err">::</span><span class="nx">bar</span><span class="err">::</span><span class="nx">snot</span><span class="err">;</span><span class="w"> </span><span class="c1"># snot is a ref to &#39;foo/bar/snot.tremor&#39;</span>
-<span class="nx">use</span><span class="w"> </span><span class="nx">foo</span><span class="err">::</span><span class="nx">baz</span><span class="err">::</span><span class="nx">badger</span><span class="err">;</span><span class="w"> </span><span class="c1"># badger is a ref to &#39;foo/bar/badger.tremor&#39;</span>
+<div class="codehilite"><pre><span></span><code><span class="kd">use</span><span class="w"> </span><span class="nx">foo</span><span class="err">::</span><span class="nx">bar</span><span class="err">::</span><span class="nx">snot</span><span class="err">;</span><span class="w"> </span><span class="c1"># snot is a ref to &#39;foo/bar/snot.tremor&#39;</span>
+<span class="kd">use</span><span class="w"> </span><span class="nx">foo</span><span class="err">::</span><span class="nx">baz</span><span class="err">::</span><span class="nx">badger</span><span class="err">;</span><span class="w"> </span><span class="c1"># badger is a ref to &#39;foo/bar/badger.tremor&#39;</span>
 
 <span class="kd">let</span><span class="w"> </span><span class="nx">c</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="s">&quot;{snot::snot}{badger::badger}&quot;</span><span class="err">;</span><span class="w"> </span><span class="c1"># fully qualified references</span>
 
@@ -560,7 +560,7 @@ from the physical file system via the module path.</p>
 appropriate.</p>
 <p>Where there are existing references a module can be aliased to avoid
 clashes in the local scope:</p>
-<div class="codehilite"><pre><span></span><code><span class="nx">use</span><span class="w"> </span><span class="nx">foo</span><span class="err">::</span><span class="nx">bar</span><span class="w"> </span><span class="kd">as</span><span class="w"> </span><span class="nx">fleek</span><span class="err">;</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="kd">use</span><span class="w"> </span><span class="nx">foo</span><span class="err">::</span><span class="nx">bar</span><span class="w"> </span><span class="kd">as</span><span class="w"> </span><span class="nx">fleek</span><span class="err">;</span><span class="w"></span>
 
 <span class="s">&quot;Hello {fleek::snot}&quot;</span><span class="w"></span>
 </code></pre></div>
@@ -692,7 +692,7 @@ the default case in user defined functions must not ( and can not ) be
 omitted.</p>
 <p>A contrived example showing math functions with value matching, extractor
 matching and function case guards.</p>
-<div class="codehilite"><pre><span></span><code><span class="nx">use</span><span class="w"> </span><span class="nx">std</span><span class="err">::</span><span class="nx">type</span><span class="err">;</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="kd">use</span><span class="w"> </span><span class="nx">std</span><span class="err">::</span><span class="nx">type</span><span class="err">;</span><span class="w"></span>
 
 <span class="kd">fn</span><span class="w"> </span><span class="nx">snottify</span><span class="err">(</span><span class="nx">s</span><span class="err">)</span><span class="w"> </span><span class="kd">of</span><span class="w"></span>
 <span class="w">  </span><span class="kd">case</span><span class="w"> </span><span class="err">(</span><span class="s">&quot;badger&quot;</span><span class="err">)</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="s">&quot;snot badger, hell yea!&quot;</span><span class="w"></span>
