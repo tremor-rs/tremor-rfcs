@@ -33,7 +33,7 @@ We introduce a Sink and a Source trait. Those traits abstract over the following
 - circuit breaker control/signals/events
 - support for guaranteed delivery
 
-These changes to interface trigger a redesign of the current codecs and pre/post processors as they would likely be outside of the scope of a sink or source.
+These interface changes trigger a redesign of the current codecs and pre/post processors as they would likely be outside of the scope of a sink or source.
 
 # Reference-level explanation
 
