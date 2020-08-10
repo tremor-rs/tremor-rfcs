@@ -2,7 +2,7 @@ site_name: Tremor RFCs
 site_author: The Tremor Team
 repo_url: https://github.com/wayfair-tremor/tremor-rfcs
 repo_name: wayfair-tremor/tremor-rfcs
-edit_uri: edit/main/docs
+edit_uri: edit/main
 docs_dir: src
 site_dir: html
 pages:
