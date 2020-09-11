@@ -246,7 +246,7 @@ consensus and community norms, not impose more structure than necessary.
 
 
 [tremor chat]: [Slack](https://join.slack.com/t/tremor-debs/shared_invite/enQtOTMxNzY3NDg0MjI2LTQ4MTU4NjlkZDk0MmJmNmIwYjU0ZDc1OTNjMGRmNzUwZTdlZGVkMWFmNGFkZTAwOWJlYjlkMDZkNGNiMjQ2NzI)
-[RFC repository]: http://github.com/wayfair-tremor/tremor-rfcs
+[RFC repository]: http://github.com/tremor-rs/tremor-rfcs
 
 ## License
 [License]: #license

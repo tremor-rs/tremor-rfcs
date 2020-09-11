@@ -1,7 +1,7 @@
 - Feature Name: rfc-0010-modularity
 - Start Date: 2020-04-02
-- Tremor Issue: [wayfair-tremor/tremor-runtime#0174](https://github.com/wayfair-tremor/tremor-runtime/pull/174)
-- RFC PR: [wayfair-tremor/tremor-rfcs#0021](https://github.com/wayfair-tremor/tremor-rfcs/pull/0021)
+- Tremor Issue: [tremor-rs/tremor-runtime#0174](https://github.com/tremor-rs/tremor-runtime/pull/174)
+- RFC PR: [tremor-rs/tremor-rfcs#0021](https://github.com/tremor-rs/tremor-rfcs/pull/0021)
 
 # Summary
 
