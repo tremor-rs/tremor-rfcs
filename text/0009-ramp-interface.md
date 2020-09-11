@@ -1,7 +1,7 @@
 - Feature Name: ramp-interface
 - Start Date: 2020-03-09
-- Tremor Issue: [wayfair-tremor/tremor-runtime#0108](https://github.com/wayfair-tremor/tremor-runtime/issues/108) TBD
-- RFC PR: [wayfair-tremor/tremor-rfcs#0018](https://github.com/wayfair-tremor/tremor-rfcs/pull/0018)
+- Tremor Issue: [tremor-rs/tremor-runtime#0108](https://github.com/tremor-rs/tremor-runtime/issues/108) TBD
+- RFC PR: [tremor-rs/tremor-rfcs#0018](https://github.com/tremor-rs/tremor-rfcs/pull/0018)
 
 # Summary
 

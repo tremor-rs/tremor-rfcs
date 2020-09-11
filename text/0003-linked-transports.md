@@ -1,7 +1,7 @@
 - Feature Name: rfc_0003_linked_transports
 - Start Date: 2020-01-27
-- Issue: [wayfair-tremor/tremor-rfcs#0005](https://github.com/wayfair-tremor/tremor-rfcs/issues/5)
-- RFC PR: [wayfair-tremor/tremor-rfcs#0006](https://github.com/wayfair-tremor/tremor-rfcs/pull/6)
+- Issue: [tremor-rs/tremor-rfcs#0005](https://github.com/tremor-rs/tremor-rfcs/issues/5)
+- RFC PR: [tremor-rs/tremor-rfcs#0006](https://github.com/tremor-rs/tremor-rfcs/pull/6)
 
 # Summary
 [summary]: #summary
