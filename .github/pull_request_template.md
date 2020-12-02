@@ -1,4 +1,4 @@
-[Rendered](https://github.com/tremor-rs/tremor-rfcs/blob/clustering/text/0000-clustering.md)
+[Rendered](https://github.com/tremor-rs/tremor-rfcs/blob/<BRANCH>/text/<FILE>.md)
 
 # Checklist
 
