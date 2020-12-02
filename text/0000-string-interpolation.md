@@ -43,6 +43,9 @@ An alternative would be to adopt a more verbose form of interpolation and prefix
 * `%{ ... }` - the `%` sign with squiggly is currently also a record pattern for extractors, by that overloading the sign.
 * `!{ ... }` - the `!` sign is easy to miss and not very readable
 * `@{ ... }` - no overloading at the moment
+* `&{ ... }` - no overloading at the moment
+* `*{ ... }` - no overloading at the moment
+* `{{ ... }}` - no overloading, a bit verbose
 
 ## Use cases
 
@@ -54,7 +57,8 @@ An alternative would be to adopt a more verbose form of interpolation and prefix
 "13 + 29 = #{13 + 29} escaped: \#{}"
 "13 + 29 = %{13 + 29} escaped: \%{}"
 "13 + 29 = !{13 + 29} escaped: \!{}"
-"13 + 29 = @{13 + 29} escaped: \%{}"
+"13 + 29 = @{13 + 29} escaped: \@{}"
+"13 + 29 = {{13 + 29}} escaped: \{{}}"
 ```
 ### object keys
 
@@ -65,7 +69,8 @@ An alternative would be to adopt a more verbose form of interpolation and prefix
   "key_#{13 + 29} escaped: \#{}": 3,
   "key_%{13 + 29} escaped: \%{}": 4,
   "key_!{13 + 29} escaped: \!{}": 5,
-  "key_@{13 + 29} escaped: \@{}": 6
+  "key_@{13 + 29} escaped: \@{}": 6,
+  "key_{{13 + 29}} escaped: \{{}}": 7
 }
 ```
 
@@ -93,6 +98,13 @@ An alternative would be to adopt a more verbose form of interpolation and prefix
         "key1": 42
     },
     "snot": #{badger},
+}
+# using double squigly
+{
+    "key": {
+        "key1": 42
+    },
+    "snot": {{badger}},
 }
 """
 ```
@@ -127,8 +139,6 @@ This can cause issues since both interpolation and format give `{}` a special me
 4. Remove string::format, this would break backward compatibility but simplify things in the long run
 
 Option 2 and 3 are non-exclusive
-
-
 
 # Reference-level explanation
 [reference-level-explanation]: #reference-level-explanation
@@ -204,4 +214,4 @@ f'13 + 29 = {13 + 29}'
 # Future possibilities
 [future-possibilities]: #future-possibilities
 
-This RFC does exclude considerations for a templateing language. This is however a possible extension for the future worth keeping in mind but would require a separate file format to keep the complexity at bay.
+This RFC does exclude considerations for a templateing language. This is however a possible extension for the future worth keeping in mind, but might require a separate file format or different syntax to keep the complexity at bay.
