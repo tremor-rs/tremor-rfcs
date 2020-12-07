@@ -8,8 +8,6 @@
 
 This RFC covers the implementation and behavior of string interpolation in both strings and heredocs.
 
-
-
 # Motivation
 [motivation]: #motivation
 
@@ -38,8 +36,8 @@ We are also using `{}` in `string::format` which leads to conflicts.
 
 An alternative would be to adopt a more verbose form of interpolation and prefix the `{...}` with an additional character. A few options could be:
 
-* `${ ... }` - the drawback being here is that $ is already used to stand for `metadata`, by that overloading the sign.
-* `#{ ... }` - `#` is currently used for comments, by that overloading the sign.
+* `${ ... }` - the drawback being here is that $ is already used to stand for `metadata`, by that overloading the sign. This is a well-known format.
+* `#{ ... }` - `#` is currently used for comments, by that overloading the sign. This is a well-known format.
 * `%{ ... }` - the `%` sign with squiggly is currently also a record pattern for extractors, by that overloading the sign.
 * `!{ ... }` - the `!` sign is easy to miss and not very readable
 * `@{ ... }` - no overloading at the moment
@@ -109,6 +107,34 @@ An alternative would be to adopt a more verbose form of interpolation and prefix
 """
 ```
 
+### Observations on escaping
+
+There are competing concerns regarding escaping. In this section those opposing considerations are laid out.
+
+One of the desires is reduce complexity and the need to learn new syntax for an operator. This guides us towards a single escape character, `\` is what we use everywhere else, so the conclusion form this desire would be to escape the beginning with a `\` to be in line with all other escapes.
+
+A competing concern is the desire of readability, using `\{` to escape doesn't read well and introduces asymmetry unless `\}` is also escaped, however then `\}` would be escaped without aq reason to do so, and suddenly allow `}` be written as `\}` and `}` that adds possible style and usage complexity.
+
+To address asynchronicity an option is using `{{` and `}}` those read nicely and are symmetric however this introduces an unnessessary escape of `}}` and leads to the situation where there are two forms of correct code: `"this {{ is not }} interpolated"` as well as `"this {{ is not } interpolated"`.
+
+A middle ground is to pick a two-character start sequence for interpolation, this mirrors what most [other languages](#prior-art) do. Adding a leading character such as `#`, `$`, `@` etc means that `{}` no longer has to be escaped and instead the escape is for that leading character, and only when it is followed by a `{`. To give an example, using `#`:
+
+- `"this #{"is"} interpolated"`
+- `"this { is not } interpolated"`
+
+or for the more complex case of code generation:
+
+```
+"""
+{
+    "key": {
+        "key1": "and this is \#{not interpolated}"
+    },
+    "snot": #{interpolated_variable},
+}
+"""
+```
+
 ### Interaction with format
 
 #### use case: building a format string dynamically and inputting data
@@ -139,6 +165,29 @@ This can cause issues since both interpolation and format give `{}` a special me
 4. Remove string::format, this would break backward compatibility but simplify things in the long run
 
 Option 2 and 3 are non-exclusive
+
+### Conclusion
+
+Between the required tradeoffs to be made, using a two letter starting sequence looks like the sweet spot.
+
+upsides:
+
+1. `string::format` compatibility: as `{}` no longer has a special meaning, this means `string::format` needs no change
+2. balanced escaping: as `{` no longer needs to be escaped, neither does `}`.
+3. escaping in code generation: since a two character sequence is significantly less likely to overlap - it will not eliminate the potential need for it, but that is always true
+4. As there is only one sequence and one way to write it it keeps the complexity at the same level
+5. Since it is the [most common approach](#prior-art) for interpolation, it is easier to learn by knowledge transfer
+
+downsides:
+
+1. it is a breaking change (however every change would be)
+
+From the survey of of existing implementations the most common form seems to be `${...}`, followed closely by `#{...}` both seem workable however, both `$` and `#` have their own meaning in tremor script.
+
+- `#` is the comment character, so it can be reasond that it is switching contexts from code to comment, or from string to interpolation.
+- `$` is our `metadata`, which could be reasond that `${...}` is a meta context, however this seems to be a bit of a stretch and `${$}` would read quite odd.
+
+Considering all this, the proposed solution for this RFC is to use `#{...}` for string interpolation.
 
 # Reference-level explanation
 [reference-level-explanation]: #reference-level-explanation
@@ -178,14 +227,22 @@ An alternative would be to extend the format function and drop interpolation, bu
 
 There are many existing implementations of string interpolation, for reference here are a few each producing the string `13 + 29 = 42`:
 
-**Ruby** / **Elixir**
+## two character sequences
+
+**Ruby**
 ```ruby
 "13 + 29 = #{13 + 29}
 ```
 
-**Python**
-```python
-f'13 + 29 = {13 + 29}'
+ **Elixir**
+```elixir
+"13 + 29 = #{13 + 29}
+```
+
+
+**Coffeescript**
+```coffeescript
+"13 + 12 = #{13 + 29}"
 ```
 
 **Javascript**
@@ -193,17 +250,97 @@ f'13 + 29 = {13 + 29}'
 `13 + 29 = ${13 + 29}`
 ```
 
+**Groovy**
+(also supports variable access via $)
+```groovy
+"13 + 12 = ${13 + 29}"
+```
+
+**Haxe**
+(also supports variable access via $)
+```haxe
+"13 + 12 = ${13 + 29}"
+```
+
+**Dart**
+(also supports variable access via $)
+```dart
+"13 + 12 = ${13 + 29}"
+```
+
 **BASH**
 ```bash
 "13 + 12 = $(expr 13 + 29)"
 ```
 
+**LUA**
+```lua
+"13 + 12 = %(13 + 29)"
+```
+
+**SWIFT**
+```swift
+"13 + 12 = \(13 + 29)"
+```
+
+**Julia**
+(also supports variable access via $)
+```julia
+"13 + 12 = $(13 + 29)"
+```
+
+## second string type
+**C#**
+```c#
+$"13 + 12 = {13 + 12}"
+```
+**Kotlin**
+(also supports variable access via $)
+```kotlin
+    var answer = ;
+    "13 + 29 = ${13 + 29}"
+```
+
+## second string type
+**F#**
+```f#
+$"13 + 12 = {13 + 12}"
+```
+
+**Python**
+```python
+f'13 + 29 = {13 + 29}'
+```
+
 **Kotlin**
 (limited to variables)
 ```kotlin
-    var answer = 13 + 29;
+    val answer = 13 + 29;
+    s"13 + 29 = $answer"
+```
+
+**Haskell**
+(via library)
+```haskell
+ [i|13 + 12 = #{13 + 29}|]
+```
+## Other
+
+**Perl**
+(limited to variables)
+```perl
+    answer = 13 + 29;
     "13 + 29 = $answer"
 ```
+
+**PHP**
+(limited to variables)
+```php
+    $answer = 13 + 29;
+    "13 + 29 = $answer"
+```
+
+A more extensive list including replacement and concatination can be found on [rosettacode](https://rosettacode.org/wiki/String_interpolation_(included))
 
 # Unresolved questions
 [unresolved-questions]: #unresolved-questions
