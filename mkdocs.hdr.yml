@@ -14,8 +14,19 @@ theme:
     accent: "indigo"
 extra:
   repo_icon: github
+extra_javascript:
+  - https://unpkg.com/mermaid@8.8.4/dist/mermaid.min.js
+plugins:
+  - search
+  - mermaid2:
+      version: 8.8.4
 markdown_extensions:
-  - codehilite
+  - pymdownx.inlinehilite
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:mermaid2.fence_mermaid
   - toc:
       permalink: true
 nav:
