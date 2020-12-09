@@ -1,456 +1,240 @@
 
-<!doctype html>
-<html lang="en" class="no-js">
-  <head>
-    
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width,initial-scale=1">
-      
-      
-      
-        <meta name="author" content="The Tremor Team">
-      
-      <link rel="shortcut icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.0.2">
-    
-    
-      
-        <title>0010-modularity - Tremor RFCs</title>
-      
-    
-    
-      <link rel="stylesheet" href="../assets/stylesheets/main.38780c08.min.css">
-      
-        
-        <link rel="stylesheet" href="../assets/stylesheets/palette.3f72e892.min.css">
-        
-          
-          
-          <meta name="theme-color" content="#000000">
-        
-      
-    
-    
-    
-      
-        
-        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
-        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
-      
-    
-    
-    
-    
-      
-    
-    
-  </head>
-  
-  
-    
-    
-    
-    
-    
-    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="black" data-md-color-accent="indigo">
-      
-  
-    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
-    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
-    <label class="md-overlay" for="__drawer"></label>
-    <div data-md-component="skip">
-      
-        
-        <a href="#summary" class="md-skip">
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="The Tremor Team" name="author"/>
+<link href="../assets/images/favicon.png" rel="shortcut icon"/>
+<meta content="mkdocs-1.1.2, mkdocs-material-6.1.7" name="generator"/>
+<title>0010-modularity - Tremor RFCs</title>
+<link href="../assets/stylesheets/main.19753c6b.min.css" rel="stylesheet"/>
+<link href="../assets/stylesheets/palette.196e0c26.min.css" rel="stylesheet"/>
+<meta content="#000000" name="theme-color"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&amp;display=fallback" rel="stylesheet"/>
+<style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+</head>
+<body data-md-color-accent="indigo" data-md-color-primary="black" data-md-color-scheme="" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#summary">
           Skip to content
         </a>
-      
-    </div>
-    <div data-md-component="announce">
-      
-    </div>
-    
-      <header class="md-header" data-md-component="header">
-  <nav class="md-header-nav md-grid" aria-label="Header">
-    <a href=".." title="Tremor RFCs" class="md-header-nav__button md-logo" aria-label="Tremor RFCs">
-      
-  <img src="../img/logo.png" alt="logo">
-
-    </a>
-    <label class="md-header-nav__button md-icon" for="__drawer">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
-    </label>
-    <div class="md-header-nav__title" data-md-component="header-title">
-      
-        <div class="md-header-nav__ellipsis">
-          <span class="md-header-nav__topic md-ellipsis">
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header" data-md-component="header">
+<nav aria-label="Header" class="md-header-nav md-grid">
+<a aria-label="Tremor RFCs" class="md-header-nav__button md-logo" href=".." title="Tremor RFCs">
+<img alt="logo" src="../img/logo.png"/>
+</a>
+<label class="md-header-nav__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"></path></svg>
+</label>
+<div class="md-header-nav__title" data-md-component="header-title">
+<div class="md-header-nav__ellipsis">
+<span class="md-header-nav__topic md-ellipsis">
             Tremor RFCs
           </span>
-          <span class="md-header-nav__topic md-ellipsis">
+<span class="md-header-nav__topic md-ellipsis">
             
               0010-modularity
             
           </span>
-        </div>
-      
-    </div>
-    
-      <label class="md-header-nav__button md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
-      </label>
-      
+</div>
+</div>
+<label class="md-header-nav__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"></path></svg>
+</label>
 <div class="md-search" data-md-component="search" role="dialog">
-  <label class="md-search__overlay" for="__search"></label>
-  <div class="md-search__inner" role="search">
-    <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
-      <label class="md-search__icon md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-      </label>
-      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
-      </button>
-    </form>
-    <div class="md-search__output">
-      <div class="md-search__scrollwrap" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="search-result">
-          <div class="md-search-result__meta">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" data-md-state="active" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</label>
+<button aria-label="Clear" class="md-search__icon md-icon" data-md-component="search-reset" tabindex="-1" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"></path></svg>
+</button>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
             Initializing search
           </div>
-          <ol class="md-search-result__list"></ol>
-        </div>
-      </div>
-    </div>
-  </div>
+<ol class="md-search-result__list"></ol>
 </div>
-    
-    
-      <div class="md-header-nav__source">
-        
-<a href="https://github.com/tremor-rs/tremor-rfcs/" title="Go to repository" class="md-source">
-  <div class="md-source__icon md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
-  </div>
-  <div class="md-source__repository">
+</div>
+</div>
+</div>
+</div>
+<div class="md-header-nav__source">
+<a class="md-source" href="https://github.com/tremor-rs/tremor-rfcs/" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"></path></svg>
+</div>
+<div class="md-source__repository">
     tremor-rs/tremor-rfcs
   </div>
 </a>
-      </div>
-    
-  </nav>
+</div>
+</nav>
 </header>
-    
-    <div class="md-container" data-md-component="container">
-      
-      
-        
-      
-      <main class="md-main" data-md-component="main">
-        <div class="md-main__inner md-grid">
-          
-            
-              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
-  <label class="md-nav__title" for="__drawer">
-    <a href=".." title="Tremor RFCs" class="md-nav__button md-logo" aria-label="Tremor RFCs">
-      
-  <img src="../img/logo.png" alt="logo">
-
-    </a>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Tremor RFCs" class="md-nav__button md-logo" href=".." title="Tremor RFCs">
+<img alt="logo" src="../img/logo.png"/>
+</a>
     Tremor RFCs
   </label>
-  
-    <div class="md-nav__source">
-      
-<a href="https://github.com/tremor-rs/tremor-rfcs/" title="Go to repository" class="md-source">
-  <div class="md-source__icon md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
-  </div>
-  <div class="md-source__repository">
+<div class="md-nav__source">
+<a class="md-source" href="https://github.com/tremor-rs/tremor-rfcs/" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"></path></svg>
+</div>
+<div class="md-source__repository">
     tremor-rs/tremor-rfcs
   </div>
 </a>
-    </div>
-  
-  <ul class="md-nav__list" data-md-scrollfix>
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
-    <a href=".." class="md-nav__link">
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="..">
       Home
     </a>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
-    <a href="../api_changes/" class="md-nav__link">
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../api_changes/">
       API Changes
     </a>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
-    <a href="../arch_changes/" class="md-nav__link">
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../arch_changes/">
       Architectural Changes
     </a>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
-    <a href="../lang_changes/" class="md-nav__link">
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../lang_changes/">
       Language Changes
     </a>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
-    <a href="../libs_changes/" class="md-nav__link">
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../libs_changes/">
       Library Changes
     </a>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
-    <a href="../0000-template/" class="md-nav__link">
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../0000-template/">
       RFC Template
     </a>
-  </li>
-
-    
-      
-      
-      
-
-  
-
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-    
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7" checked>
-    
-    <label class="md-nav__link" for="nav-7">
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" data-md-toggle="nav-7" id="nav-7" type="checkbox"/>
+<label class="md-nav__link" for="nav-7">
       RFCs
       <span class="md-nav__icon md-icon"></span>
-    </label>
-    <nav class="md-nav" aria-label="RFCs" data-md-level="1">
-      <label class="md-nav__title" for="nav-7">
-        <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-label="RFCs" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="nav-7">
+<span class="md-nav__icon md-icon"></span>
         RFCs
       </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../0001-remove-actix-from-tremor-runtime/" class="md-nav__link">
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../0001-remove-actix-from-tremor-runtime/">
       0001-remove-actix-from-tremor-runtime
     </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../0002-pipeline-state-mechanism/" class="md-nav__link">
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../0002-pipeline-state-mechanism/">
       0002-pipeline-state-mechanism
     </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../0003-linked-transports/" class="md-nav__link">
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../0003-linked-transports/">
       0003-linked-transports
     </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../0004-sliding-window-mechanism/" class="md-nav__link">
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../0004-sliding-window-mechanism/">
       0004-sliding-window-mechanism
     </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../0005-circuit-breaker-mechanism/" class="md-nav__link">
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../0005-circuit-breaker-mechanism/">
       0005-circuit-breaker-mechanism
     </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../0006-plugin-development-kit/" class="md-nav__link">
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../0006-plugin-development-kit/">
       0006-plugin-development-kit
     </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../0007-pipeline-optimizations/" class="md-nav__link">
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../0007-pipeline-optimizations/">
       0007-pipeline-optimizations
     </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../0008-onramp-postgres/" class="md-nav__link">
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../0008-onramp-postgres/">
       0008-onramp-postgres
     </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../0009-ramp-interface/" class="md-nav__link">
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../0009-ramp-interface/">
       0009-ramp-interface
     </a>
-  </li>
-
-        
-          
-          
-          
-
-  
-
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-    <a href="./" class="md-nav__link md-nav__link--active">
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" data-md-toggle="toc" id="__toc" type="checkbox"/>
+<a class="md-nav__link md-nav__link--active" href="./">
       0010-modularity
     </a>
-    
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-  </ul>
+</li>
+</ul>
 </nav>
-                  </div>
-                </div>
-              </div>
-            
-            
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-    
-  
-  
+</li>
+</ul>
 </nav>
-                  </div>
-                </div>
-              </div>
-            
-          
-          <div class="md-content">
-            <article class="md-content__inner md-typeset">
-              
-                
-                  <a href="https://github.com/tremor-rs/tremor-rfcs/edit/main/0010-modularity.md" title="Edit this page" class="md-content__button md-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
-                  </a>
-                
-                
-                <ul>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content">
+<article class="md-content__inner md-typeset">
+<a class="md-content__button md-icon" href="https://github.com/tremor-rs/tremor-rfcs/edit/main/0010-modularity.md" title="Edit this page">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"></path></svg>
+</a>
+<ul>
 <li>Feature Name: rfc-0010-modularity</li>
 <li>Start Date: 2020-04-02</li>
 <li>Tremor Issue: <a href="https://github.com/tremor-rs/tremor-runtime/pull/174">tremor-rs/tremor-runtime#0174</a></li>
 <li>RFC PR: <a href="https://github.com/tremor-rs/tremor-rfcs/pull/0021">tremor-rs/tremor-rfcs#0021</a></li>
 </ul>
-<h1 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h1>
+<h1 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">¶</a></h1>
 <p>Provide mechanisms for sharing, reuse and composition of user-defined
 logic in tremor.</p>
-<h1 id="motivation">Motivation<a class="headerlink" href="#motivation" title="Permanent link">&para;</a></h1>
+<h1 id="motivation">Motivation<a class="headerlink" href="#motivation" title="Permanent link">¶</a></h1>
 <p>As user-defined logic deployed with tremor script and query pipelines
 become more complex and larger ( by significant lines of code )
 mechanisms that favour better composition, reuse and sharing of user
@@ -490,19 +274,18 @@ tremor grows this is no longer tenable in the long term.</p>
   RFC does not place constraints on any DSL specifics per se.</p>
 </li>
 </ul>
-<h1 id="guide-level-explanation">Guide-level explanation<a class="headerlink" href="#guide-level-explanation" title="Permanent link">&para;</a></h1>
+<h1 id="guide-level-explanation">Guide-level explanation<a class="headerlink" href="#guide-level-explanation" title="Permanent link">¶</a></h1>
 <p>Elements of modular user defined logic in the tremor project.</p>
-<h2 id="module-path">Module Path<a class="headerlink" href="#module-path" title="Permanent link">&para;</a></h2>
+<h2 id="module-path">Module Path<a class="headerlink" href="#module-path" title="Permanent link">¶</a></h2>
 <p>A module path is a set of URLs ( normatively directories on a file
 system ) that form the root of a set of related modules.</p>
 <p>On Linux/Unix module paths are provided via the TREMOR_PATH environment
 variable and they are separated by ':' ( colon ). Paths that are not
 readable or that do not exist are ignored.</p>
 <p>Example path:</p>
-<div class="codehilite"><pre><span></span><code><span class="nv">TREMOR_PATH</span><span class="o">=</span><span class="s2">&quot;/etc/tremor/lib:/opt/shared/framework/lib:/opt/myproject/mylib&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="nv">TREMOR_PATH</span><span class="o">=</span><span class="s2">"/etc/tremor/lib:/opt/shared/framework/lib:/opt/myproject/mylib"</span>
 </code></pre></div>
-
-<h2 id="modules">Modules<a class="headerlink" href="#modules" title="Permanent link">&para;</a></h2>
+<h2 id="modules">Modules<a class="headerlink" href="#modules" title="Permanent link">¶</a></h2>
 <p>Modules in tremor are the lowest unit of compilation available to
 developers to modularise tremor logic across multiple logical
 namespaces. On the filesystem, modules are rooted at a base path and are
@@ -524,50 +307,46 @@ functions and constants for use in <code>select</code>, <code>group by</code>, <
 <p>In both the tremor-script and tremor-query DSLs, modules can be defined
 physically on the file system. For example given the following modular
 hierarchy configured on the module path:</p>
-<div class="codehilite"><pre><span></span><code>  +-- foo
+<div class="highlight"><pre><span></span><code>  +-- foo
     +-- bar
       +-- snot.tremor
     +-- baz
       +-- badger.tremor
 </code></pre></div>
-
 <p>A modular tremor-script can refer to the constant values as follows:</p>
-<div class="codehilite"><pre><span></span><code><span class="kd">use</span><span class="w"> </span><span class="nx">foo</span><span class="err">::</span><span class="nx">bar</span><span class="err">::</span><span class="nx">snot</span><span class="err">;</span><span class="w"> </span><span class="c1"># snot is a ref to &#39;foo/bar/snot.tremor&#39;</span>
-<span class="kd">use</span><span class="w"> </span><span class="nx">foo</span><span class="err">::</span><span class="nx">baz</span><span class="err">::</span><span class="nx">badger</span><span class="err">;</span><span class="w"> </span><span class="c1"># badger is a ref to &#39;foo/bar/badger.tremor&#39;</span>
+<div class="highlight"><pre><span></span><code><span class="kd">use</span><span class="w"> </span><span class="nx">foo</span><span class="err">::</span><span class="nx">bar</span><span class="err">::</span><span class="nx">snot</span><span class="err">;</span><span class="w"> </span><span class="c1"># snot is a ref to 'foo/bar/snot.tremor'</span>
+<span class="kd">use</span><span class="w"> </span><span class="nx">foo</span><span class="err">::</span><span class="nx">baz</span><span class="err">::</span><span class="nx">badger</span><span class="err">;</span><span class="w"> </span><span class="c1"># badger is a ref to 'foo/bar/badger.tremor'</span>
 
-<span class="kd">let</span><span class="w"> </span><span class="nx">c</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="s">&quot;{snot::snot}{badger::badger}&quot;</span><span class="err">;</span><span class="w"> </span><span class="c1"># fully qualified references</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">c</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="s">"{snot::snot}{badger::badger}"</span><span class="err">;</span><span class="w"> </span><span class="c1"># fully qualified references</span>
 
 <span class="nx">c</span><span class="w"></span>
 </code></pre></div>
-
 <p>The same module hierarchy can be created in a tremor file directly as
 follows:</p>
-<div class="codehilite"><pre><span></span><code><span class="kd">mod</span><span class="w"> </span><span class="nx">foo</span><span class="w"> </span><span class="kd">with</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="kd">mod</span><span class="w"> </span><span class="nx">foo</span><span class="w"> </span><span class="kd">with</span><span class="w"></span>
 <span class="w">  </span><span class="kd">mod</span><span class="w"> </span><span class="nx">bar</span><span class="w"> </span><span class="kd">with</span><span class="w"></span>
-<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">snot</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="s">&quot;beep&quot;</span><span class="err">;</span><span class="w"></span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">snot</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="s">"beep"</span><span class="err">;</span><span class="w"></span>
 <span class="w">  </span><span class="kd">end</span><span class="err">;</span><span class="w"></span>
 <span class="w">  </span><span class="kd">mod</span><span class="w"> </span><span class="nx">baz</span><span class="w"> </span><span class="kd">with</span><span class="w"></span>
-<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">badger</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="s">&quot;boop&quot;</span><span class="err">;</span><span class="w"></span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">badger</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="s">"boop"</span><span class="err">;</span><span class="w"></span>
 <span class="w">  </span><span class="kd">end</span><span class="err">;</span><span class="w"></span>
 <span class="kd">end</span><span class="err">;</span><span class="w"></span>
 
 <span class="kd">let</span><span class="w"> </span><span class="nx">snot</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="nx">foo</span><span class="err">::</span><span class="nx">bar</span><span class="err">::</span><span class="nx">snot</span><span class="err">;</span><span class="w"></span>
 <span class="kd">let</span><span class="w"> </span><span class="nx">badger</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="nx">foo</span><span class="err">::</span><span class="nx">baz</span><span class="err">::</span><span class="nx">badger</span><span class="err">;</span><span class="w"></span>
 
-<span class="s">&quot;{snot}-{badger}&quot;</span><span class="err">;</span><span class="w"></span>
+<span class="s">"{snot}-{badger}"</span><span class="err">;</span><span class="w"></span>
 </code></pre></div>
-
 <p>Modules can be loaded via the <code>use</code> clause which in turn loads a module
 from the physical file system via the module path.</p>
 <p>Inline and externalized modules can be used separately or together as
 appropriate.</p>
 <p>Where there are existing references a module can be aliased to avoid
 clashes in the local scope:</p>
-<div class="codehilite"><pre><span></span><code><span class="kd">use</span><span class="w"> </span><span class="nx">foo</span><span class="err">::</span><span class="nx">bar</span><span class="w"> </span><span class="kd">as</span><span class="w"> </span><span class="nx">fleek</span><span class="err">;</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="kd">use</span><span class="w"> </span><span class="nx">foo</span><span class="err">::</span><span class="nx">bar</span><span class="w"> </span><span class="kd">as</span><span class="w"> </span><span class="nx">fleek</span><span class="err">;</span><span class="w"></span>
 
-<span class="s">&quot;Hello {fleek::snot}&quot;</span><span class="w"></span>
+<span class="s">"Hello {fleek::snot}"</span><span class="w"></span>
 </code></pre></div>
-
 <p>Modules in tremor query follow the same semantics and behaviour with
 respect to physical versus inline definition, aliasing to avoid naming
 scope clashes.</p>
@@ -575,7 +354,7 @@ scope clashes.</p>
 file <code>a.tremor</code> can use <code>b.tremor</code> but at that point <code>b.tremor</code> can no longer
 use <code>a.tremor</code> as this would create a circle. This is a restriction of the
 current implementation and may or may not be relaxed in the future.</p>
-<h2 id="preprocessor">Preprocessor<a class="headerlink" href="#preprocessor" title="Permanent link">&para;</a></h2>
+<h2 id="preprocessor">Preprocessor<a class="headerlink" href="#preprocessor" title="Permanent link">¶</a></h2>
 <p>In order to support the module mechanism with minimal changes to the
 API and runtime, a preprocessor loads all externally referenced modules
 used in tremor logic defined in tremor-script or tremor-query and loads
@@ -590,7 +369,7 @@ possibilities of modular logic changing at runtime.</p>
 <p>This PR introduces two preprocessor directives:</p>
 <ol>
 <li>
-<p><code>#!line &lt;byte offset&gt; &lt;line&gt; &lt;column&gt; &lt;compilation unit&gt; &lt;filename&gt;</code></p>
+<p><code class="highlight">&lt;byte offset&gt; &lt;line&gt; &lt;column&gt; &lt;compilation unit&gt; &lt;filename&gt;</code></p>
 <blockquote>
 <p>This directive tells the preprocessor that it is
 now in a logically different position of the file.</p>
@@ -602,7 +381,7 @@ may, without prior warning, be removed in the future.</p>
 </blockquote>
 </li>
 <li>
-<p><code>#!config &lt;key&gt; = &lt;const-expr&gt;</code></p>
+<p><code class="highlight">&lt;key&gt; = &lt;const-expr&gt;</code></p>
 <blockquote>
 <p>Pipeline level configuration in trickle, this allows setting
 compile time pipeline configuration such as <code>metrics_interval_s</code>.</p>
@@ -611,25 +390,24 @@ compile time pipeline configuration such as <code>metrics_interval_s</code>.</p>
 </ol>
 <p>Preprocessing our script from the module section produces a single
 consolidated source file as follows:</p>
-<div class="codehilite"><pre><span></span><code><span class="cp">#!line 0 0 0 1 ./foo/bar/snot.tremor</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="cp">#!line 0 0 0 1 ./foo/bar/snot.tremor</span><span class="w"></span>
 <span class="kd">mod</span><span class="w"> </span><span class="nx">snot</span><span class="w"> </span><span class="kd">with</span><span class="w"></span>
 <span class="cp">#!line 0 0 0 1 ./foo/bar/snot.tremor</span><span class="w"></span>
-<span class="kd">const</span><span class="w"> </span><span class="nx">snot</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="s">&quot;beep&quot;</span><span class="err">;</span><span class="w"></span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">snot</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="s">"beep"</span><span class="err">;</span><span class="w"></span>
 <span class="kd">end</span><span class="err">;</span><span class="w"></span>
 <span class="cp">#!line 19 1 0 0 script.tremor</span><span class="w"></span>
 <span class="cp">#!line 0 0 0 2 ./foo/baz/badger.tremor</span><span class="w"></span>
 <span class="kd">mod</span><span class="w"> </span><span class="nx">badger</span><span class="w"> </span><span class="kd">with</span><span class="w"></span>
 <span class="cp">#!line 0 0 0 2 ./foo/baz/badger.tremor</span><span class="w"></span>
-<span class="kd">const</span><span class="w"> </span><span class="nx">badger</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="s">&quot;boop&quot;</span><span class="err">;</span><span class="w"></span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">badger</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="s">"boop"</span><span class="err">;</span><span class="w"></span>
 <span class="kd">end</span><span class="err">;</span><span class="w"></span>
 <span class="cp">#!line 41 1 0 0 script.tremor</span><span class="w"></span>
 
-<span class="kd">let</span><span class="w"> </span><span class="nx">c</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="s">&quot;{snot::snot}{badger::badger}&quot;</span><span class="err">;</span><span class="w"></span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">c</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="s">"{snot::snot}{badger::badger}"</span><span class="err">;</span><span class="w"></span>
 
 <span class="kd">emit</span><span class="w"> </span><span class="nx">c</span><span class="w"></span>
 </code></pre></div>
-
-<h2 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">&para;</a></h2>
+<h2 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">¶</a></h2>
 <p>While constants in modules offer the ability to have reusable data,
 functions allow for reusable logic.</p>
 <p>Functions are expression-based - so every function returns a data
@@ -647,13 +425,13 @@ access constants but cannot access external mutable state.</p>
 <p>Functions are limited to only call functions that were defined prior to
 themselves, this limits the risk of cyclic recursion between multiple functions
 and ensure that every call is guaranteed to terminate.</p>
-<h3 id="functions-come-in-multiple-forms">Functions come in multiple forms:<a class="headerlink" href="#functions-come-in-multiple-forms" title="Permanent link">&para;</a></h3>
-<h4 id="intrinsic-functions">Intrinsic functions<a class="headerlink" href="#intrinsic-functions" title="Permanent link">&para;</a></h4>
+<h3 id="functions-come-in-multiple-forms">Functions come in multiple forms:<a class="headerlink" href="#functions-come-in-multiple-forms" title="Permanent link">¶</a></h3>
+<h4 id="intrinsic-functions">Intrinsic functions<a class="headerlink" href="#intrinsic-functions" title="Permanent link">¶</a></h4>
 <p>Intrinsic functions provide the signature of a builtin function.
 These are provided for documentation purposes and so that API
 documentation can be provided for builtin functions in the same way as
 user defined functions.</p>
-<div class="codehilite"><pre><span></span><code><span class="c1">### The `test` module is used for writing tremor unit</span>
+<div class="highlight"><pre><span></span><code><span class="c1">### The `test` module is used for writing tremor unit</span>
 <span class="c1">### tests.</span>
 
 <span class="c1">## Runs an assertion for a test, ensures that `expected` and</span>
@@ -667,22 +445,20 @@ user defined functions.</p>
 
 <span class="kd">intrinsic</span><span class="w"> </span><span class="kd">fn</span><span class="w"> </span><span class="nx">assert</span><span class="err">(</span><span class="nx">name</span><span class="err">,</span><span class="w"> </span><span class="nx">expected</span><span class="err">,</span><span class="w"> </span><span class="nx">got</span><span class="err">)</span><span class="w"> </span><span class="kd">as</span><span class="w"> </span><span class="nx">test</span><span class="err">::</span><span class="nx">assert</span><span class="err">;</span><span class="w"></span>
 </code></pre></div>
-
-<h4 id="ordinary-functions">Ordinary functions<a class="headerlink" href="#ordinary-functions" title="Permanent link">&para;</a></h4>
+<h4 id="ordinary-functions">Ordinary functions<a class="headerlink" href="#ordinary-functions" title="Permanent link">¶</a></h4>
 <p>Of the form <code>fn &lt;name&gt;([&lt;args&gt;][,...]) with</code> provide named arguments with
 optional variable arguments through the ellipses <code>...</code> or varargs operator.
 Varargs are stored in the <code>args</code> array.</p>
 <p>The ordinary form does not support partial functions.</p>
 <p>An ordinary function wrapping a call to a tail recursive fibonacci
 function:</p>
-<div class="codehilite"><pre><span></span><code><span class="kd">fn</span><span class="w"> </span><span class="nx">fib</span><span class="err">(</span><span class="nx">n</span><span class="err">)</span><span class="w"> </span><span class="kd">with</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="kd">fn</span><span class="w"> </span><span class="nx">fib</span><span class="err">(</span><span class="nx">n</span><span class="err">)</span><span class="w"> </span><span class="kd">with</span><span class="w"></span>
 <span class="w">  </span><span class="nx">fib_</span><span class="err">(</span><span class="mi">0</span><span class="err">,</span><span class="w"> </span><span class="mi">1</span><span class="err">,</span><span class="w"> </span><span class="nx">n</span><span class="err">)</span><span class="w"></span>
 <span class="kd">end</span><span class="err">;</span><span class="w"></span>
 
 <span class="nx">fib</span><span class="err">(</span><span class="mi">7</span><span class="err">);</span><span class="w"> </span><span class="c1"># Call locally defined function fib</span>
 </code></pre></div>
-
-<h4 id="matching-functions">Matching Functions<a class="headerlink" href="#matching-functions" title="Permanent link">&para;</a></h4>
+<h4 id="matching-functions">Matching Functions<a class="headerlink" href="#matching-functions" title="Permanent link">¶</a></h4>
 <p>Matching functions using <code>fn &lt;name&gt;(&lt;args&gt;) of</code> followed by case expressions
 and an optional default statement that match.</p>
 <p>The matching function form imposes a default case requirement so that
@@ -691,17 +467,16 @@ the default case in user defined functions must not ( and can not ) be
 omitted.</p>
 <p>A contrived example showing math functions with value matching, extractor
 matching and function case guards.</p>
-<div class="codehilite"><pre><span></span><code><span class="kd">use</span><span class="w"> </span><span class="nx">std</span><span class="err">::</span><span class="nx">type</span><span class="err">;</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="kd">use</span><span class="w"> </span><span class="nx">std</span><span class="err">::</span><span class="nx">type</span><span class="err">;</span><span class="w"></span>
 
 <span class="kd">fn</span><span class="w"> </span><span class="nx">snottify</span><span class="err">(</span><span class="nx">s</span><span class="err">)</span><span class="w"> </span><span class="kd">of</span><span class="w"></span>
-<span class="w">  </span><span class="kd">case</span><span class="w"> </span><span class="err">(</span><span class="s">&quot;badger&quot;</span><span class="err">)</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="s">&quot;snot badger, hell yea!&quot;</span><span class="w"></span>
+<span class="w">  </span><span class="kd">case</span><span class="w"> </span><span class="err">(</span><span class="s">"badger"</span><span class="err">)</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="s">"snot badger, hell yea!"</span><span class="w"></span>
 <span class="w">  </span><span class="kd">case</span><span class="w"> </span><span class="err">(\~</span><span class="w"> </span><span class="nx">json</span><span class="err">||)</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nx">s</span><span class="err">.</span><span class="nx">snot</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="kc">true</span><span class="err">,</span><span class="w"> </span><span class="nx">s</span><span class="w"></span>
-<span class="w">  </span><span class="kd">case</span><span class="w"> </span><span class="err">(</span><span class="nx">s</span><span class="err">)</span><span class="w"> </span><span class="kd">when</span><span class="w"> </span><span class="nx">type</span><span class="err">::</span><span class="nx">is_string</span><span class="err">(</span><span class="nx">s</span><span class="err">)</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="s">&quot;snot {s}&quot;</span><span class="w"></span>
-<span class="w">  </span><span class="kd">default</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="s">&quot;snot caller, you can&#39;t snottify that!&quot;</span><span class="w"></span>
+<span class="w">  </span><span class="kd">case</span><span class="w"> </span><span class="err">(</span><span class="nx">s</span><span class="err">)</span><span class="w"> </span><span class="kd">when</span><span class="w"> </span><span class="nx">type</span><span class="err">::</span><span class="nx">is_string</span><span class="err">(</span><span class="nx">s</span><span class="err">)</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="s">"snot {s}"</span><span class="w"></span>
+<span class="w">  </span><span class="kd">default</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="s">"snot caller, you can't snottify that!"</span><span class="w"></span>
 <span class="kd">end</span><span class="err">;</span><span class="w"></span>
 </code></pre></div>
-
-<h4 id="recursive-functions">Recursive Functions<a class="headerlink" href="#recursive-functions" title="Permanent link">&para;</a></h4>
+<h4 id="recursive-functions">Recursive Functions<a class="headerlink" href="#recursive-functions" title="Permanent link">¶</a></h4>
 <p>Tail recursive functions follow the signature of the function over
 which recursion is being invoked and use a <code>recur(&lt;args&gt;)</code> call expression.</p>
 <p>If the signature of a recursive call supports partial function
@@ -709,25 +484,24 @@ semantics then this is respected under tail recursion.</p>
 <p>If the signature of a recursive call supports varargs semantics then
 this is respected under tail recursion.</p>
 <p>A tail-recursive implementation of fibonacci called by fib(n) above:</p>
-<div class="codehilite"><pre><span></span><code><span class="kd">fn</span><span class="w"> </span><span class="nx">fib_</span><span class="err">(</span><span class="nx">a</span><span class="err">,</span><span class="w"> </span><span class="nx">b</span><span class="err">,</span><span class="w"> </span><span class="nx">n</span><span class="err">)</span><span class="w"> </span><span class="kd">of</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="kd">fn</span><span class="w"> </span><span class="nx">fib_</span><span class="err">(</span><span class="nx">a</span><span class="err">,</span><span class="w"> </span><span class="nx">b</span><span class="err">,</span><span class="w"> </span><span class="nx">n</span><span class="err">)</span><span class="w"> </span><span class="kd">of</span><span class="w"></span>
 <span class="w">  </span><span class="kd">case</span><span class="w"> </span><span class="err">(</span><span class="nx">a</span><span class="err">,</span><span class="w"> </span><span class="nx">b</span><span class="err">,</span><span class="w"> </span><span class="nx">n</span><span class="err">)</span><span class="w"> </span><span class="kd">when</span><span class="w"> </span><span class="nx">n</span><span class="w"> </span><span class="err">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="kd">recur</span><span class="err">(</span><span class="nx">b</span><span class="err">,</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="err">+</span><span class="w"> </span><span class="nx">b</span><span class="err">,</span><span class="w"> </span><span class="nx">n</span><span class="w"> </span><span class="err">-</span><span class="w"> </span><span class="mi">1</span><span class="err">)</span><span class="w"></span>
 <span class="w">  </span><span class="kd">default</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="nx">a</span><span class="w"></span>
 <span class="kd">end</span><span class="err">;</span><span class="w"></span>
 </code></pre></div>
-
-<h3 id="limitations-and-constraints">Limitations and constraints:<a class="headerlink" href="#limitations-and-constraints" title="Permanent link">&para;</a></h3>
-<h4 id="functions-can-only-be-defined-with-a-singular-arity">Functions can only be defined with a singular arity<a class="headerlink" href="#functions-can-only-be-defined-with-a-singular-arity" title="Permanent link">&para;</a></h4>
+<h3 id="limitations-and-constraints">Limitations and constraints:<a class="headerlink" href="#limitations-and-constraints" title="Permanent link">¶</a></h3>
+<h4 id="functions-can-only-be-defined-with-a-singular-arity">Functions can only be defined with a singular arity<a class="headerlink" href="#functions-can-only-be-defined-with-a-singular-arity" title="Permanent link">¶</a></h4>
 <p>Functions currently can not be redefined with multiple arities. So a
 function <code>foo(n)</code> precludes a second definition of a function called
 <code>foo</code> with two or more arguments. However the function <code>foo(n,...)</code>
 defines a function that can take one or more arguments. This constraint
 may be lifted in the future once usage and adoption favor enhancing
 functionality.</p>
-<h4 id="higher-order-functions-are-not-supported">Higher Order functions are not supported<a class="headerlink" href="#higher-order-functions-are-not-supported" title="Permanent link">&para;</a></h4>
+<h4 id="higher-order-functions-are-not-supported">Higher Order functions are not supported<a class="headerlink" href="#higher-order-functions-are-not-supported" title="Permanent link">¶</a></h4>
 <p>As the type system underpinning tremor-script and tremor-query does not
 support expression or function references, higher order functions are
 thus not supported at this time.</p>
-<h4 id="hardcoded-recursion-depth">Hardcoded Recursion Depth<a class="headerlink" href="#hardcoded-recursion-depth" title="Permanent link">&para;</a></h4>
+<h4 id="hardcoded-recursion-depth">Hardcoded Recursion Depth<a class="headerlink" href="#hardcoded-recursion-depth" title="Permanent link">¶</a></h4>
 <p>Although functions are tail-recursive and stack limits are not a
 functional concern, the tremor event processing system is primarily
 designed for event streaming applications. A recursion depth is imposed
@@ -737,7 +511,7 @@ streams from progressing.</p>
 when developing will behaved functions.</p>
 <p>At this point in time the maximum depth is 1024 and can not be changed
 without recompiling tremor.</p>
-<h2 id="tuple-patterns">Tuple patterns<a class="headerlink" href="#tuple-patterns" title="Permanent link">&para;</a></h2>
+<h2 id="tuple-patterns">Tuple patterns<a class="headerlink" href="#tuple-patterns" title="Permanent link">¶</a></h2>
 <p>As a side effect of adding functions this RFC introduces tuple patterns.
 Internally they are used to implement Matching functions but are available for
 use in match statements as well.</p>
@@ -753,18 +527,17 @@ the pattern but can have more otherwise the rules are the same.</p>
 <p>There is also a new pattern introduced to predicate patterns which is the "I
 don't care" pattern <code>_</code> which will match every element on an array.</p>
 <p>So:</p>
-<div class="codehilite"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">o</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="nx">origin</span><span class="err">::</span><span class="nx">as_uri_record</span><span class="err">();</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">o</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="nx">origin</span><span class="err">::</span><span class="nx">as_uri_record</span><span class="err">();</span><span class="w"></span>
 <span class="kd">match</span><span class="w"> </span><span class="nx">o</span><span class="w"> </span><span class="kd">of</span><span class="w"></span>
 <span class="w">  </span><span class="c1"># matches for the path:</span>
-<span class="w">  </span><span class="c1"># &quot;/api/v1/get/&lt;something&gt;&quot;</span>
-<span class="w">  </span><span class="c1"># &quot;/api/v1/get/&lt;something&gt;/snot&quot;</span>
-<span class="w">  </span><span class="c1"># &quot;/api/v1/get/&lt;something&gt;/snot/badger&quot;</span>
+<span class="w">  </span><span class="c1"># "/api/v1/get/&lt;something&gt;"</span>
+<span class="w">  </span><span class="c1"># "/api/v1/get/&lt;something&gt;/snot"</span>
+<span class="w">  </span><span class="c1"># "/api/v1/get/&lt;something&gt;/snot/badger"</span>
 <span class="w">  </span><span class="c1"># and so one</span>
-<span class="w">  </span><span class="kd">case</span><span class="w"> </span><span class="err">%(</span><span class="s">&quot;api&quot;</span><span class="err">,</span><span class="w"> </span><span class="s">&quot;v1&quot;</span><span class="err">,</span><span class="w"> </span><span class="s">&quot;get&quot;</span><span class="err">,</span><span class="w"> </span><span class="kc">_</span><span class="err">,</span><span class="w"> </span><span class="err">...)</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="s">&quot;get request&quot;</span><span class="w"></span>
+<span class="w">  </span><span class="kd">case</span><span class="w"> </span><span class="err">%(</span><span class="s">"api"</span><span class="err">,</span><span class="w"> </span><span class="s">"v1"</span><span class="err">,</span><span class="w"> </span><span class="s">"get"</span><span class="err">,</span><span class="w"> </span><span class="kc">_</span><span class="err">,</span><span class="w"> </span><span class="err">...)</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="s">"get request"</span><span class="w"></span>
 <span class="kd">end</span><span class="err">;</span><span class="w"></span>
 </code></pre></div>
-
-<h1 id="reference-level-explanation">Reference-level explanation<a class="headerlink" href="#reference-level-explanation" title="Permanent link">&para;</a></h1>
+<h1 id="reference-level-explanation">Reference-level explanation<a class="headerlink" href="#reference-level-explanation" title="Permanent link">¶</a></h1>
 <p>The module path, modules and <code>use</code> rule provide the language and
 runtime agnostic core facilities that allow queries in tremor-query and
 code in tremor-script to be namespaced logically via the <code>mod</code> syntax
@@ -798,7 +571,7 @@ default behaviour.</p>
 <p>In tremor-server <code>TREMOR_PATH</code> is required to be set or no include
 path will be available. This is reflected in the docker
 image.</p>
-<h1 id="drawbacks">Drawbacks<a class="headerlink" href="#drawbacks" title="Permanent link">&para;</a></h1>
+<h1 id="drawbacks">Drawbacks<a class="headerlink" href="#drawbacks" title="Permanent link">¶</a></h1>
 <p>Modularising logic in tremor increases complexity of the engine and
 runtime, however the relative increase in complexity is perceived as
 negligible given the value gained by developers by introducing the
@@ -811,80 +584,62 @@ JSON. This is left for a future RFC.</p>
 of windows, operators or scripts. The creation of query language
 pipeline graph nodes or link of nodes in a graph is not supported in
 external modules.</p>
-<h1 id="rationale-and-alternatives">Rationale and alternatives<a class="headerlink" href="#rationale-and-alternatives" title="Permanent link">&para;</a></h1>
+<h1 id="rationale-and-alternatives">Rationale and alternatives<a class="headerlink" href="#rationale-and-alternatives" title="Permanent link">¶</a></h1>
 <p>The design of the module mechanism and its application to tremor-script
 and tremor-query provide the highest degree of reuse whilst imposing the
 lowest runtime impact today and without closing off opportunities for
 evolving and improving the mechanisms in future.</p>
-<h1 id="prior-art">Prior art<a class="headerlink" href="#prior-art" title="Permanent link">&para;</a></h1>
+<h1 id="prior-art">Prior art<a class="headerlink" href="#prior-art" title="Permanent link">¶</a></h1>
 <p>This RFC and it's implementation draws inspiration from the C
 preprocessor as well as the application of <code>use</code> in Rust, and the
 functional pattern matching style from the Erlang programming
 language.</p>
-<h1 id="unresolved-questions">Unresolved questions<a class="headerlink" href="#unresolved-questions" title="Permanent link">&para;</a></h1>
+<h1 id="unresolved-questions">Unresolved questions<a class="headerlink" href="#unresolved-questions" title="Permanent link">¶</a></h1>
 <p>None.</p>
-<h1 id="future-possibilities">Future possibilities<a class="headerlink" href="#future-possibilities" title="Permanent link">&para;</a></h1>
+<h1 id="future-possibilities">Future possibilities<a class="headerlink" href="#future-possibilities" title="Permanent link">¶</a></h1>
 <p>Currently var arg functions do not combine with either match or
 recursion or matching functions. This presents a good future opportunity
 for extending functions.</p>
 <p>Another future possibility is to expand the capabilities of use in
 trickle to include full sub queries.</p>
-                
-              
-              
-                
-
-
-              
-            </article>
-          </div>
-        </div>
-      </main>
-      
-        
+</article>
+</div>
+</div>
+</main>
 <footer class="md-footer">
-  
-    <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
-        
-          <a href="../0009-ramp-interface/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-footer-nav__button md-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-            </div>
-            <div class="md-footer-nav__title">
-              <div class="md-ellipsis">
-                <span class="md-footer-nav__direction">
+<div class="md-footer-nav">
+<nav aria-label="Footer" class="md-footer-nav__inner md-grid">
+<a class="md-footer-nav__link md-footer-nav__link--prev" href="../0009-ramp-interface/" rel="prev">
+<div class="md-footer-nav__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</div>
+<div class="md-footer-nav__title">
+<div class="md-ellipsis">
+<span class="md-footer-nav__direction">
                   Previous
                 </span>
                 0009-ramp-interface
               </div>
-            </div>
-          </a>
-        
-        
-      </nav>
-    </div>
-  
-  <div class="md-footer-meta md-typeset">
-    <div class="md-footer-meta__inner md-grid">
-      <div class="md-footer-copyright">
+</div>
+</a>
+</nav>
+</div>
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-footer-copyright">
         
         Made with
-        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+        <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
           Material for MkDocs
         </a>
-      </div>
-      
-    </div>
-  </div>
+</div>
+</div>
+</div>
 </footer>
-      
-    </div>
-    
-      <script src="../assets/javascripts/vendor.77e55a48.min.js"></script>
-      <script src="../assets/javascripts/bundle.9554a270.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
-      
-      <script>
+</div>
+<script src="../assets/javascripts/vendor.0ac82a11.min.js"></script>
+<script src="../assets/javascripts/bundle.f81dfb4d.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+<script>
         app = initialize({
           base: "..",
           features: [],
@@ -893,7 +648,6 @@ trickle to include full sub queries.</p>
           }, typeof search !== "undefined" && search)
         })
       </script>
-      
-    
-  </body>
+<script src="https://unpkg.com/mermaid@8.8.4/dist/mermaid.min.js"></script>
+</body>
 </html>

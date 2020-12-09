@@ -1,693 +1,403 @@
 
-<!doctype html>
-<html lang="en" class="no-js">
-  <head>
-    
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width,initial-scale=1">
-      
-      
-      
-        <meta name="author" content="The Tremor Team">
-      
-      <link rel="shortcut icon" href="assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.0.2">
-    
-    
-      
-        <title>Tremor RFCs</title>
-      
-    
-    
-      <link rel="stylesheet" href="assets/stylesheets/main.38780c08.min.css">
-      
-        
-        <link rel="stylesheet" href="assets/stylesheets/palette.3f72e892.min.css">
-        
-          
-          
-          <meta name="theme-color" content="#000000">
-        
-      
-    
-    
-    
-      
-        
-        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
-        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
-      
-    
-    
-    
-    
-      
-    
-    
-  </head>
-  
-  
-    
-    
-    
-    
-    
-    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="black" data-md-color-accent="indigo">
-      
-  
-    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
-    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
-    <label class="md-overlay" for="__drawer"></label>
-    <div data-md-component="skip">
-      
-        
-        <a href="#tremor-rfcs-active-rfc-list" class="md-skip">
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="The Tremor Team" name="author"/>
+<link href="assets/images/favicon.png" rel="shortcut icon"/>
+<meta content="mkdocs-1.1.2, mkdocs-material-6.1.7" name="generator"/>
+<title>Tremor RFCs</title>
+<link href="assets/stylesheets/main.19753c6b.min.css" rel="stylesheet"/>
+<link href="assets/stylesheets/palette.196e0c26.min.css" rel="stylesheet"/>
+<meta content="#000000" name="theme-color"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&amp;display=fallback" rel="stylesheet"/>
+<style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+</head>
+<body data-md-color-accent="indigo" data-md-color-primary="black" data-md-color-scheme="" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#tremor-rfcs-active-rfc-list">
           Skip to content
         </a>
-      
-    </div>
-    <div data-md-component="announce">
-      
-    </div>
-    
-      <header class="md-header" data-md-component="header">
-  <nav class="md-header-nav md-grid" aria-label="Header">
-    <a href="." title="Tremor RFCs" class="md-header-nav__button md-logo" aria-label="Tremor RFCs">
-      
-  <img src="img/logo.png" alt="logo">
-
-    </a>
-    <label class="md-header-nav__button md-icon" for="__drawer">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
-    </label>
-    <div class="md-header-nav__title" data-md-component="header-title">
-      
-        <div class="md-header-nav__ellipsis">
-          <span class="md-header-nav__topic md-ellipsis">
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header" data-md-component="header">
+<nav aria-label="Header" class="md-header-nav md-grid">
+<a aria-label="Tremor RFCs" class="md-header-nav__button md-logo" href="." title="Tremor RFCs">
+<img alt="logo" src="img/logo.png"/>
+</a>
+<label class="md-header-nav__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"></path></svg>
+</label>
+<div class="md-header-nav__title" data-md-component="header-title">
+<div class="md-header-nav__ellipsis">
+<span class="md-header-nav__topic md-ellipsis">
             Tremor RFCs
           </span>
-          <span class="md-header-nav__topic md-ellipsis">
+<span class="md-header-nav__topic md-ellipsis">
             
               Home
             
           </span>
-        </div>
-      
-    </div>
-    
-      <label class="md-header-nav__button md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
-      </label>
-      
+</div>
+</div>
+<label class="md-header-nav__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"></path></svg>
+</label>
 <div class="md-search" data-md-component="search" role="dialog">
-  <label class="md-search__overlay" for="__search"></label>
-  <div class="md-search__inner" role="search">
-    <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
-      <label class="md-search__icon md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-      </label>
-      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
-      </button>
-    </form>
-    <div class="md-search__output">
-      <div class="md-search__scrollwrap" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="search-result">
-          <div class="md-search-result__meta">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" data-md-state="active" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</label>
+<button aria-label="Clear" class="md-search__icon md-icon" data-md-component="search-reset" tabindex="-1" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"></path></svg>
+</button>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
             Initializing search
           </div>
-          <ol class="md-search-result__list"></ol>
-        </div>
-      </div>
-    </div>
-  </div>
+<ol class="md-search-result__list"></ol>
 </div>
-    
-    
-      <div class="md-header-nav__source">
-        
-<a href="https://github.com/tremor-rs/tremor-rfcs/" title="Go to repository" class="md-source">
-  <div class="md-source__icon md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
-  </div>
-  <div class="md-source__repository">
+</div>
+</div>
+</div>
+</div>
+<div class="md-header-nav__source">
+<a class="md-source" href="https://github.com/tremor-rs/tremor-rfcs/" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"></path></svg>
+</div>
+<div class="md-source__repository">
     tremor-rs/tremor-rfcs
   </div>
 </a>
-      </div>
-    
-  </nav>
+</div>
+</nav>
 </header>
-    
-    <div class="md-container" data-md-component="container">
-      
-      
-        
-      
-      <main class="md-main" data-md-component="main">
-        <div class="md-main__inner md-grid">
-          
-            
-              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
-  <label class="md-nav__title" for="__drawer">
-    <a href="." title="Tremor RFCs" class="md-nav__button md-logo" aria-label="Tremor RFCs">
-      
-  <img src="img/logo.png" alt="logo">
-
-    </a>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Tremor RFCs" class="md-nav__button md-logo" href="." title="Tremor RFCs">
+<img alt="logo" src="img/logo.png"/>
+</a>
     Tremor RFCs
   </label>
-  
-    <div class="md-nav__source">
-      
-<a href="https://github.com/tremor-rs/tremor-rfcs/" title="Go to repository" class="md-source">
-  <div class="md-source__icon md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
-  </div>
-  <div class="md-source__repository">
+<div class="md-nav__source">
+<a class="md-source" href="https://github.com/tremor-rs/tremor-rfcs/" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"></path></svg>
+</div>
+<div class="md-source__repository">
     tremor-rs/tremor-rfcs
   </div>
 </a>
-    </div>
-  
-  <ul class="md-nav__list" data-md-scrollfix>
-    
-      
-      
-      
-
-  
-
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" data-md-toggle="toc" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
         Home
         <span class="md-nav__icon md-icon"></span>
-      </label>
-    
-    <a href="." class="md-nav__link md-nav__link--active">
+</label>
+<a class="md-nav__link md-nav__link--active" href=".">
       Home
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#table-of-contents" class="md-nav__link">
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#table-of-contents">
     Table of Contents
   </a>
-  
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#when-you-need-to-follow-this-process" class="md-nav__link">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#when-you-need-to-follow-this-process">
     When you need to follow this process
   </a>
-  
-    <nav class="md-nav" aria-label="When you need to follow this process">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#sub-team-specific-guidelines" class="md-nav__link">
+<nav aria-label="When you need to follow this process" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#sub-team-specific-guidelines">
     Sub-team specific guidelines
   </a>
-  
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#before-creating-an-rfc" class="md-nav__link">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#before-creating-an-rfc">
     Before creating an RFC
   </a>
-  
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#what-the-process-is" class="md-nav__link">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#what-the-process-is">
     What the process is
   </a>
-  
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#the-rfc-life-cycle" class="md-nav__link">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#the-rfc-life-cycle">
     The RFC life-cycle
   </a>
-  
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#reviewing-rfcs" class="md-nav__link">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#reviewing-rfcs">
     Reviewing RFCs
   </a>
-  
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#implementing-an-rfc" class="md-nav__link">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#implementing-an-rfc">
     Implementing an RFC
   </a>
-  
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#rfc-postponement" class="md-nav__link">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#rfc-postponement">
     RFC Postponement
   </a>
-  
-    <nav class="md-nav" aria-label="RFC Postponement">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#help-this-is-all-too-informal" class="md-nav__link">
+<nav aria-label="RFC Postponement" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#help-this-is-all-too-informal">
     Help this is all too informal!
   </a>
-  
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#license" class="md-nav__link">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#license">
     License
   </a>
-  
-    <nav class="md-nav" aria-label="License">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#contributions" class="md-nav__link">
+<nav aria-label="License" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#contributions">
     Contributions
   </a>
-  
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#origins" class="md-nav__link">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#origins">
     Origins
   </a>
-  
 </li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
+</ul>
 </nav>
-    
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
-    <a href="api_changes/" class="md-nav__link">
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="api_changes/">
       API Changes
     </a>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
-    <a href="arch_changes/" class="md-nav__link">
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="arch_changes/">
       Architectural Changes
     </a>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
-    <a href="lang_changes/" class="md-nav__link">
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="lang_changes/">
       Language Changes
     </a>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
-    <a href="libs_changes/" class="md-nav__link">
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="libs_changes/">
       Library Changes
     </a>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
-    <a href="0000-template/" class="md-nav__link">
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="0000-template/">
       RFC Template
     </a>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
-    
-    <label class="md-nav__link" for="nav-7">
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" data-md-toggle="nav-7" id="nav-7" type="checkbox"/>
+<label class="md-nav__link" for="nav-7">
       RFCs
       <span class="md-nav__icon md-icon"></span>
-    </label>
-    <nav class="md-nav" aria-label="RFCs" data-md-level="1">
-      <label class="md-nav__title" for="nav-7">
-        <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-label="RFCs" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="nav-7">
+<span class="md-nav__icon md-icon"></span>
         RFCs
       </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="0001-remove-actix-from-tremor-runtime/" class="md-nav__link">
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="0001-remove-actix-from-tremor-runtime/">
       0001-remove-actix-from-tremor-runtime
     </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="0002-pipeline-state-mechanism/" class="md-nav__link">
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="0002-pipeline-state-mechanism/">
       0002-pipeline-state-mechanism
     </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="0003-linked-transports/" class="md-nav__link">
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="0003-linked-transports/">
       0003-linked-transports
     </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="0004-sliding-window-mechanism/" class="md-nav__link">
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="0004-sliding-window-mechanism/">
       0004-sliding-window-mechanism
     </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="0005-circuit-breaker-mechanism/" class="md-nav__link">
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="0005-circuit-breaker-mechanism/">
       0005-circuit-breaker-mechanism
     </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="0006-plugin-development-kit/" class="md-nav__link">
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="0006-plugin-development-kit/">
       0006-plugin-development-kit
     </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="0007-pipeline-optimizations/" class="md-nav__link">
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="0007-pipeline-optimizations/">
       0007-pipeline-optimizations
     </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="0008-onramp-postgres/" class="md-nav__link">
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="0008-onramp-postgres/">
       0008-onramp-postgres
     </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="0009-ramp-interface/" class="md-nav__link">
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="0009-ramp-interface/">
       0009-ramp-interface
     </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="0010-modularity/" class="md-nav__link">
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="0010-modularity/">
       0010-modularity
     </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-  </ul>
+</li>
+</ul>
 </nav>
-                  </div>
-                </div>
-              </div>
-            
-            
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#table-of-contents" class="md-nav__link">
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#table-of-contents">
     Table of Contents
   </a>
-  
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#when-you-need-to-follow-this-process" class="md-nav__link">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#when-you-need-to-follow-this-process">
     When you need to follow this process
   </a>
-  
-    <nav class="md-nav" aria-label="When you need to follow this process">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#sub-team-specific-guidelines" class="md-nav__link">
+<nav aria-label="When you need to follow this process" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#sub-team-specific-guidelines">
     Sub-team specific guidelines
   </a>
-  
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#before-creating-an-rfc" class="md-nav__link">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#before-creating-an-rfc">
     Before creating an RFC
   </a>
-  
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#what-the-process-is" class="md-nav__link">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#what-the-process-is">
     What the process is
   </a>
-  
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#the-rfc-life-cycle" class="md-nav__link">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#the-rfc-life-cycle">
     The RFC life-cycle
   </a>
-  
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#reviewing-rfcs" class="md-nav__link">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#reviewing-rfcs">
     Reviewing RFCs
   </a>
-  
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#implementing-an-rfc" class="md-nav__link">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#implementing-an-rfc">
     Implementing an RFC
   </a>
-  
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#rfc-postponement" class="md-nav__link">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#rfc-postponement">
     RFC Postponement
   </a>
-  
-    <nav class="md-nav" aria-label="RFC Postponement">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#help-this-is-all-too-informal" class="md-nav__link">
+<nav aria-label="RFC Postponement" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#help-this-is-all-too-informal">
     Help this is all too informal!
   </a>
-  
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#license" class="md-nav__link">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#license">
     License
   </a>
-  
-    <nav class="md-nav" aria-label="License">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#contributions" class="md-nav__link">
+<nav aria-label="License" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#contributions">
     Contributions
   </a>
-  
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#origins" class="md-nav__link">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#origins">
     Origins
   </a>
-  
 </li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
+</ul>
 </nav>
-                  </div>
-                </div>
-              </div>
-            
-          
-          <div class="md-content">
-            <article class="md-content__inner md-typeset">
-              
-                
-                  <a href="https://github.com/tremor-rs/tremor-rfcs/edit/main/README.md" title="Edit this page" class="md-content__button md-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
-                  </a>
-                
-                
-                <h1 id="tremor-rfcs-active-rfc-list">Tremor RFCs - <a href="https://rfcs.tremor.rs/">Active RFC List</a><a class="headerlink" href="#tremor-rfcs-active-rfc-list" title="Permanent link">&para;</a></h1>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content">
+<article class="md-content__inner md-typeset">
+<a class="md-content__button md-icon" href="https://github.com/tremor-rs/tremor-rfcs/edit/main/README.md" title="Edit this page">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"></path></svg>
+</a>
+<h1 id="tremor-rfcs-active-rfc-list">Tremor RFCs - <a href="https://rfcs.tremor.rs/">Active RFC List</a><a class="headerlink" href="#tremor-rfcs-active-rfc-list" title="Permanent link">¶</a></h1>
 <p>Many changes, including bug fixes and documentation improvements can be
 implemented and reviewed via the normal GitHub pull request workflow.</p>
 <p>Some changes though are "substantial", and we ask that these be put through a
@@ -697,7 +407,7 @@ the sub-teams.</p>
 and controlled path for new features to enter the project and associated sub
 projects and libraries, so that all stakeholders can be confident about the
 direction the project is evolving in.</p>
-<h2 id="table-of-contents">Table of Contents<a class="headerlink" href="#table-of-contents" title="Permanent link">&para;</a></h2>
+<h2 id="table-of-contents">Table of Contents<a class="headerlink" href="#table-of-contents" title="Permanent link">¶</a></h2>
 <ul>
 <li><a href="#tremor-rfcs">Opening</a></li>
 <li><a href="#table-of-contents">Table of Contents</a></li>
@@ -712,7 +422,7 @@ direction the project is evolving in.</p>
 <li><a href="#license">License</a></li>
 <li><a href="#origins">Origins</a></li>
 </ul>
-<h2 id="when-you-need-to-follow-this-process">When you need to follow this process<a class="headerlink" href="#when-you-need-to-follow-this-process" title="Permanent link">&para;</a></h2>
+<h2 id="when-you-need-to-follow-this-process">When you need to follow this process<a class="headerlink" href="#when-you-need-to-follow-this-process" title="Permanent link">¶</a></h2>
 <p>You need to follow this process if you intend to make "substantial" changes to
 Tremor, Tremor-Script, Tremor-Query, Tremor pipelines, concurrency model,
 or the RFC process itself. What constitutes a "substantial" change is evolving
@@ -737,7 +447,7 @@ are proposing to change, but may include the following.</p>
 </ul>
 <p>If you submit a pull request to implement a new feature without going through
 the RFC process, it may be closed with a polite request to submit an RFC first.</p>
-<h3 id="sub-team-specific-guidelines">Sub-team specific guidelines<a class="headerlink" href="#sub-team-specific-guidelines" title="Permanent link">&para;</a></h3>
+<h3 id="sub-team-specific-guidelines">Sub-team specific guidelines<a class="headerlink" href="#sub-team-specific-guidelines" title="Permanent link">¶</a></h3>
 <p>For more details on when an RFC is required for the following areas, please see
 the Tremor community's [sub-team] specific guidelines for:</p>
 <ul>
@@ -746,7 +456,7 @@ the Tremor community's [sub-team] specific guidelines for:</p>
 <li><a href="api_changes/">api changes</a>.</li>
 <li><a href="arch_changes/">architecture changes</a>.</li>
 </ul>
-<h2 id="before-creating-an-rfc">Before creating an RFC<a class="headerlink" href="#before-creating-an-rfc" title="Permanent link">&para;</a></h2>
+<h2 id="before-creating-an-rfc">Before creating an RFC<a class="headerlink" href="#before-creating-an-rfc" title="Permanent link">¶</a></h2>
 <p>A hastily-proposed RFC can hurt its chances of acceptance. Low quality
 proposals, proposals for previously-rejected features, or those that don't fit
 into the near-term roadmap, may be quickly rejected, which can be demotivating
@@ -763,7 +473,7 @@ not actively looked at by the teams.</p>
 <p>As a rule of thumb, receiving encouraging feedback from long-standing project
 developers, and particularly members of the relevant [sub-team] is a good
 indication that the RFC is worth pursuing.</p>
-<h2 id="what-the-process-is">What the process is<a class="headerlink" href="#what-the-process-is" title="Permanent link">&para;</a></h2>
+<h2 id="what-the-process-is">What the process is<a class="headerlink" href="#what-the-process-is" title="Permanent link">¶</a></h2>
 <p>In short, to get a major feature added to Tremor, one must first get the RFC
 merged into the RFC repository as a markdown file. At that point the RFC is
 "active" and may be implemented with the goal of eventual inclusion into Tremor.</p>
@@ -820,7 +530,7 @@ in full depth.</li>
     closed. However, sometimes substantial new arguments or ideas are raised,
     the FCP is canceled, and the RFC goes back into development mode.</li>
 </ul>
-<h2 id="the-rfc-life-cycle">The RFC life-cycle<a class="headerlink" href="#the-rfc-life-cycle" title="Permanent link">&para;</a></h2>
+<h2 id="the-rfc-life-cycle">The RFC life-cycle<a class="headerlink" href="#the-rfc-life-cycle" title="Permanent link">¶</a></h2>
 <p>Once an RFC becomes "active" then authors may implement it and submit the
 feature as a pull request to the Tremor repo. Being "active" is not a rubber
 stamp, and in particular still does not mean the feature will ultimately be
@@ -843,7 +553,7 @@ minor changes should be submitted as amendments. More substantial changes
 should be new RFCs, with a note added to the original RFC. Exactly what counts
 as a "very minor change" is up to the sub-team to decide; check
 <a href="#sub-team-specific-guidelines">Sub-team specific guidelines</a> for more details.</p>
-<h2 id="reviewing-rfcs">Reviewing RFCs<a class="headerlink" href="#reviewing-rfcs" title="Permanent link">&para;</a></h2>
+<h2 id="reviewing-rfcs">Reviewing RFCs<a class="headerlink" href="#reviewing-rfcs" title="Permanent link">¶</a></h2>
 <p>While the RFC pull request is up, the sub-team may schedule meetings with the
 author and/or relevant stakeholders to discuss the issues in greater detail,
 and in some cases the topic may be discussed at a sub-team meeting. In either
@@ -854,7 +564,7 @@ will regularly issue decisions. When a decision is made, the RFC pull request
 will either be merged or closed. In either case, if the reasoning is not clear
 from the discussion in thread, the sub-team will add a comment describing the
 rationale for the decision.</p>
-<h2 id="implementing-an-rfc">Implementing an RFC<a class="headerlink" href="#implementing-an-rfc" title="Permanent link">&para;</a></h2>
+<h2 id="implementing-an-rfc">Implementing an RFC<a class="headerlink" href="#implementing-an-rfc" title="Permanent link">¶</a></h2>
 <p>Some accepted RFCs represent vital features that need to be implemented right
 away. Other accepted RFCs can represent features that can wait until some
 arbitrary developer feels like doing the work. Every accepted RFC has an
@@ -867,7 +577,7 @@ review after the RFC has been accepted.</p>
 <p>If you are interested in working on the implementation for an "active" RFC, but
 cannot determine if someone else is already working on it, feel free to ask
 (e.g. by leaving a comment on the associated issue).</p>
-<h2 id="rfc-postponement">RFC Postponement<a class="headerlink" href="#rfc-postponement" title="Permanent link">&para;</a></h2>
+<h2 id="rfc-postponement">RFC Postponement<a class="headerlink" href="#rfc-postponement" title="Permanent link">¶</a></h2>
 <p>Some RFC pull requests are tagged with the "postponed" label when they are
 closed (as part of the rejection process). An RFC closed with "postponed" is
 marked as such because we want neither to think about evaluating the proposal
@@ -880,75 +590,57 @@ informal first round of evaluation, namely the round of "do we think we would
 ever possibly consider making this change, as outlined in the RFC pull request,
 or some semi-obvious variation of it." (When the answer to the latter question
 is "no", then the appropriate response is to close the RFC, not postpone it.)</p>
-<h3 id="help-this-is-all-too-informal">Help this is all too informal!<a class="headerlink" href="#help-this-is-all-too-informal" title="Permanent link">&para;</a></h3>
+<h3 id="help-this-is-all-too-informal">Help this is all too informal!<a class="headerlink" href="#help-this-is-all-too-informal" title="Permanent link">¶</a></h3>
 <p>The process is intended to be as lightweight as reasonable for the present
 circumstances. As usual, we are trying to let the process be driven by
 consensus and community norms, not impose more structure than necessary.</p>
-<h2 id="license">License<a class="headerlink" href="#license" title="Permanent link">&para;</a></h2>
+<h2 id="license">License<a class="headerlink" href="#license" title="Permanent link">¶</a></h2>
 <p>This repository is currently licensed under:</p>
 <ul>
 <li>Apache License, Version 2.0, (<a href="LICENSE.txt">LICENSE</a> or http://www.apache.org/licenses/LICENSE-2.0)</li>
 </ul>
-<h3 id="contributions">Contributions<a class="headerlink" href="#contributions" title="Permanent link">&para;</a></h3>
+<h3 id="contributions">Contributions<a class="headerlink" href="#contributions" title="Permanent link">¶</a></h3>
 <p>Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in the work by you, as defined in the Apache-2.0 license, shall be licensed as above, without any additional terms or conditions.</p>
-<h3 id="origins">Origins<a class="headerlink" href="#origins" title="Permanent link">&para;</a></h3>
+<h3 id="origins">Origins<a class="headerlink" href="#origins" title="Permanent link">¶</a></h3>
 <p>This process derives from and is based on the rust language community rfc process <a href="https://github.com/rust-lang/rfcs">from here</a></p>
-                
-              
-              
-                
-
-
-              
-            </article>
-          </div>
-        </div>
-      </main>
-      
-        
+</article>
+</div>
+</div>
+</main>
 <footer class="md-footer">
-  
-    <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
-        
-        
-          <a href="api_changes/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-footer-nav__title">
-              <div class="md-ellipsis">
-                <span class="md-footer-nav__direction">
+<div class="md-footer-nav">
+<nav aria-label="Footer" class="md-footer-nav__inner md-grid">
+<a class="md-footer-nav__link md-footer-nav__link--next" href="api_changes/" rel="next">
+<div class="md-footer-nav__title">
+<div class="md-ellipsis">
+<span class="md-footer-nav__direction">
                   Next
                 </span>
                 API Changes
               </div>
-            </div>
-            <div class="md-footer-nav__button md-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
-            </div>
-          </a>
-        
-      </nav>
-    </div>
-  
-  <div class="md-footer-meta md-typeset">
-    <div class="md-footer-meta__inner md-grid">
-      <div class="md-footer-copyright">
+</div>
+<div class="md-footer-nav__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"></path></svg>
+</div>
+</a>
+</nav>
+</div>
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-footer-copyright">
         
         Made with
-        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+        <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
           Material for MkDocs
         </a>
-      </div>
-      
-    </div>
-  </div>
+</div>
+</div>
+</div>
 </footer>
-      
-    </div>
-    
-      <script src="assets/javascripts/vendor.77e55a48.min.js"></script>
-      <script src="assets/javascripts/bundle.9554a270.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
-      
-      <script>
+</div>
+<script src="assets/javascripts/vendor.0ac82a11.min.js"></script>
+<script src="assets/javascripts/bundle.f81dfb4d.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+<script>
         app = initialize({
           base: ".",
           features: [],
@@ -957,7 +649,6 @@ consensus and community norms, not impose more structure than necessary.</p>
           }, typeof search !== "undefined" && search)
         })
       </script>
-      
-    
-  </body>
+<script src="https://unpkg.com/mermaid@8.8.4/dist/mermaid.min.js"></script>
+</body>
 </html>
