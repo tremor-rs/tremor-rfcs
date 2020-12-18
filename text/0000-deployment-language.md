@@ -402,7 +402,7 @@ Every artefact that was defined can be created, optionally passing arguments:
 EBNF:
 
 ```
-CREATE          = "create" "instance" instance_id "from" artefact_type "/" artefact_id
+create          = "create" "instance" instance_id "from" artefact_type "/" artefact_id
                   [ "with" assignment_list ]
                   "end"
 assignment_list = assignment [ "," assignment_list ]
