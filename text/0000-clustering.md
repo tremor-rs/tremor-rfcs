@@ -22,7 +22,7 @@ logs/metrics even when some Tremor nodes go down). Moreover, it allows for
 denser Tremor deployments with regards to the total host footprint (thus saving
 more on hardware resources), and also eases the propagation/synchronization of
 changes that need to touch all hosts, opening up nicer ways of doing tremor
-pipeline deployments (puppet-based currently).
+pipeline deployments.
 
 # Guide-level explanation
 [guide-level-explanation]: #guide-level-explanation
