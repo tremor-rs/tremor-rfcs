@@ -127,7 +127,7 @@ For implementation-oriented RFCs (e.g. for language internals), this section sho
 # Reference-level explanation
 [reference-level-explanation]: #reference-level-explanation
 
-Troy supports 2 very basic operations / kinds of statements:
+Troy supports two very basic operations / kinds of statements:
 
  * Definition of artefacts
  * Creation of artefacts
