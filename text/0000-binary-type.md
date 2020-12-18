@@ -65,7 +65,7 @@ The binary semi-literals will, whenever possible be turned into full-literals us
 # Drawbacks
 [drawbacks]: #drawbacks
 
-This breaks symetry with the JSON representation, however all differences can be recovered using the provided tremor-script functionality.
+This breaks symmetry with the JSON representation, however all differences can be recovered using the provided tremor-script functionality.
 # Rationale and alternatives
 [rationale-and-alternatives]: #rationale-and-alternatives
 
