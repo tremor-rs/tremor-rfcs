@@ -33,7 +33,7 @@ This is codec dependant and not always symmetric, can not represent binary data 
 
 ## Syntax
 
-We use the (erlang bit syntax)[https://erlang.org/doc/programming_examples/bit_syntax.html] as an inspiration. Tremor script gains support for binary semi-literals using the form of `<< expr1, expr2 >>` where `expr` has to return a 1-byte number. More elaborate forms, such as bitwise size and different types are aimed to be added later and follow the erlang bit syntax.
+We use the [erlang bit syntax](https://erlang.org/doc/programming_examples/bit_syntax.html) as an inspiration. Tremor script gains support for binary semi-literals using the form of `<< expr1, expr2 >>` where `expr` has to return a 1-byte number. More elaborate forms, such as bitwise size and different types are aimed to be added later and follow the erlang bit syntax.
 
 Binary matching will likely follow the same logical pattern as other matching syntaxes, and aim to provide at least erlang style dissection of binary data.
 
