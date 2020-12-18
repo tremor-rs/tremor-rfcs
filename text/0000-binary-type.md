@@ -58,7 +58,7 @@ The `msgpack` codec should encode and decode binary as `bin` types.
 
 The `binary` type is a `Vec<u8>` that serializes as base64 encoded string in simd-json and as `bytes`.
 
-It the new implemented functions are all constant, so will be able to be pre-computed when constant folding is possible.
+If the new implemented functions are all constant, they will be able to be pre-computed when constant folding is possible.
 
 The binary semi-literals will, whenever possible be turned into full-literals using constant folding, but remain constructs where not following the example of arrays and records.
 
