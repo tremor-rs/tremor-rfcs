@@ -56,7 +56,7 @@ The `msgpack` codec should encode and decode binary as `bin` types.
 # Reference-level explanation
 [reference-level-explanation]: #reference-level-explanation
 
-The `binary` type is a `Vec<u8>` that serializes as base64 encoded string in simd-json and as `bytes`.
+The `binary` type is a `Vec<u8>` that serializes as base64 encoded string in simd-json and as `bytes` in serde compatible encoders.
 
 If the new implemented functions are all constant, they will be able to be pre-computed when constant folding is possible.
 
