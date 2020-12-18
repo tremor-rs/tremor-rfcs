@@ -66,7 +66,42 @@ Similar to trickle, Troy also supports modularization and `use` statements using
 ## Example
 
 ```
-define 
+define http_server connector my_http_connector
+args
+  server = "Tremor/1.2.3",
+with
+  codec = "json",
+  interceptors = [ "newline" ],
+  config.headers = {
+      "Server": args.server
+  }
+end;
+
+define file connector my_file
+with
+    config.path = "/snot/badger.json",
+    codec = "json",
+    interceptors = [ "newline" ]
+end;
+
+define pipeline passthrough
+query
+    select event from in into out;
+end;
+
+create connector instance "01" from my_http_connector
+with
+    server = "Tremor/3.2.1"
+end;
+
+define flow
+links
+    # reference artefacts by id
+    connect "/connector/my_http_connector/01:out" to "/pipeline/passthrough:in";
+    # implicit default ports
+    connect passthrough to my_file;
+end;
+    
 ```
 
 
@@ -84,23 +119,297 @@ For implementation-oriented RFCs (e.g. for language internals), this section sho
 # Reference-level explanation
 [reference-level-explanation]: #reference-level-explanation
 
+Troy supports 2 very basic operations / kinds of statements:
+
+ * Definition of artefacts
+ * Creation of artefacts
+
 ## Artefact definition
+
+Artefact definition creates a referencable artefact inside the tremor repository.
+It contains:
+
+ * an id that is unique per
+ * intrinsic connector type this artefact is based on
+ * generic connector config
+ * specific config for the connector type
+ * possibly a list of arguments that can/need to be provided upon creating/instantiating this artefact
+
+There are many artefacts like connectors, sources, sinks, pipelines, deployments.
+Here we want to describe 3 special artefacts: Connectors, Pipelines, Deployments:
+
+
+### Connectors
+
+EBNF Grammar:
+
+```
+connector       = "define" connector_type "connector" artefact_id
+                  [ "args" argument_list ]
+                  ( with_block | script_block )
+                  "end"
+connector_type  = [ module_path "::" ] id      
+module_path     = id [ "::" module_path ]
+artefact_id     = id     
+argument_list   = ( id | id "=" expr ) [ "," argument_list ]
+with_block      = "with" assignment_list
+assignment_list = assignment [ "," assignment_list ]
+assignment      = let_path "=" expr
+let_path        = id [ "." id ]
+script_block    = "script" tremor_script
+```
+
+Whitespace and newlines are not significant here.
+
+**Examples:**
+
+
+
+Every connector can be configured with a script block that returns a record value. This gives maximal flexibility.
+
+```
+define file connector my_file
+script
+    let interceptors = [ "newline" ],
+        codec = "string",
+        config.path = "/etc/passwd"
+end;
+```
+
+As it may be very verbose to define an artefact with a complicated script, we created the  `with` statement as a syntax sugar that creates a tremor-script block with a multi-let statement, which in turn returns a record value with all the defined variables.
+
+It is also possible to add `args` which can be provided upon artefact creation/instantiation. 
+
+```
+define http connector my_http
+args
+    required_argument,
+    optional_arg_with_default = "default value"
+with
+    codec = "json",
+    interceptors = [ 
+        {
+            "type": "split",
+            "config": {
+                "split_by": "\n"
+            }
+        },
+        "base64"
+    ],
+    config.host = "localhost",
+    config.port = args.required_argument,
+    err_required = args.optional_arg_with_default
+end;
+```
+
+
+#### Required Tremor Script Changes
+
+In order to make defining config entries in tremor-script convenient, we need to add a few features to tremor-script to make this work reasonably well in a configuration context, where all we want is to return a record value without too much fuss and ceremony:
+
+* Add multi-let statements, that combine multiple `let`s inside a single statement whcih defined the variables therein and returns a record value with all those definitions.
+* Add auto-creation of intermediary path segments in let stetements:
+
+  ```
+  let config.nested.value = 1;
+  ```
+
+  In this case if `config.nested` does not exist we would auto-create it as part of this let as an empty record.
+
+### Pipelines
+
+Pipelines are defined using a unique pipeline id, optionally some arguments and a mandatory query block that embeds a trickle query:
+
+EBNF Grammar:
+
+```
+pipeline      = "define" "pipeline" pipeline_id
+                [ "args" argument_list ]
+                "query" 
+                trickle_query
+                "end"
+pipeline_id   = id
+argument_list = ( id | id "=" expr ) [ "," argument_list ]
+```
+
+Whitespace and newlines are not significant here.
+
+**Example:**
+
+`args` can be referenced within the trickle query via the `args` root. As these are filled upon creation/instantiation
+a pipeline definition becomes a template:
+
+```
+define pipeline my_pipeline
+args
+    required_argument,
+    optional_arg_with_default = "default value"
+query
+    use std::datetime;
+    define tumbling window fifteen_secs
+    with
+        interval = datetime::with_seconds(args.required_argument),
+    end;
+
+    select { "count": aggr::stats::count(event) } from in[fifteen_secs] into out having event.count > 0;
+end; # we probably need to find a different way to terminate an embedded trickle query or find some trick
+```
+
+It might be interesting to be able to load a trickle query from a trickle file.
+To that end we add new config directives to trickle that can define arguments and their default values.
+
+```trickle
+#!config args my_arg = "foo", required_arg
+...
+```
+
+### Flow
+
+Flows are a new type of artefact that incorporates the previous concepts of `binding` and `mapping`.
+Flows define how artefacts are connected to form an event flow from sources via pipelines towards sinks.
+
+EBNF Grammar:
+
+```
+FLOW          = "define" "flow" flow_id
+                [ "args" argument_list ]
+                "links"
+                  link_list
+                "end"
+flow_id       = id
+argument_list = ( id | id "=" expr ) [ "," argument_list ]
+link_list     = link ";" [ link_list ]
+link          = "connect" tremor_url "to" tremor_url
+instance_port = artefact_id [ "/" instance_id ] ":" port
+```
+
+Example:
+
+```
+define flow my_eventflow
+args
+    required_arg,
+    optional_arg = "default value"
+links
+    connect "tremor://onramp/my_source/{required_arg}:out" to my_pipeline:in;
+    connect my_pipeline:out to my_sink:in;
+end;
+```
+
+#### Connect Statements
+
+Flows consists of `connect` statements, which connect two or more artefact instances via their ports. E.g. every instance
+that receives events has an `in` port. Event go out via the `out` port and error events are usually sent via the `err` port.
+A connect statement defines a connection between two instance-port references. These are provided as strings containing tremor urls
+in the following variants:
+
+* with instance-id and port (e.g. "/pipeline/my_pipeline/instance_id:in" )
+* without instance-id but with port (e.g. "/pipeline/my_pipeline:in" )
+* without instance id or port (e.g. "/pipeline/my_pipeline" )
+
+If no instance id is given, as part of the flow instantiation a new instance of the artefact is created with the flow instance id filled in as instance id. So, users can omit an instance id if they want to have their artefacts be auto-created as part of an event flow.
+They will also be auto-deleted upon flow deletion. Our goal with this setup is to make it possible for users to define their tremor setup
+as one unit, the `Flow`. It can be instantiated and deleted with one command or API call.
+
+If an already existing artefact instance is referenced via an instance-port reference in a connect statement, the `Flow` will not take ownership of those instances. It will just release the connections that are defined in the `links` section of its definition.
+With this logic, users are able to dynamically create and manage connections between existing artefacts separately from those artefacts itself.
+
+For this to work the `Flow` instance needs to track which instances it created in order to destroy them upon the process of itself being destroyed.
+
+If the port is ommitted, based on its position a default port is chosen. If a reference is on the LHS the port `out` is chosen, on the RHS `in` is implied. This matches the normal event flow: From the `out` port of an artefact to an `in` port of another one. Other cases need to be handled explicitly.
+
+#### Connect Statement Sugar
+
+```
+"/source/stdin" -> "/pipeline/pipe";
+"/pipeline/pipe" -> "/sink/my_file";
+"/pipeline/pipe/err" -> "/sink/system::stderr";
+```
+
+Maximum abbreviated version:
+
+```
+"/source/system::stdin" -> "/pipeline/system::passthrough" -> "/sink/system::stderr";
+```
+
+TremorURLs in the middle of such a statement cannot have ports, the defaults will be applied.
+
+branching and joining:
+```
+"/source/system::stdin/out" -> ("/pipeline/system::passthrough", "/pipeline/my_pipe" ) -> "/sink/system::stderr/in"
+```
 
 ## Instantiating artefacts
 
-## Connecting Artefact instances
+Every artefact that was defined can be created, optionally passing arguments:
 
-### Deployments
 
-### Top-Level Connect statements
+EBNF:
 
-This is the technical portion of the RFC. Explain the design in sufficient detail that:
+```
+CREATE          = "create" "instance" instance_id "from" artefact_type "/" artefact_id
+                  [ "with" assignment_list ]
+                  "end"
+assignment_list = assignment [ "," assignment_list ]
+assignment      = let_path "=" expr
+let_path        = id [ "." id ]
+```
 
-- Its interaction with other features is clear.
-- It is reasonably clear how the feature would be implemented.
-- Corner cases are dissected by example.
+The result is a running instance that is registered via its `instance-id` within the registry and thus globally resolvable.
 
-The section should return to the examples given in the previous section, and explain more fully how the detailed proposal makes those examples work.
+**Examples:**
+
+```
+create instance "01" from pipeline/my_pipeline
+with
+    window_size = 15
+end;
+```
+
+### Instantiating Flows
+
+Flows are an exception as their creation will possibly create other artefact instances.
+
+## Top-Level Connect statements
+
+Connect statements have been introduced as part of `Flow` definitions. It will greatly simplify setting up tremor installations if we could write them at the top level of a troy script.
+
+The process of describing a tremor deployment would then consist conceptually of the following steps:
+
+1. define artefacts to be connected
+2. connect those artefacts
+
+These steps describe a good intuition about setting up a graph of nodes for events to flow through.
+
+Example:
+
+```
+define file connector my-file-connector
+with
+  source = "/my-file.json",
+  codec = "json"
+end;
+
+connect "/connector/my-file-connector/out" to "/pipeline/system::passthrough/in";
+connect "/pipeline/system::passthrough/out" to "/connector/system::stderr/in";
+```
+
+For setting up tremor with this script, the conecpt of a `Flow` doesnt event need to be introduced. Escpecially for getting started and
+trying out simple setups in a local dev environment or for tutorials and workshops, this removes friction and descreases `time-to-get-something-running-and-have-fun-understanding`.
+
+What is going on under the hood here to make this work?
+
+Those connect statements will be put into a synthetic `Flow` artefact with the artefact id being the file in which they are declared. There is exactly one such synthetic `Flow` artefact for a troy file, but only if at least 1 globale `connect` statement is given. The `Flow` instance id will be `default`.
+This `Flow` artefact is defined and created without args upon deployment of the troy script file.
+
+Following this route it sounds reasonable to also add `disconnect` statements as the dual of `connect`:
+
+```
+disconnect "/connector/my-file-connector/out" from "/pipeline/system::passthrough/in";
+```
+
+With `Flows` we would destroy the whole `Flow` instance to delete the connections therein at once. With top level `connect` statements,
+we cannot reference any such instance, unless we reference it using the naming scheme above. But we would lose the power to modify single connections if we'd refrain from looking into `disconnect`.
 
 # Drawbacks
 [drawbacks]: #drawbacks
@@ -112,102 +421,38 @@ The section should return to the examples given in the previous section, and exp
 # Rationale and alternatives
 [rationale-and-alternatives]: #rationale-and-alternatives
 
-- Why is this design the best in the space of possible designs?
-- What other designs have been considered and what is the rationale for not choosing them?
-- What is the impact of not doing this?
+- YAML - we don't like it. Significant whitespace might be readable on first sight, but brings lots of other problems.
 
 # Prior art
 [prior-art]: #prior-art
 
-Discuss prior art, both the good and the bad, in relation to this proposal.
-A few examples of what this can include are:
+We might want to look at languages like the one used in hashicorps terraform. Its concept is to describe a desired state of set of resources, not to encode commands against the current state of those resources. Comparing the desired state against the actual state will result in the set of commands to issue to get to the desired one.
 
-- For language, library, tools, and clustering proposals: Does this feature exist in other programming languages and what experience have their community had?
-- For community proposals: Is this done by some other community and what were their experiences with it?
-- For other teams: What lessons can we learn from what other communities have done here?
-- Papers: Are there any published papers or great posts that discuss this? If you have some relevant papers to refer to, this can serve as a more detailed theoretical background.
-
-This section is intended to encourage you as an author to think about the lessons from other projects, provide readers of your RFC with a fuller picture.
-If there is no prior art, that is fine - your ideas are interesting to us whether they are brand new or if it is an adaptation from other projects.
-
-Note that while precedent set by other projects is some motivation, it does not on its own motivate an RFC.
-Please also take into consideration that tremor sometimes intentionally diverges from similar projects.
+But we might want to enable the usage of a REPL like setup, for which the terraform model doesnt work.
 
 # Unresolved questions
 [unresolved-questions]: #unresolved-questions
 
-## Nicer record syntax for configuration
-
-The syntax in trickle for providing configuration values in a key-value structure for configuring operators etc. is as follows:
-
-```trickle
-define qos::backpressure operator bp
-with
-  timeout = 100,
-  steps = [1, 2, 3]
-end;
-```
-
-The key value structure is introduced with the `with` keyword. Keys don't require quotes like strings, and values are given after `=` those values can be any trickle expression. Now with connectors / onramps / offramps, the `config` setting requires to introduce nesting. But with the current syntax, we would have to use a [record literal](https://docs.tremor.rs/tremor-script/#records) to provide a key-value structure:
-
-```
-define connector my_ws_client
-with
-  type = "ws_client",
-  config = {
-      "endpoint": "ws://127.0.0.1:12345/path",
-      "connect_timeout": 12345
-  },
-  codec = "json"
-end;
-```
-
-This is inconsistent and confusing for users. Ideally we should use the same syntax regardless of the nesting.
-Options here are:
-
-1. use record syntax also at the top level
-
-```
-define connector my_ws_client
-with {
-  "type": "ws_client",
-  "config": {
-    "endpoint": "ws://127.0.0.1:12345/path",
-    "connect_timeout": 12345
-  },
-  "codec": "json"
-}
-end;
-```
-
-As the goal is consistency this would also be changed in trickle/tremor-script, so this would be a breaking change.
-
-The downside of this, while we have increased consistency, is that it is less readable.
-
-2. extend the configuration key-value syntax to a simplified record structure that is nestable
-
-This would introduce a whole new expression for encoding json-like records that might be usable in other places too.
-
-```
-define connector my_ws_client
-with record
-    type = "ws_client",
-    config = record
-      endpoint = "ws://127.0.0.1:12345/path",
-      connect_timeout = 12345
-    end,
-    codec = "json"
-end;
-```
-
-We might want to reuse the `with` keyword signalling the start of the `configuration record`, but could also use `record`, `object` or `config` here.
-
-- What parts of the design do you expect to resolve through the RFC process before this gets merged?
-- What parts of the design do you expect to resolve through the implementation of this feature before stabilization?
-- What related issues do you consider out of scope for this RFC that could be addressed in the future independently of the solution that comes out of this RFC?
-
 # Future possibilities
 [future-possibilities]: #future-possibilities
+
+## Non-String Tremor-URLs
+
+It would be nice for static analysis of troy scripts to have tremor urls in connect statements to not be strings,
+but to have them use ids as references to defined artefacts or already created artefact instances. string urls allow references
+outside the context of the current troy script though, which might or might not be valid based on the state of the registry at the point of creation. So maybe, an id based syntax for tremor-urls might help with error detection in troy scripts but would only work when referencing artefacts and instances is limited to the current troy script (including imports).
+
+Some ideas to spawn discussion:
+
+```
+pipeline:my_pipeline/instance_id:in
+```
+
+If we change the requirement for artefact ids to be globally unique, not only per artefact type, we wouldnt event need to prefix them with their artefact type every time:
+
+```
+my_pipeline/instance_id:in
+```
 
 ## Define Codecs and interceptors (a.k.a pre- and post-processors)
 
