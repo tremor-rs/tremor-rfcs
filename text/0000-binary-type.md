@@ -13,7 +13,7 @@ This RFC proposes the addition of a new type: `binary` along with the underpinni
 
 The motivation here is three-fold.
 
-As of writing this RFC tremor has no option to handle 'raw' data. As it stands, even if we never want to inspect or modify a payload we always pay the price of translating the data into tremors internal, JSONesque format or representing it as a utf9 string. Both these choices come at a computation cost at best, or are wrong and lossy, at worst. A binary type allows us to tread a message as "a bunch of bytes", removing any loss or additional computational cost of treating them.
+As of writing this RFC tremor has no option to handle 'raw' data. As it stands, even if we never want to inspect or modify a payload we always pay the price of translating the data into tremors internal, JSONesque format or representing it as a utf8 string. Both these choices come at a computation cost at best or are wrong and lossy at worst. A binary type allows us to treat a message as "a bunch of bytes", removing any loss or additional computational cost of encoding/decoding them.
 
 The second reason for a binary datatype is to be able to handle messages that are not covered by existing codes. A binary type along with the functions to inspect, deconstruct or create binary messages gives a new extension point for users to parse their own, non-textual formats.
 
