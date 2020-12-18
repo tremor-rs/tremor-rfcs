@@ -66,6 +66,8 @@ Similar to trickle, Troy also supports modularization and `use` statements using
 ## Example
 
 ```
+
+# define a connector with arguments
 define http_server connector my_http_connector
 args
   server = "Tremor/1.2.3",
@@ -77,6 +79,7 @@ with
   }
 end;
 
+# define a file connector
 define file connector my_file
 with
     config.path = "/snot/badger.json",
@@ -84,24 +87,29 @@ with
     interceptors = [ "newline" ]
 end;
 
+# define the simplest pipeline
 define pipeline passthrough
 query
     select event from in into out;
 end;
 
+# instantiate a connector
 create connector instance "01" from my_http_connector
 with
     server = "Tremor/3.2.1"
 end;
 
-define flow
+# define a flow - connecting artefact instances
+define flow my_flow
 links
-    # reference artefacts by id
+    # reference artefacts by id - these instances are not recreated if they are already created
     connect "/connector/my_http_connector/01:out" to "/pipeline/passthrough:in";
-    # implicit default ports
+    # implicit default ports - here we auto-create instances
     connect passthrough to my_file;
 end;
-    
+
+# instantiate a flow - let the events flow ~~~
+create instance "01" from flow/my_flow;
 ```
 
 
@@ -320,24 +328,71 @@ If the port is ommitted, based on its position a default port is chosen. If a re
 
 #### Connect Statement Sugar
 
+Connect statements describe the very primitive operation needed to establish an event flow from sources/connectors via pipelines towards sinks/connectors. Defining each single connection manually might be a bit too verbose. That is why we will provide some more convenient versions that basically all encode `connect` statements, but are much more concise and expressive.
+
+We call them `arrow` statements. Both the LHS and the RHS are Tremor URL string. The LHS of a simple `arrow` statement is the "sender" of events, the RHS is the "receiver". The direction of the arrow describes the flow direction. If no port is provided, the LHS uses the `out` port, the RHS uses the `in` port, so users dont need to specify them in the normal case.
+
+Examples:
+
 ```
+# without ports
 "/source/stdin" -> "/pipeline/pipe";
-"/pipeline/pipe" -> "/sink/my_file";
 "/pipeline/pipe/err" -> "/sink/system::stderr";
+
+# with ports
+"/pipeline/pipe:err" -> "/sink/my_error_file:in";
 ```
 
-Maximum abbreviated version:
+`Arrow` statements also support chaining. This works as follows: As `arrow` statements when used as expression, will expose its RHS if used as LHS and its LHS if it is used as RHS. The arrow statements handle other arrow statements as LHS and RHS separately. In effect chaining `arrow` statements is just writing multiple TremorURLs connected via `arrows`:
 
 ```
 "/source/system::stdin" -> "/pipeline/system::passthrough" -> "/sink/system::stderr";
 ```
 
-TremorURLs in the middle of such a statement cannot have ports, the defaults will be applied.
+This is equivalent to the following, when adding explicit parens to show precedence:
 
-branching and joining:
 ```
-"/source/system::stdin/out" -> ("/pipeline/system::passthrough", "/pipeline/my_pipe" ) -> "/sink/system::stderr/in"
+("/source/system::stdin/out" -> "/pipeline/system::passthrough/in") -> "/sink/system::stderr/in";
 ```
+
+Which resolves via desugaring:
+
+```
+connect "/source/system::stdin/out" to "/pipeline/system::passthrough/in";
+connect "/pipeline/system::passthrough/out" to "/sink/system::stderr/in";
+```
+
+`Arrow` statements also support tuples of Tremor URLs or tuples of other `Arrow` statements. These describe branching and joining
+at the troy level.
+
+```
+"/source/system::stdin/out" -> ("/pipeline/system::passthrough", "/pipeline/my_pipe" ) -> "/sink/system::stderr/in";
+```
+
+This desugars to:
+
+```
+"/source/system::stdin/out" -> "/pipeline/system::passthrough" -> "/sink/system::stderr/in";
+"/source/system::stdin/out" -> "/pipeline/my_pipe" -> "/sink/system::stderr/in";
+```
+
+If we have multiple tuples within a statement, we create statements for each combination of them. Example:
+
+```
+# full sugar
+("/source/my_file", "/source/my_other_file") -> ("/pipeline/pipe1", "/pipeline/pipe2") -> "/sink/system::stderr";
+
+# desugars to:
+
+"/source/my_file" -> "/pipeline/pipe1" -> "/sink/system::stderr";
+"/source/my_file" -> "/pipeline/pipe2" -> "/sink/system::stderr";
+"/source/my_other_file" -> "/pipeline/pipe1" -> "/sink/system::stderr";
+"/source/my_other_file" -> "/pipeline/pipe2" -> "/sink/system::stderr";
+```
+
+The immediate win in terseness is obvious, we hope.
+
+It will be very interesting to explore how to expose the same sugar to trickle select queries. This is a future possibility.
 
 ## Instantiating artefacts
 
@@ -365,6 +420,8 @@ with
     window_size = 15
 end;
 ```
+
+It might be interesting to use a tremor URL instead of ids as artefact_type and artefact id. This is an open question.
 
 ### Instantiating Flows
 
@@ -417,7 +474,6 @@ we cannot reference any such instance, unless we reference it using the naming s
 * YAML is a widely known and used configuration format, we can assume a certain level of familiarity amongst developers
 * A new DSL to learn, steepens the learning curve for tremor
 
-
 # Rationale and alternatives
 [rationale-and-alternatives]: #rationale-and-alternatives
 
@@ -433,9 +489,16 @@ But we might want to enable the usage of a REPL like setup, for which the terraf
 # Unresolved questions
 [unresolved-questions]: #unresolved-questions
 
+- Should we use Tremor URLs in Create statements to reference artefacts we create instances from?
+- Should we add means to instead of using a TremorURL also enable referencing artefacts by id (or artefact-type, artefact-id pair)?
+- Should we really allow users to create instances of unconnected artefacts? While it gives power to users it might also be a source of misconfiguration. Trade-offs...
+
 # Future possibilities
 [future-possibilities]: #future-possibilities
 
+## Graceful Operations
+
+We could add statement variants for create that fail if an instance with the same id already exists or that gracefully do nothing if that is the case. This graceful behavior needs to be able to verify that the existing instance is from the very same artefact, and for this might be checking the artefact content too, not just its name.
 ## Non-String Tremor-URLs
 
 It would be nice for static analysis of troy scripts to have tremor urls in connect statements to not be strings,
