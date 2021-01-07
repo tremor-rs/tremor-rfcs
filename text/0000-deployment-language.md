@@ -113,6 +113,8 @@ end;
 create instance "01" from flow/my_flow;
 ```
 
+For an overview of alternatives we considered and discussed, see [Rationale and Alternatives](#rationale-and-alternatives)
+
 # Reference-level explanation
 [reference-level-explanation]: #reference-level-explanation
 
@@ -459,6 +461,29 @@ we cannot reference any such instance, unless we reference it using the naming s
 
 - YAML - we don't like it. Significant whitespace might be readable on first sight, but brings lots of other problems.
 
+
+## Versions we considered and discarded
+
+One initial draft contained `with` as a keyword for starting a key-value mapping (a record in tremor-script)
+as a special case only used in configuration contexts:
+
+```
+define connector artefact ws_conn
+with
+  type = ws,
+  # nested record
+  config with
+    host = "localhost",
+    port = 8080
+  end,
+  codec = my_json with ... end
+  interceptors = ...
+end;
+```
+
+This was discarded because `with` as a keyword doesn't really work as keyword for a key-value mapping. To be consistent with tremor-script, it should be `record`. But finally we decided to not burn a keyword and search for another solution.
+
+The first name for `flow` was `deployment` but it was way too generic as a term. In a `flow` we connect sources to pipelines and pipelines to sinks, thus creating a flow of events. So `flow` sounded much more suitable. We were clear that `binding` and `mapping` weren't suitable anymore as well.
 # Prior art
 [prior-art]: #prior-art
 
