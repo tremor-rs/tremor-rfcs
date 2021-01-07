@@ -24,7 +24,7 @@ It would be much nicer for users to define their deployment in one unit, one fil
 Also, given our experiences with tremor-script and trickle, a DSL that is well suited for the task at hand can provide benefits such as:
 
 * helpful feedback on errors
-* modularization, outsourcing common definitions to reusable modules (e.g. HTTP proxy setup with onramps, offramps, pipeline)
+* modularization, outsourcing common definitions to reusable modules (e.g. HTTP proxy setup with sources, sinks, pipeline)
 * more expressive
 * makes it possible to introduce a REPL for issuing language statements against a tremor installation (be it a single server or a cluster)
 
@@ -35,7 +35,7 @@ get a look and feel of the deployment language, trickle and tremor-script to be 
 # Guide-level explanation
 [guide-level-explanation]: #guide-level-explanation
 
-A full tremor deployment always consists of one or more `onramps`, connected to one or more `pipelines` connected to one or more `offramps`.
+A full tremor deployment always consists of one or more `sources`, connected to one or more `pipelines` connected to one or more `sinks`.
 These are deployed as a single unit that describes how these artefacts are connected.
 
 The lifecycle of an artefact during deployment is (in very verbose terms) the following:
@@ -46,12 +46,13 @@ The lifecycle of an artefact during deployment is (in very verbose terms) the fo
 * create an instance from the artefact referenced by its type and id (or via Tremor URL) with a unique (per artefact) instance id
   - instantiates the artefact and publishes it to the registry under the artefact-id and instance-id
   - makes it resolvable via a Tremor URL
-* link the instance to other compatible instances (e.g. pipeline -> offramp or onramp -> pipeline), thus creating a connected and actively running event flow
+* link the instance to other compatible instances (e.g. pipeline -> sink or source -> pipeline), thus creating a connected and actively running event flow
 
 There are also the following steps:
 
 * Disconnect an artefact instance from all its connections (e.g. disconnect an offramp from its pipelines)
 * Destroy an artefact instance and thus stop its operation
+  * Stopping artefacts will also stop artefacts that are no longer in use (e.g. sources without connected pipelines)
 * Remove the artefact definition from the repository
 
 The main scope of the Tremor Deployment language (Troy for short) are the lifecycle steps of deploying, connecting and running artefacts.
@@ -103,7 +104,7 @@ end;
 define flow my_flow
 links
     # reference artefacts by id - these instances are not recreated if they are already created
-    connect "/connector/my_http_connector/01:out" to "/pipeline/passthrough:in";
+    connect "/connector/my_http_connector/01/out" to "/pipeline/passthrough/in";
     # implicit default ports - here we auto-create instances
     connect passthrough to my_file;
 end;
@@ -111,18 +112,6 @@ end;
 # instantiate a flow - let the events flow ~~~
 create instance "01" from flow/my_flow;
 ```
-
-
-
-Explain the proposal as if it was already included in Tremor and you were teaching it to another Tremor user. That generally means:
-
-- Introducing new named concepts.
-- Explaining the feature largely in terms of examples.
-- Explaining how stakeholders should *think* about the feature, and how it should impact the way they use tremor. It should explain the impact as concretely as possible.
-- If applicable, provide sample error messages, deprecation warnings, or migration guidance.
-- If applicable, describe the differences between teaching this to existing tremor stakeholders and new tremor programmers.
-
-For implementation-oriented RFCs (e.g. for language internals), this section should focus on how language contributors should think about the change, and give examples of its concrete impact. For policy RFCs, this section should provide an example-driven introduction to the policy, and explain its impact in concrete terms.
 
 # Reference-level explanation
 [reference-level-explanation]: #reference-level-explanation
@@ -137,7 +126,7 @@ Troy supports two very basic operations / kinds of statements:
 Artefact definition creates a referencable artefact inside the tremor repository.
 It contains:
 
- * an id that is unique per
+ * an id that is unique per repository
  * intrinsic connector type this artefact is based on
  * generic connector config
  * specific config for the connector type
@@ -172,21 +161,9 @@ Whitespace and newlines are not significant here.
 **Examples:**
 
 
+Every connector can be configured using the `with` statement which introduces a key-value mapping which resembles (and actually is implemented as) a tremor-script multi-let. Keys are possible tremor-script identifiers, values can be any tremor-script expressions.
 
-Every connector can be configured with a script block that returns a record value. This gives maximal flexibility.
-
-```
-define file connector my_file
-script
-    let interceptors = [ "newline" ],
-        codec = "string",
-        config.path = "/etc/passwd"
-end;
-```
-
-As it may be very verbose to define an artefact with a complicated script, we created the  `with` statement as a syntax sugar that creates a tremor-script block with a multi-let statement, which in turn returns a record value with all the defined variables.
-
-It is also possible to add `args` which can be provided upon artefact creation/instantiation. 
+It is also possible to add `args` which can be provided upon artefact creation/instantiation and can be referenced from within the `with` block: 
 
 ```
 define http connector my_http
@@ -213,7 +190,7 @@ end;
 
 #### Required Tremor Script Changes
 
-In order to make defining config entries in tremor-script convenient, we need to add a few features to tremor-script to make this work reasonably well in a configuration context, where all we want is to return a record value without too much fuss and ceremony:
+In order to make defining config entries in tremor-script convenient, we introduced the `with` block. We need to add a few features to tremor-script to make this work reasonably well in a configuration context, where all we want is to return a record value without too much fuss and ceremony:
 
 * Add multi-let statements, that combine multiple `let`s inside a single statement whcih defined the variables therein and returns a record value with all those definitions.
 * Add auto-creation of intermediary path segments in let stetements:
@@ -222,7 +199,7 @@ In order to make defining config entries in tremor-script convenient, we need to
   let config.nested.value = 1;
   ```
 
-  In this case if `config.nested` does not exist we would auto-create it as part of this let as an empty record.
+  In this case if `config.nested` does not exist we would auto-create it as part of this let as an empty record. This statement would fail, if we would try to *nest* into an existing field that is not a record.
 
 ### Pipelines
 
@@ -267,7 +244,8 @@ It might be interesting to be able to load a trickle query from a trickle file.
 To that end we add new config directives to trickle that can define arguments and their default values.
 
 ```trickle
-#!config args my_arg = "foo", required_arg
+#!config arg my_arg = "foo"
+#!config arg required_arg
 ...
 ```
 
@@ -279,7 +257,7 @@ Flows define how artefacts are connected to form an event flow from sources via 
 EBNF Grammar:
 
 ```
-FLOW          = "define" "flow" flow_id
+flow          = "define" "flow" flow_id
                 [ "args" argument_list ]
                 "links"
                   link_list
@@ -299,7 +277,7 @@ args
     required_arg,
     optional_arg = "default value"
 links
-    connect "tremor://onramp/my_source/{required_arg}:out" to my_pipeline:in;
+    connect "tremor://onramp/my_source/{required_arg}/out" to my_pipeline:in;
     connect my_pipeline:out to my_sink:in;
 end;
 ```
@@ -319,10 +297,10 @@ If no instance id is given, as part of the flow instantiation a new instance of 
 They will also be auto-deleted upon flow deletion. Our goal with this setup is to make it possible for users to define their tremor setup
 as one unit, the `Flow`. It can be instantiated and deleted with one command or API call.
 
-If an already existing artefact instance is referenced via an instance-port reference in a connect statement, the `Flow` will not take ownership of those instances. It will just release the connections that are defined in the `links` section of its definition.
+If an already existing artefact instance is referenced via an instance-port reference in a connect statement, the `flow` will not take ownership of those instances. It will just release the connections that are defined in the `links` section of its definition.
 With this logic, users are able to dynamically create and manage connections between existing artefacts separately from those artefacts itself.
 
-For this to work the `Flow` instance needs to track which instances it created in order to destroy them upon the process of itself being destroyed.
+For this to work the `flow` instance needs to track which instances it created in order to destroy them upon the process of itself being destroyed.
 
 If the port is ommitted, based on its position a default port is chosen. If a reference is on the LHS the port `out` is chosen, on the RHS `in` is implied. This matches the normal event flow: From the `out` port of an artefact to an `in` port of another one. Other cases need to be handled explicitly.
 
@@ -427,9 +405,11 @@ It might be interesting to use a tremor URL instead of ids as artefact_type and 
 
 Flows are an exception as their creation will possibly create other artefact instances.
 
+When creating any instances within a flow fails, all the instances connected and instantiated with that flow shall be stopped and destroyed again in order to make flow creation not leak resources in the error case.
+
 ## Top-Level Connect statements
 
-Connect statements have been introduced as part of `Flow` definitions. It will greatly simplify setting up tremor installations if we could write them at the top level of a troy script.
+Connect statements have been introduced as part of `flow` definitions. It will greatly simplify setting up tremor installations if we could write them at the top level of a troy script.
 
 The process of describing a tremor deployment would then consist conceptually of the following steps:
 
@@ -451,13 +431,13 @@ connect "/connector/my-file-connector/out" to "/pipeline/system::passthrough/in"
 connect "/pipeline/system::passthrough/out" to "/connector/system::stderr/in";
 ```
 
-For setting up tremor with this script, the conecpt of a `Flow` doesnt event need to be introduced. Escpecially for getting started and
+For setting up tremor with this script, the conecpt of a `flow` doesnt event need to be introduced. Escpecially for getting started and
 trying out simple setups in a local dev environment or for tutorials and workshops, this removes friction and descreases `time-to-get-something-running-and-have-fun-understanding`.
 
 What is going on under the hood here to make this work?
 
-Those connect statements will be put into a synthetic `Flow` artefact with the artefact id being the file in which they are declared. There is exactly one such synthetic `Flow` artefact for a troy file, but only if at least 1 globale `connect` statement is given. The `Flow` instance id will be `default`.
-This `Flow` artefact is defined and created without args upon deployment of the troy script file.
+Those connect statements will be put into a synthetic `flow` artefact with the artefact id being the file in which they are declared. There is exactly one such synthetic `flow` artefact for a troy file, but only if at least 1 globale `connect` statement is given. The `flow` instance id will be `default`.
+This `flow` artefact is defined and created without args upon deployment of the troy script file.
 
 Following this route it sounds reasonable to also add `disconnect` statements as the dual of `connect`:
 
@@ -465,7 +445,7 @@ Following this route it sounds reasonable to also add `disconnect` statements as
 disconnect "/connector/my-file-connector/out" from "/pipeline/system::passthrough/in";
 ```
 
-With `Flows` we would destroy the whole `Flow` instance to delete the connections therein at once. With top level `connect` statements,
+With `flows` we would destroy the whole `flow` instance to delete the connections therein at once. With top level `connect` statements,
 we cannot reference any such instance, unless we reference it using the naming scheme above. But we would lose the power to modify single connections if we'd refrain from looking into `disconnect`.
 
 # Drawbacks
@@ -496,6 +476,25 @@ But we might want to enable the usage of a REPL like setup, for which the terraf
 # Future possibilities
 [future-possibilities]: #future-possibilities
 
+## Configure Artefacts using Script blocks
+
+Given the plan is to implement the with block as syntax sugar around a tremor-script block with a `multi-let` expression, we could enable the feature to use a more complex script block to define the configuration record. E.g. if we need to dispatch on som arguments and chose different config entries based on that, this would not be possible using a `with` block.
+
+Example:
+
+```
+define file connector my_file_connector
+args 
+    dispatch_arg = "default"
+script
+    match dispatch_arg of
+        case "snot" => {"snot": true, "arg": dispatch_arg}
+        case "badger" => {"badger": true, "arg": dispatch_arg}
+        default => {"default": true}
+    end
+end
+```
+
 ## Graceful Operations
 
 We could add statement variants for create that fail if an instance with the same id already exists or that gracefully do nothing if that is the case. This graceful behavior needs to be able to verify that the existing instance is from the very same artefact, and for this might be checking the artefact content too, not just its name.
@@ -511,7 +510,7 @@ Some ideas to spawn discussion:
 pipeline:my_pipeline/instance_id:in
 ```
 
-If we change the requirement for artefact ids to be globally unique, not only per artefact type, we wouldnt event need to prefix them with their artefact type every time:
+If we change the requirement for artefact ids to be globally unique, not only per artefact type, we wouldnt even need to prefix them with their artefact type every time:
 
 ```
 my_pipeline/instance_id:in
