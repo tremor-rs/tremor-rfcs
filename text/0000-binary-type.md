@@ -33,9 +33,13 @@ This is codec dependant and not always symmetric, can not represent binary data 
 
 ## Syntax
 
-We use the [erlang bit syntax](https://erlang.org/doc/programming_examples/bit_syntax.html) as an inspiration. Tremor script gains support for binary semi-literals using the form of `<< expr1, expr2 >>` where `expr` has to return a 1-byte number. More elaborate forms, such as bitwise size and different types are aimed to be added later and follow the erlang bit syntax.
+We use the [erlang bit syntax](https://erlang.org/doc/programming_examples/bit_syntax.html) as an inspiration. Tremor script gains support for binary semi-literals using the form of `<< expr1:<size>/<type>, expr2 >>` where:
 
-Binary matching will likely follow the same logical pattern as other matching syntaxes, and aim to provide at least erlang style dissection of binary data.
+* `expr` cab be either a number, another binary or a string.
+* `size` defines the size in bits for numbers ranging for 1 to 64, sub bit sizes are supported, or the size in bytes for strings and binaries. The default size for integers is `8` and for strings or binaries is the entire binary
+* `type` needs to be specified as `binary` for strings and binaries or can be a combination of endianness (`big`, `little`), signedness (`unsigned`, `signed`) and numeric type (`integer`) where parts are concatinated by a `-` and the first one enumerated is the default
+
+The default (no size or type suffix) being equivalent to `:8/big-unsigned-integer`.
 
 ## stdlib
 
@@ -62,6 +66,11 @@ If the new implemented functions are all constant, they will be able to be pre-c
 
 The binary semi-literals will, whenever possible be turned into full-literals using constant folding, but remain constructs where not following the example of arrays and records.
 
+
+If a literal is created that is not byte aligned the bits that overhang the last byte boundary will be treated as part of a new
+byte filling the less significant bits of it.
+
+In other words `<<1:8, 2:4>>` where we only have 4 bytes of the second byte will fill to: `<<1:8, 2:8>>`.
 # Drawbacks
 [drawbacks]: #drawbacks
 
@@ -84,3 +93,5 @@ As of writing the first draft of this RFC it is still open how far into bit synt
 [future-possibilities]: #future-possibilities
 
 Binary comprehensions are a major future possibility for bit syntax. They are also well seperated in the way that extracting them will not harm this RFC.
+
+Matching binaries is the next logical step. Due to it being significantly more complex and the work on binary types and semi-literals is self contained, this will be handled in a seperate RFC.
