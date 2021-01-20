@@ -29,7 +29,7 @@ The easiest way to think about it is that the `binary` type represents an array 
 
 ## Serialization
 
-This is codec dependant and not always symmetric, can not represent binary data and is a general-purpose codec it will default to base64 encoding the data as a string (JSON for example). This is an asymmetric change as we will not by default decode a base64 string as binary given without context we can't determine if this is the desired behavior or not, this can however be done using tremor-scripts functions.
+Serialization is codec dependant and not always symmetric. A codec that can not represent binary data and is a general-purpose codec it will default to base64 encoding the data as a string (JSON for example). This is an asymmetric change as we will not by default decode a base64 string as binary given without context we can't determine if this is the desired behavior or not, this can however be done using tremor-scripts functions.
 
 ## Syntax
 
@@ -78,12 +78,15 @@ This breaks symmetry with the JSON representation, however all differences can b
 # Rationale and alternatives
 [rationale-and-alternatives]: #rationale-and-alternatives
 
-A quick search showed no decent alternative binary syntax to erlangs binary forms, however any other suggestions are welcome.
+There are no decent alternative binary syntax to erlangs binary forms we found as part of the research.
+
+Many C derived languages support encoding bytes in a string like form, this however doesn't offer anything near the capabilities we require.
 
 # Prior art
 [prior-art]: #prior-art
 
-This RFC is heavily inspired by the (erlang bit syntax)[https://erlang.org/doc/programming_examples/bit_syntax.html] .
+This RFC is heavily inspired by the (erlang bit syntax)[https://erlang.org/doc/programming_examples/bit_syntax.html].
+
 # Unresolved questions
 [unresolved-questions]: #unresolved-questions
 
