@@ -1,0 +1,548 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="The Tremor Team" name="author"/>
+<link href="../assets/images/favicon.png" rel="shortcut icon"/>
+<meta content="mkdocs-1.1.2, mkdocs-material-6.2.8" name="generator"/>
+<title>0000-string-interpolation - Tremor RFCs</title>
+<link href="../assets/stylesheets/main.cb6bc1d0.min.css" rel="stylesheet"/>
+<link href="../assets/stylesheets/palette.39b8e14a.min.css" rel="stylesheet"/>
+<meta content="#000000" name="theme-color"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&amp;display=fallback" rel="stylesheet"/>
+<style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+</head>
+<body data-md-color-accent="indigo" data-md-color-primary="black" data-md-color-scheme="" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#summary">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header" data-md-component="header">
+<nav aria-label="Header" class="md-header-nav md-grid">
+<a aria-label="Tremor RFCs" class="md-header-nav__button md-logo" href=".." title="Tremor RFCs">
+<img alt="logo" src="../img/logo.png"/>
+</a>
+<label class="md-header-nav__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"></path></svg>
+</label>
+<div class="md-header-nav__title" data-md-component="header-title">
+<div class="md-header-nav__ellipsis">
+<div class="md-header-nav__topic">
+<span class="md-ellipsis">
+            Tremor RFCs
+          </span>
+</div>
+<div class="md-header-nav__topic">
+<span class="md-ellipsis">
+            
+              0000-string-interpolation
+            
+          </span>
+</div>
+</div>
+</div>
+<label class="md-header-nav__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" data-md-state="active" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</label>
+<button aria-label="Clear" class="md-search__icon md-icon" data-md-component="search-reset" tabindex="-1" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"></path></svg>
+</button>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header-nav__source">
+<a class="md-source" href="https://github.com/tremor-rs/tremor-rfcs/" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"></path></svg>
+</div>
+<div class="md-source__repository">
+    tremor-rs/tremor-rfcs
+  </div>
+</a>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Tremor RFCs" class="md-nav__button md-logo" href=".." title="Tremor RFCs">
+<img alt="logo" src="../img/logo.png"/>
+</a>
+    Tremor RFCs
+  </label>
+<div class="md-nav__source">
+<a class="md-source" href="https://github.com/tremor-rs/tremor-rfcs/" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"></path></svg>
+</div>
+<div class="md-source__repository">
+    tremor-rs/tremor-rfcs
+  </div>
+</a>
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="..">
+        Home
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../api_changes/">
+        API Changes
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../arch_changes/">
+        Architectural Changes
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../lang_changes/">
+        Language Changes
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../libs_changes/">
+        Library Changes
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../0000-template/">
+        RFC Template
+      </a>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" data-md-toggle="nav-7" id="nav-7" type="checkbox"/>
+<label class="md-nav__link" for="nav-7">
+        RFCs
+        <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-label="RFCs" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="nav-7">
+<span class="md-nav__icon md-icon"></span>
+          RFCs
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" data-md-toggle="toc" id="__toc" type="checkbox"/>
+<a class="md-nav__link md-nav__link--active" href="./">
+        0000-string-interpolation
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../0001-remove-actix-from-tremor-runtime/">
+        0001-remove-actix-from-tremor-runtime
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../0002-pipeline-state-mechanism/">
+        0002-pipeline-state-mechanism
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../0003-linked-transports/">
+        0003-linked-transports
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../0004-sliding-window-mechanism/">
+        0004-sliding-window-mechanism
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../0005-circuit-breaker-mechanism/">
+        0005-circuit-breaker-mechanism
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../0006-plugin-development-kit/">
+        0006-plugin-development-kit
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../0007-pipeline-optimizations/">
+        0007-pipeline-optimizations
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../0008-onramp-postgres/">
+        0008-onramp-postgres
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../0009-ramp-interface/">
+        0009-ramp-interface
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../0010-modularity/">
+        0010-modularity
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content">
+<article class="md-content__inner md-typeset">
+<a class="md-content__button md-icon" href="https://github.com/tremor-rs/tremor-rfcs/edit/main/0000-string-interpolation.md" title="Edit this page">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"></path></svg>
+</a>
+<ul>
+<li>Feature Name: <code>string_interpolation</code></li>
+<li>Start Date: 2020-11-30</li>
+<li>Tremor Issue: <a href="https://github.com/tremor-rs/tremor-runtime/issues/0000">tremor-rs/tremor-runtime#0000</a></li>
+<li>RFC PR: <a href="https://github.com/tremor-rs/tremor-rfcs/pull/0000">tremor-rs/tremor-rfcs#0000</a></li>
+</ul>
+<h1 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">¶</a></h1>
+<p>This RFC covers the implementation and behavior of string interpolation in both strings and heredocs.</p>
+<h1 id="motivation">Motivation<a class="headerlink" href="#motivation" title="Permanent link">¶</a></h1>
+<p>String interpolation is a powerful tool to create text in a dynamic fashion. Getting it to work in a consistent and unsurprising manner however is non-trivial. The goal of this RFC is to cover various edge cases to find an optimal interface. It also will discuss integration with the <code>std::string::format</code> function as it offers a related mechanism.</p>
+<h1 id="guide-level-explanation">Guide-level explanation<a class="headerlink" href="#guide-level-explanation" title="Permanent link">¶</a></h1>
+<p>Interpolation should work equally in heredocs and strings, for readability we will refer to it as <code>string interpolation</code> in an inclusive way.</p>
+<p>The goal of string interpolation is making the creation of strings simpler. The basic facility is the ability to embed code inside a string that is executed and it's result then integrated into the string. There are more advanced systems such as templating libraries like <a href="https://mustache.github.io/">mustache</a>, however for now that kind of feature set is outside of the scope of the RFC.</p>
+<p>For simplicity of use we will include strings and numbers verbatim but render all other data structures as JSON. An alternative approach would be to enforce the type to be primitive or even string but that feels like an unnecessary burden as auto conversion does not prevent manual conversion.</p>
+<h2 id="considerations-for-tremor">Considerations for tremor<a class="headerlink" href="#considerations-for-tremor" title="Permanent link">¶</a></h2>
+<p>The syntax we are looking at is using <code>{}</code> to encapsulate data to be interpolated.</p>
+<div class="highlight"><pre><span></span><code><span class="s">"13 + 29 = {13 + 29}"</span><span class="w"></span>
+</code></pre></div>
+<p>We are also using <code>{}</code> in <code>string::format</code> which leads to conflicts.</p>
+<p>An alternative would be to adopt a more verbose form of interpolation and prefix the <code>{...}</code> with an additional character. A few options could be:</p>
+<ul>
+<li><code>${ ... }</code> - the drawback being here is that $ is already used to stand for <code>metadata</code>, by that overloading the sign. This is a well-known format.</li>
+<li><code>#{ ... }</code> - <code>#</code> is currently used for comments, by that overloading the sign. This is a well-known format.</li>
+<li><code>%{ ... }</code> - the <code>%</code> sign with squiggly is currently also a record pattern for extractors, by that overloading the sign.</li>
+<li><code>!{ ... }</code> - the <code>!</code> sign is easy to miss and not very readable</li>
+<li><code>@{ ... }</code> - no overloading at the moment</li>
+<li><code>&amp;{ ... }</code> - no overloading at the moment</li>
+<li><code>*{ ... }</code> - no overloading at the moment</li>
+<li><code>{{ ... }}</code> - no overloading, a bit verbose</li>
+</ul>
+<h2 id="use-cases">Use cases<a class="headerlink" href="#use-cases" title="Permanent link">¶</a></h2>
+<h3 id="string-only">string only<a class="headerlink" href="#string-only" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code><span class="s">"13 + 29 = {13 + 29} escaped: \{} {{}}"</span><span class="w"></span>
+<span class="s">"13 + 29 = ${13 + 29} escaped: \${}"</span><span class="w"></span>
+<span class="s">"13 + 29 = </span><span class="nx">#{</span><span class="mi">13</span><span class="w"> </span><span class="err">+</span><span class="w"> </span><span class="mi">29</span><span class="nx">}</span><span class="s"> escaped: </span><span class="se">\#</span><span class="s">{}"</span><span class="w"></span>
+<span class="s">"13 + 29 = %{13 + 29} escaped: \%{}"</span><span class="w"></span>
+<span class="s">"13 + 29 = !{13 + 29} escaped: \!{}"</span><span class="w"></span>
+<span class="s">"13 + 29 = @{13 + 29} escaped: \@{}"</span><span class="w"></span>
+<span class="s">"13 + 29 = {{13 + 29}} escaped: \{{}}"</span><span class="w"></span>
+</code></pre></div>
+<h3 id="object-keys">object keys<a class="headerlink" href="#object-keys" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code><span class="nx">{</span><span class="w"></span>
+<span class="w">  </span><span class="s">"key_{13 + 29} escaped: \{} {{}}"</span><span class="err">:</span><span class="w"> </span><span class="mi">1</span><span class="err">,</span><span class="w"></span>
+<span class="w">  </span><span class="s">"key_${13 + 29} escaped: \${}"</span><span class="err">:</span><span class="w"> </span><span class="mi">2</span><span class="err">,</span><span class="w"></span>
+<span class="w">  </span><span class="s">"key_</span><span class="nx">#{</span><span class="mi">13</span><span class="w"> </span><span class="err">+</span><span class="w"> </span><span class="mi">29</span><span class="nx">}</span><span class="s"> escaped: </span><span class="se">\#</span><span class="s">{}"</span><span class="err">:</span><span class="w"> </span><span class="mi">3</span><span class="err">,</span><span class="w"></span>
+<span class="w">  </span><span class="s">"key_%{13 + 29} escaped: \%{}"</span><span class="err">:</span><span class="w"> </span><span class="mi">4</span><span class="err">,</span><span class="w"></span>
+<span class="w">  </span><span class="s">"key_!{13 + 29} escaped: \!{}"</span><span class="err">:</span><span class="w"> </span><span class="mi">5</span><span class="err">,</span><span class="w"></span>
+<span class="w">  </span><span class="s">"key_@{13 + 29} escaped: \@{}"</span><span class="err">:</span><span class="w"> </span><span class="mi">6</span><span class="err">,</span><span class="w"></span>
+<span class="w">  </span><span class="s">"key_{{13 + 29}} escaped: \{{}}"</span><span class="err">:</span><span class="w"> </span><span class="mi">7</span><span class="w"></span>
+<span class="nx">}</span><span class="w"></span>
+</code></pre></div>
+<h3 id="code-generation">code generation<a class="headerlink" href="#code-generation" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code>"""
+# using \ escape
+\{
+    "key": \{
+        "key1": 42
+    },
+    "snot": {badger},
+}
+# using {{}} escape
+{{
+    "key": {{
+        "key1": 42
+    }},
+    "snot": {badger},
+}}
+# using any of the prefix ones
+{
+    "key": {
+        "key1": 42
+    },
+    "snot": #{badger},
+}
+# using double squigly
+{
+    "key": {
+        "key1": 42
+    },
+    "snot": {{badger}},
+}
+"""
+</code></pre></div>
+<h3 id="observations-on-escaping">Observations on escaping<a class="headerlink" href="#observations-on-escaping" title="Permanent link">¶</a></h3>
+<p>There are competing concerns regarding escaping. In this section those opposing considerations are laid out.</p>
+<p>One of the desires is reduce complexity and the need to learn new syntax for an operator. This guides us towards a single escape character, <code>\</code> is what we use everywhere else, so the conclusion form this desire would be to escape the beginning with a <code>\</code> to be in line with all other escapes.</p>
+<p>A competing concern is the desire of readability, using <code>\{</code> to escape doesn't read well and introduces asymmetry unless <code>\}</code> is also escaped, however then <code>\}</code> would be escaped without aq reason to do so, and suddenly allow <code>}</code> be written as <code>\}</code> and <code>}</code> that adds possible style and usage complexity.</p>
+<p>To address asynchronicity an option is using <code>{{</code> and <code>}}</code> those read nicely and are symmetric however this introduces an unnessessary escape of <code>}}</code> and leads to the situation where there are two forms of correct code: <code>"this {{ is not }} interpolated"</code> as well as <code>"this {{ is not } interpolated"</code>.</p>
+<p>A middle ground is to pick a two-character start sequence for interpolation, this mirrors what most <a href="#prior-art">other languages</a> do. Adding a leading character such as <code>#</code>, <code>$</code>, <code>@</code> etc means that <code>{}</code> no longer has to be escaped and instead the escape is for that leading character, and only when it is followed by a <code>{</code>. To give an example, using <code>#</code>:</p>
+<ul>
+<li><code>"this #{"is"} interpolated"</code></li>
+<li><code>"this { is not } interpolated"</code></li>
+</ul>
+<p>or for the more complex case of code generation:</p>
+<div class="highlight"><pre><span></span><code>"""
+{
+    "key": {
+        "key1": "and this is \#{not interpolated}"
+    },
+    "snot": #{interpolated_variable},
+}
+"""
+</code></pre></div>
+<h3 id="interaction-with-format">Interaction with format<a class="headerlink" href="#interaction-with-format" title="Permanent link">¶</a></h3>
+<h4 id="use-case-building-a-format-string-dynamically-and-inputting-data">use case: building a format string dynamically and inputting data<a class="headerlink" href="#use-case-building-a-format-string-dynamically-and-inputting-data" title="Permanent link">¶</a></h4>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">f</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="kd">match</span><span class="w"> </span><span class="kc">event</span><span class="err">.</span><span class="nx">type</span><span class="w"> </span><span class="kd">of</span><span class="w"></span>
+<span class="w">  </span><span class="kd">case</span><span class="w"> </span><span class="s">"warning"</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="s">"be warned, something went wrong: {}"</span><span class="w"></span>
+<span class="w">  </span><span class="kd">case</span><span class="w"> </span><span class="s">"error"</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="s">"ERROR OMG! {}"</span><span class="err">,</span><span class="w"></span>
+<span class="w">  </span><span class="kd">default</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="s">"oh, hi, you can ignore this: {}"</span><span class="w"></span>
+<span class="kd">end</span><span class="err">;</span><span class="w"></span>
+
+<span class="nx">string</span><span class="err">::</span><span class="nx">format</span><span class="err">(</span><span class="nx">format</span><span class="err">,</span><span class="w"> </span><span class="kc">event</span><span class="err">.</span><span class="nx">msg</span><span class="err">);</span><span class="w"></span>
+</code></pre></div>
+<h4 id="format-and-interpolation">format and interpolation<a class="headerlink" href="#format-and-interpolation" title="Permanent link">¶</a></h4>
+<div class="highlight"><pre><span></span><code><span class="nx">string</span><span class="err">::</span><span class="nx">format</span><span class="err">(</span><span class="s">"this should work {}"</span><span class="err">,</span><span class="w"> </span><span class="mi">42</span><span class="err">)</span><span class="w"> </span><span class="err">==</span><span class="w"> </span><span class="s">"this should work 42"</span><span class="err">;</span><span class="w"></span>
+<span class="nx">string</span><span class="err">::</span><span class="nx">format</span><span class="err">(</span><span class="s">"this should {"</span><span class="nx">also</span><span class="w"> </span><span class="nx">work</span><span class="s">"} {}"</span><span class="err">,</span><span class="w"> </span><span class="mi">42</span><span class="err">)</span><span class="w"> </span><span class="err">==</span><span class="w"> </span><span class="s">"this should also work 42"</span><span class="err">;</span><span class="w"></span>
+<span class="nx">string</span><span class="err">::</span><span class="nx">format</span><span class="err">(</span><span class="s">"this should create a {{}} and say {}"</span><span class="err">,</span><span class="w"> </span><span class="mi">42</span><span class="err">)</span><span class="w"> </span><span class="err">==</span><span class="w"> </span><span class="s">"this should create a {} and say 42"</span><span class="err">;</span><span class="w"></span>
+<span class="nx">string</span><span class="err">::</span><span class="nx">format</span><span class="err">(</span><span class="s">"this should {"</span><span class="nx">also</span><span class="w"> </span><span class="nx">work</span><span class="s">"}, create a {{}} and show {}"</span><span class="err">,</span><span class="w"> </span><span class="mi">42</span><span class="err">)</span><span class="w">  </span><span class="err">==</span><span class="w"> </span><span class="s">"this should also work, create a {} and say 42"</span><span class="err">;</span><span class="w"></span>
+</code></pre></div>
+<p>This can cause issues since both interpolation and format give <code>{}</code> a special meaning. There are multiple possible solutions to this.</p>
+<ol>
+<li>"Deal with it" this means that passing an interpolated string into format will require different escaping as a non interpolated string. This adds an unnecessary burden and learning curve on users and should be avoided.</li>
+<li>Choose a different placeholder for format. This will break backward compatibility it has the advantage that revisiting string::format might make it more powerful.</li>
+<li>Choose a different for interpolation, such as a prefix. would also resolve the problem and break backward compatibility but allow exploring alternative ways for interpolation.</li>
+<li>Remove string::format, this would break backward compatibility but simplify things in the long run</li>
+</ol>
+<p>Option 2 and 3 are non-exclusive</p>
+<h3 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">¶</a></h3>
+<p>Between the required tradeoffs to be made, using a two letter starting sequence looks like the sweet spot.</p>
+<p>upsides:</p>
+<ol>
+<li><code>string::format</code> compatibility: as <code>{}</code> no longer has a special meaning, this means <code>string::format</code> needs no change</li>
+<li>balanced escaping: as <code>{</code> no longer needs to be escaped, neither does <code>}</code>.</li>
+<li>escaping in code generation: since a two character sequence is significantly less likely to overlap - it will not eliminate the potential need for it, but that is always true</li>
+<li>As there is only one sequence and one way to write it it keeps the complexity at the same level</li>
+<li>Since it is the <a href="#prior-art">most common approach</a> for interpolation, it is easier to learn by knowledge transfer</li>
+</ol>
+<p>downsides:</p>
+<ol>
+<li>it is a breaking change (however every change would be)</li>
+</ol>
+<p>From the survey of of existing implementations the most common form seems to be <code>${...}</code>, followed closely by <code>#{...}</code> both seem workable however, both <code>$</code> and <code>#</code> have their own meaning in tremor script.</p>
+<ul>
+<li><code>#</code> is the comment character, so it can be reasond that it is switching contexts from code to comment, or from string to interpolation.</li>
+<li><code>$</code> is our <code>metadata</code>, which could be reasond that <code>${...}</code> is a meta context, however this seems to be a bit of a stretch and <code>${$}</code> would read quite odd.</li>
+</ul>
+<p>Considering all this, the proposed solution for this RFC is to use <code>#{...}</code> for string interpolation.</p>
+<h1 id="reference-level-explanation">Reference-level explanation<a class="headerlink" href="#reference-level-explanation" title="Permanent link">¶</a></h1>
+<p>The implementation holds a few requirements:</p>
+<ol>
+<li>non interpolated strings should have no additional overhead.</li>
+<li>constant folding should apply to interpolation.</li>
+<li>interpolated strings should, at worst, have the same cost as string concatenation, at best be more preformat.</li>
+<li>errors should remain hygienic and useful.</li>
+<li>the behavior of interpolation should be the same in strings and heredocs</li>
+<li>aside of the interpolation, behavior of interpolated and non interpolated strings should remain the same (read: adding an interpolated item to a string should not change behavior)</li>
+</ol>
+<h1 id="drawbacks">Drawbacks<a class="headerlink" href="#drawbacks" title="Permanent link">¶</a></h1>
+<p>There are some drawbacks to consider.</p>
+<p>From a user perspective string interpolation adds to the cognitive complexity as it introduces a new logical element and new escaping requirements, this can partially be mitigated with good integration in highlighting to ease the readability.</p>
+<p>Another drawback to consider is hidden performance cost, a string, intuitively, feels cheep as it is a primitive datatype, by adding interpolation strings become significantly more 'expensive' without being very explicit about it.</p>
+<p>The overlap with string::format introduces the situation where we have two mechanisms that to the most degree solve the same problem. Giving users this choice makes it harder to write (and by that read) 'idiomatic' tremor code.</p>
+<p>The choice of syntax comes with different drawbacks. Using a single <code>{}</code> style will force additional escaping, a longer syntax, for example one of the prefixed ones, will be more typing but would resolve a lot of escaping needs as <code>*{</code> is going to be a lot less common then a single <code>{</code>.</p>
+<h1 id="rationale-and-alternatives">Rationale and alternatives<a class="headerlink" href="#rationale-and-alternatives" title="Permanent link">¶</a></h1>
+<p>String interpolation feels more natural then using format functions or concatenation. While the aforementioned drawbacks exist they are outweighed by the gain in usability.</p>
+<p>An alternative would be to extend the format function and drop interpolation, but the general aim for operator friendliness and usability rules this out.</p>
+<h1 id="prior-art">Prior art<a class="headerlink" href="#prior-art" title="Permanent link">¶</a></h1>
+<p>There are many existing implementations of string interpolation, for reference here are a few each producing the string <code>13 + 29 = 42</code>:</p>
+<h2 id="two-character-sequences">two character sequences<a class="headerlink" href="#two-character-sequences" title="Permanent link">¶</a></h2>
+<p><strong>Ruby</strong>
+<div class="highlight"><pre><span></span><code><span class="s2">"13 + 29 = </span><span class="si">#{</span><span class="mi">13</span> <span class="o">+</span> <span class="mi">29</span><span class="si">}</span><span class="s2"></span>
+</code></pre></div></p>
+<p><strong>Elixir</strong>
+<div class="highlight"><pre><span></span><code><span class="s2">"13 + 29 = </span><span class="si">#{</span><span class="mi">13</span> <span class="o">+</span> <span class="mi">29</span><span class="si">}</span><span class="s2"></span>
+</code></pre></div></p>
+<p><strong>Coffeescript</strong>
+<div class="highlight"><pre><span></span><code><span class="s">"13 + 12 = </span><span class="si">#{</span><span class="mi">13</span> <span class="o">+</span> <span class="mi">29</span><span class="si">}</span><span class="s">"</span>
+</code></pre></div></p>
+<p><strong>Javascript</strong>
+<div class="highlight"><pre><span></span><code><span class="sb">`13 + 29 = </span><span class="si">${</span><span class="mf">13</span> <span class="o">+</span> <span class="mf">29</span><span class="si">}</span><span class="sb">`</span>
+</code></pre></div></p>
+<p><strong>Groovy</strong>
+(also supports variable access via $)
+<div class="highlight"><pre><span></span><code><span class="s2">"13 + 12 = ${13 + 29}"</span>
+</code></pre></div></p>
+<p><strong>Haxe</strong>
+(also supports variable access via $)
+<div class="highlight"><pre><span></span><code><span class="s2">"13 + 12 = ${13 + 29}"</span>
+</code></pre></div></p>
+<p><strong>Dart</strong>
+(also supports variable access via $)
+<div class="highlight"><pre><span></span><code><span class="s2">"13 + 12 = </span><span class="si">${</span><span class="m">13</span> <span class="o">+</span> <span class="m">29</span><span class="si">}</span><span class="s2">"</span>
+</code></pre></div></p>
+<p><strong>BASH</strong>
+<div class="highlight"><pre><span></span><code><span class="s2">"13 + 12 = </span><span class="k">$(</span>expr <span class="m">13</span> + <span class="m">29</span><span class="k">)</span><span class="s2">"</span>
+</code></pre></div></p>
+<p><strong>LUA</strong>
+<div class="highlight"><pre><span></span><code><span class="s2">"13 + 12 = %(13 + 29)"</span>
+</code></pre></div></p>
+<p><strong>SWIFT</strong>
+<div class="highlight"><pre><span></span><code><span class="s">"13 + 12 = </span><span class="si">\(</span><span class="mi">13</span> <span class="o">+</span> <span class="mi">29</span><span class="si">)</span><span class="s">"</span>
+</code></pre></div></p>
+<p><strong>Julia</strong>
+(also supports variable access via $)
+<div class="highlight"><pre><span></span><code><span class="s">"13 + 12 = </span><span class="si">$</span><span class="p">(</span><span class="mi">13</span> <span class="o">+</span> <span class="mi">29</span><span class="p">)</span><span class="s">"</span>
+</code></pre></div></p>
+<h2 id="second-string-type">second string type<a class="headerlink" href="#second-string-type" title="Permanent link">¶</a></h2>
+<p><strong>C#</strong>
+<div class="highlight"><pre><span></span><code><span class="err">$</span><span class="s">"13 + 12 = {13 + 12}"</span>
+</code></pre></div>
+<strong>Kotlin</strong>
+(also supports variable access via $)
+<div class="highlight"><pre><span></span><code>    <span class="kd">var</span> <span class="nv">answer</span> <span class="o">=</span> <span class="p">;</span>
+    <span class="s">"13 + 29 = </span><span class="si">${</span><span class="m">13</span> <span class="o">+</span> <span class="m">29</span><span class="si">}</span><span class="s">"</span>
+</code></pre></div></p>
+<h2 id="second-string-type_1">second string type<a class="headerlink" href="#second-string-type_1" title="Permanent link">¶</a></h2>
+<p><strong>F#</strong>
+<div class="highlight"><pre><span></span><code><span class="o">$</span><span class="s">"13 + 12 = {13 + 12}"</span>
+</code></pre></div></p>
+<p><strong>Python</strong>
+<div class="highlight"><pre><span></span><code><span class="sa">f</span><span class="s1">'13 + 29 = </span><span class="si">{</span><span class="mi">13</span> <span class="o">+</span> <span class="mi">29</span><span class="si">}</span><span class="s1">'</span>
+</code></pre></div></p>
+<p><strong>Kotlin</strong>
+(limited to variables)
+<div class="highlight"><pre><span></span><code>    <span class="kd">val</span> <span class="nv">answer</span> <span class="o">=</span> <span class="m">13</span> <span class="o">+</span> <span class="m">29</span><span class="p">;</span>
+    <span class="n">s</span><span class="s">"13 + 29 = </span><span class="si">$</span><span class="n">answer</span><span class="s">"</span>
+</code></pre></div></p>
+<p><strong>Haskell</strong>
+(via library)
+<div class="highlight"><pre><span></span><code> <span class="p">[</span><span class="n">i</span><span class="o">|</span><span class="mi">13</span> <span class="o">+</span> <span class="mi">12</span> <span class="ow">=</span> <span class="o">#</span><span class="p">{</span><span class="mi">13</span> <span class="o">+</span> <span class="mi">29</span><span class="p">}</span><span class="o">|</span><span class="p">]</span>
+</code></pre></div></p>
+<h2 id="other">Other<a class="headerlink" href="#other" title="Permanent link">¶</a></h2>
+<p><strong>Perl</strong>
+(limited to variables)
+<div class="highlight"><pre><span></span><code>    <span class="n">answer</span> <span class="o">=</span> <span class="mi">13</span> <span class="o">+</span> <span class="mi">29</span><span class="p">;</span>
+    <span class="s">"13 + 29 = $answer"</span>
+</code></pre></div></p>
+<p><strong>PHP</strong>
+(limited to variables)
+<div class="highlight"><pre><span></span><code><span class="x">    $answer = 13 + 29;</span>
+<span class="x">    "13 + 29 = $answer"</span>
+</code></pre></div></p>
+<p>A more extensive list including replacement and concatination can be found on <a href="https://rosettacode.org/wiki/String_interpolation_(included)">rosettacode</a></p>
+<h1 id="unresolved-questions">Unresolved questions<a class="headerlink" href="#unresolved-questions" title="Permanent link">¶</a></h1>
+<ul>
+<li>Is it worth sticking with <code>{}</code> for interpolation despite the drawbacks on escaping</li>
+<li>What longer sequence would be the most appropriate</li>
+</ul>
+<h1 id="future-possibilities">Future possibilities<a class="headerlink" href="#future-possibilities" title="Permanent link">¶</a></h1>
+<p>This RFC does exclude considerations for a templateing language. This is however a possible extension for the future worth keeping in mind, but might require a separate file format or different syntax to keep the complexity at bay.</p>
+</article>
+</div>
+</div>
+</main>
+<footer class="md-footer">
+<div class="md-footer-nav">
+<nav aria-label="Footer" class="md-footer-nav__inner md-grid">
+<a class="md-footer-nav__link md-footer-nav__link--prev" href="../0000-template/" rel="prev">
+<div class="md-footer-nav__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</div>
+<div class="md-footer-nav__title">
+<div class="md-ellipsis">
+<span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                RFC Template
+              </div>
+</div>
+</a>
+<a class="md-footer-nav__link md-footer-nav__link--next" href="../0001-remove-actix-from-tremor-runtime/" rel="next">
+<div class="md-footer-nav__title">
+<div class="md-ellipsis">
+<span class="md-footer-nav__direction">
+                  Next
+                </span>
+                0001-remove-actix-from-tremor-runtime
+              </div>
+</div>
+<div class="md-footer-nav__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"></path></svg>
+</div>
+</a>
+</nav>
+</div>
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+          Material for MkDocs
+        </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<script src="../assets/javascripts/vendor.18f0862e.min.js"></script>
+<script src="../assets/javascripts/bundle.994580cf.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+<script>
+        app = initialize({
+          base: "..",
+          features: [],
+          search: Object.assign({
+            worker: "../assets/javascripts/worker/search.9c0e82ba.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+<script src="https://unpkg.com/mermaid@8.8.4/dist/mermaid.min.js"></script>
+</body>
+</html>

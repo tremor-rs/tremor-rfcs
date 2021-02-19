@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <meta content="The Tremor Team" name="author"/>
 <link href="../assets/images/favicon.png" rel="shortcut icon"/>
-<meta content="mkdocs-1.1.2, mkdocs-material-6.2.6" name="generator"/>
+<meta content="mkdocs-1.1.2, mkdocs-material-6.2.8" name="generator"/>
 <title>0004-sliding-window-mechanism - Tremor RFCs</title>
 <link href="../assets/stylesheets/main.cb6bc1d0.min.css" rel="stylesheet"/>
 <link href="../assets/stylesheets/palette.39b8e14a.min.css" rel="stylesheet"/>
@@ -158,6 +158,11 @@
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
+<a class="md-nav__link" href="../0000-string-interpolation/">
+        0000-string-interpolation
+      </a>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="../0001-remove-actix-from-tremor-runtime/">
         0001-remove-actix-from-tremor-runtime
       </a>
@@ -257,20 +262,20 @@ to tremor-query is a natural extension to the language.</p>
 <span class="kd">end</span><span class="err">;</span><span class="w"></span>
 </code></pre></div></p>
 <p>Application of  the <code>pairs</code> window in a <code>select</code> statement</p>
-<div class="highlight"><pre><span></span><code><span class="kd">select</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="kd">select</span><span class="w"> </span><span class="nx">{</span><span class="w"></span>
 <span class="w">  </span><span class="s">"window"</span><span class="err">:</span><span class="w"> </span><span class="kd">window</span><span class="err">,</span><span class="w"></span>
 <span class="w">  </span><span class="s">"count"</span><span class="err">:</span><span class="w"> </span><span class="nx">stats</span><span class="err">::</span><span class="nx">count</span><span class="err">(),</span><span class="w"></span>
 <span class="w">  </span><span class="s">"of"</span><span class="err">:</span><span class="w"> </span><span class="nx">win</span><span class="err">::</span><span class="nx">collect</span><span class="err">(</span><span class="kc">event</span><span class="err">),</span><span class="w"></span>
-<span class="err">}</span><span class="w"></span>
+<span class="nx">}</span><span class="w"></span>
 <span class="kd">from</span><span class="w"> </span><span class="nx">in</span><span class="err">[</span><span class="nx">pairs</span><span class="err">]</span><span class="w"></span>
 <span class="kd">into</span><span class="w"> </span><span class="nx">out</span><span class="err">;</span><span class="w"></span>
 </code></pre></div>
 <p>Sliding windows should work with tilt frames:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">select</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="kd">select</span><span class="w"> </span><span class="nx">{</span><span class="w"></span>
 <span class="w">  </span><span class="s">"window"</span><span class="err">:</span><span class="w"> </span><span class="kd">window</span><span class="err">,</span><span class="w"></span>
 <span class="w">  </span><span class="s">"count"</span><span class="err">:</span><span class="w"> </span><span class="nx">stats</span><span class="err">::</span><span class="nx">count</span><span class="err">(),</span><span class="w"></span>
 <span class="w">  </span><span class="s">"of"</span><span class="err">:</span><span class="w"> </span><span class="nx">win</span><span class="err">::</span><span class="nx">collect</span><span class="err">(</span><span class="kc">event</span><span class="err">),</span><span class="w"></span>
-<span class="err">}</span><span class="w"></span>
+<span class="nx">}</span><span class="w"></span>
 <span class="kd">from</span><span class="w"> </span><span class="nx">in</span><span class="err">[</span><span class="nx">sliding_pairs</span><span class="err">,</span><span class="w"> </span><span class="nx">tumbling_pairs</span><span class="err">,</span><span class="w"> </span><span class="nx">tumbling_triples</span><span class="err">,</span><span class="w"> </span><span class="nx">sliding_quads</span><span class="err">]</span><span class="w"></span>
 <span class="kd">into</span><span class="w"> </span><span class="nx">out</span><span class="err">;</span><span class="w"></span>
 </code></pre></div>
@@ -348,8 +353,8 @@ implementation.</p>
 </div>
 </footer>
 </div>
-<script src="../assets/javascripts/vendor.53cc9318.min.js"></script>
-<script src="../assets/javascripts/bundle.e9c9f54f.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+<script src="../assets/javascripts/vendor.18f0862e.min.js"></script>
+<script src="../assets/javascripts/bundle.994580cf.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
 <script>
         app = initialize({
           base: "..",

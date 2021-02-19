@@ -7,7 +7,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <meta content="The Tremor Team" name="author"/>
 <link href="../assets/images/favicon.png" rel="shortcut icon"/>
-<meta content="mkdocs-1.1.2, mkdocs-material-6.2.6" name="generator"/>
+<meta content="mkdocs-1.1.2, mkdocs-material-6.2.8" name="generator"/>
 <title>0007-pipeline-optimizations - Tremor RFCs</title>
 <link href="../assets/stylesheets/main.cb6bc1d0.min.css" rel="stylesheet"/>
 <link href="../assets/stylesheets/palette.39b8e14a.min.css" rel="stylesheet"/>
@@ -158,6 +158,11 @@
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
+<a class="md-nav__link" href="../0000-string-interpolation/">
+        0000-string-interpolation
+      </a>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="../0001-remove-actix-from-tremor-runtime/">
         0001-remove-actix-from-tremor-runtime
       </a>
@@ -275,13 +280,13 @@
 
 <span class="c1"># the select operator is connected to the passthrough[1] `in`</span>
 <span class="c1"># and connects to the passthrough[5] `aggregate`</span>
-<span class="kd">select</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
+<span class="kd">select</span><span class="w"> </span><span class="nx">{</span><span class="w"></span>
 <span class="w">    </span><span class="s">"measurement"</span><span class="err">:</span><span class="w"> </span><span class="kc">event</span><span class="err">.</span><span class="nx">measurement</span><span class="err">,</span><span class="w"></span>
 <span class="w">    </span><span class="s">"tags"</span><span class="err">:</span><span class="w"> </span><span class="kc">event</span><span class="err">.</span><span class="nx">tags</span><span class="err">,</span><span class="w"></span>
 <span class="w">    </span><span class="s">"field"</span><span class="err">:</span><span class="w"> </span><span class="kd">group</span><span class="err">[</span><span class="mi">2</span><span class="err">],</span><span class="w"></span>
 <span class="w">    </span><span class="s">"value"</span><span class="err">:</span><span class="w"> </span><span class="kc">event</span><span class="err">.</span><span class="nx">fields</span><span class="err">[</span><span class="kd">group</span><span class="err">[</span><span class="mi">2</span><span class="err">]],</span><span class="w"></span>
 <span class="w">    </span><span class="s">"timestamp"</span><span class="err">:</span><span class="w"> </span><span class="kc">event</span><span class="err">.</span><span class="nx">timestamp</span><span class="err">,</span><span class="w"></span>
-<span class="err">}</span><span class="w"></span>
+<span class="nx">}</span><span class="w"></span>
 <span class="kd">from</span><span class="w"> </span><span class="nx">in</span><span class="w"></span>
 <span class="kd">group</span><span class="w"> </span><span class="kd">by</span><span class="w"> </span><span class="kd">set</span><span class="err">(</span><span class="kc">event</span><span class="err">.</span><span class="nx">measurement</span><span class="err">,</span><span class="w"> </span><span class="kc">event</span><span class="err">.</span><span class="nx">tags</span><span class="err">,</span><span class="w"> </span><span class="kd">each</span><span class="err">(</span><span class="nx">record</span><span class="err">::</span><span class="nx">keys</span><span class="err">(</span><span class="kc">event</span><span class="err">.</span><span class="nx">fields</span><span class="err">)))</span><span class="w"></span>
 <span class="kd">into</span><span class="w"> </span><span class="nx">aggregate</span><span class="w"></span>
@@ -291,23 +296,23 @@
 <span class="c1"># the select operator is connected to the passthrough[5] `aggregate`</span>
 <span class="c1"># and connects to the passthrough[4] `normalize`</span>
 <span class="kd">select</span><span class="w"> </span>
-<span class="err">{</span><span class="w"></span>
+<span class="nx">{</span><span class="w"></span>
 <span class="w">    </span><span class="s">"measurement"</span><span class="err">:</span><span class="w"> </span><span class="kc">event</span><span class="err">.</span><span class="nx">measurement</span><span class="err">,</span><span class="w"></span>
 <span class="w">    </span><span class="s">"tags"</span><span class="err">:</span><span class="w"> </span><span class="kd">patch</span><span class="w"> </span><span class="kc">event</span><span class="err">.</span><span class="nx">tags</span><span class="w"> </span><span class="kd">of</span><span class="w"> </span><span class="kd">insert</span><span class="w"> </span><span class="s">"window"</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="kd">window</span><span class="w"> </span><span class="kd">end</span><span class="err">,</span><span class="w"></span>
 <span class="w">    </span><span class="s">"stats"</span><span class="err">:</span><span class="w"> </span><span class="nx">stats</span><span class="err">::</span><span class="nx">hdr</span><span class="err">(</span><span class="kc">event</span><span class="err">.</span><span class="nx">value</span><span class="err">,</span><span class="w"> </span><span class="err">[</span><span class="w"> </span><span class="s">"0.5"</span><span class="err">,</span><span class="w"> </span><span class="s">"0.9"</span><span class="err">,</span><span class="w"> </span><span class="s">"0.99"</span><span class="err">,</span><span class="w"> </span><span class="s">"0.999"</span><span class="w"> </span><span class="err">]),</span><span class="w"></span>
 <span class="w">    </span><span class="s">"field"</span><span class="err">:</span><span class="w"> </span><span class="kc">event</span><span class="err">.</span><span class="nx">field</span><span class="err">,</span><span class="w"></span>
 <span class="w">    </span><span class="s">"timestamp"</span><span class="err">:</span><span class="w"> </span><span class="nx">win</span><span class="err">::</span><span class="nx">first</span><span class="err">(</span><span class="kc">event</span><span class="err">.</span><span class="nx">timestamp</span><span class="err">),</span><span class="w"> </span><span class="c1"># we can't use min since it's a float</span>
-<span class="err">}</span><span class="w"></span>
+<span class="nx">}</span><span class="w"></span>
 <span class="kd">from</span><span class="w"> </span><span class="nx">aggregate</span><span class="err">[`</span><span class="mi">10</span><span class="nx">secs</span><span class="err">`,</span><span class="w"> </span><span class="err">`</span><span class="mi">1</span><span class="nx">min</span><span class="err">`,</span><span class="w"> </span><span class="err">]</span><span class="w"></span>
 <span class="kd">group</span><span class="w"> </span><span class="kd">by</span><span class="w"> </span><span class="kd">set</span><span class="err">(</span><span class="kc">event</span><span class="err">.</span><span class="nx">measurement</span><span class="err">,</span><span class="w"> </span><span class="kc">event</span><span class="err">.</span><span class="nx">tags</span><span class="err">,</span><span class="w"> </span><span class="kc">event</span><span class="err">.</span><span class="nx">field</span><span class="err">)</span><span class="w"></span>
 <span class="kd">into</span><span class="w"> </span><span class="nx">normalize</span><span class="err">;</span><span class="w"></span>
 
 <span class="c1"># the select operator is connected to the passthrough[4] `normalize`</span>
 <span class="c1"># and connects to the operator `batch`</span>
-<span class="kd">select</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
+<span class="kd">select</span><span class="w"> </span><span class="nx">{</span><span class="w"></span>
 <span class="w">  </span><span class="s">"measurement"</span><span class="err">:</span><span class="w">  </span><span class="kc">event</span><span class="err">.</span><span class="nx">measurement</span><span class="err">,</span><span class="w"></span>
 <span class="w">  </span><span class="s">"tags"</span><span class="err">:</span><span class="w">  </span><span class="kc">event</span><span class="err">.</span><span class="nx">tags</span><span class="err">,</span><span class="w"></span>
-<span class="w">  </span><span class="s">"fields"</span><span class="err">:</span><span class="w">  </span><span class="err">{</span><span class="w"></span>
+<span class="w">  </span><span class="s">"fields"</span><span class="err">:</span><span class="w">  </span><span class="nx">{</span><span class="w"></span>
 <span class="w">    </span><span class="s">"count_{event.field}"</span><span class="err">:</span><span class="w">  </span><span class="kc">event</span><span class="err">.</span><span class="nx">stats</span><span class="err">.</span><span class="nx">count</span><span class="err">,</span><span class="w"></span>
 <span class="w">    </span><span class="s">"min_{event.field}"</span><span class="err">:</span><span class="w">  </span><span class="kc">event</span><span class="err">.</span><span class="nx">stats</span><span class="err">.</span><span class="nx">min</span><span class="err">,</span><span class="w"></span>
 <span class="w">    </span><span class="s">"max_{event.field}"</span><span class="err">:</span><span class="w">  </span><span class="kc">event</span><span class="err">.</span><span class="nx">stats</span><span class="err">.</span><span class="nx">max</span><span class="err">,</span><span class="w"></span>
@@ -318,9 +323,9 @@
 <span class="w">    </span><span class="s">"p90_{event.field}"</span><span class="err">:</span><span class="w">  </span><span class="kc">event</span><span class="err">.</span><span class="nx">stats</span><span class="err">.</span><span class="nx">percentiles</span><span class="err">[</span><span class="s">"0.9"</span><span class="err">],</span><span class="w"></span>
 <span class="w">    </span><span class="s">"p99_{event.field}"</span><span class="err">:</span><span class="w">  </span><span class="kc">event</span><span class="err">.</span><span class="nx">stats</span><span class="err">.</span><span class="nx">percentiles</span><span class="err">[</span><span class="s">"0.99"</span><span class="err">],</span><span class="w"></span>
 <span class="w">    </span><span class="s">"p99.9_{event.field}"</span><span class="err">:</span><span class="w">  </span><span class="kc">event</span><span class="err">.</span><span class="nx">stats</span><span class="err">.</span><span class="nx">percentiles</span><span class="err">[</span><span class="s">"0.999"</span><span class="err">]</span><span class="w"></span>
-<span class="w">  </span><span class="err">},</span><span class="w"></span>
+<span class="w">  </span><span class="nx">}</span><span class="err">,</span><span class="w"></span>
 <span class="w">  </span><span class="s">"timestamp"</span><span class="err">:</span><span class="w"> </span><span class="kc">event</span><span class="err">.</span><span class="nx">timestamp</span><span class="err">,</span><span class="w"></span>
-<span class="err">}</span><span class="w"></span>
+<span class="nx">}</span><span class="w"></span>
 <span class="kd">from</span><span class="w"> </span><span class="nx">normalize</span><span class="w"></span>
 <span class="kd">into</span><span class="w"> </span><span class="nx">batch</span><span class="err">;</span><span class="w"></span>
 
@@ -402,8 +407,8 @@
 </div>
 </footer>
 </div>
-<script src="../assets/javascripts/vendor.53cc9318.min.js"></script>
-<script src="../assets/javascripts/bundle.e9c9f54f.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+<script src="../assets/javascripts/vendor.18f0862e.min.js"></script>
+<script src="../assets/javascripts/bundle.994580cf.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
 <script>
         app = initialize({
           base: "..",
