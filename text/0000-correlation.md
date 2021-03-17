@@ -33,10 +33,7 @@ Here we have the request handling pipeline, that moves some event field into the
 define script extract_correlation_id
 script
     # extract application key and put it into correlation
-    let $correlation = event.application_key;
-    patch event of
-        erase "application_key"
-    end;
+    let $correlation = $request.headers["X-Application-Key"] ;
     event
 end;
 
@@ -62,22 +59,14 @@ select event from correlation/out into out;
 select event from correlation/err into err;
 ```
 
-Explain the proposal as if it was already included in Tremor and you were teaching it to another Tremor user. That generally means:
-
-- Introducing new named concepts.
-- Explaining the feature largely in terms of examples.
-- Explaining how stakeholders should *think* about the feature, and how it should impact the way they use tremor. It should explain the impact as concretely as possible.
-- If applicable, provide sample error messages, deprecation warnings, or migration guidance.
-- If applicable, describe the differences between teaching this to existing tremor stakeholders and new tremor programmers.
-
-For implementation-oriented RFCs (e.g. for language internals), this section should focus on how language contributors should think about the change, and give examples of its concrete impact. For policy RFCs, this section should provide an example-driven introduction to the policy, and explain its impact in concrete terms.
-
-Optionally we should add means to generate unique identifiers (e.g. a `uuid` std-lib module or twitter snowflake ids) and to use the already existing internal `event_id` for correlation purposes, i.e. add a function to the `tremor::system` module to get the `event_id` in some usable form, e.g. as number.
+For cases where the event payload should remain unaffected
 
 # Reference-level explanation
 [reference-level-explanation]: #reference-level-explanation
 
 As for the implementation, every linked transport needs to be touched and needs to keep around the correlation `Value`s for each in-flight event and inject it into the response event.
+
+This also includes cleaning up the correlation state in case of errors of the external systems, in case of timeouts and the like, so we ensure that we never grow beyond the bounds of the configured concurrency.
 
 We need to take care that no offramp/onramp uses that field for its own metadata.
 
@@ -105,7 +94,7 @@ end;
 select aggr::win::collect_flattened(event) from in[size_2] group by $correlation into out;
 ```
 
-To get exactly the same timeout behaviour the operator would have, we might need to tweak the current `eviction_period` handling logic, as it currently only gets rid of groups after `2 x eviction_perios`. But as the operator can only live in 1 pipeline, we need to pass both events through the same pipeline anyways, and the above code is much more idiomatic and feels more native and less cumbersome.
+To get exactly the same timeout behaviour the operator would have, we might need to tweak the current `eviction_period` handling logic, as it currently only gets rid of groups after `2 x eviction_period`. But as the operator can only live in 1 pipeline, we need to pass both events through the same pipeline anyways, and the above code is much more idiomatic and feels more native and less cumbersome.
 
 This pattern for correlation will find its way into the docs.
 
