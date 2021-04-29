@@ -13,9 +13,9 @@ This RFC aims to add quality of life improvements to the script operator. As it 
 
 [motivation]: #motivation
 
-To demonstrate I will give a motivating example if the reduction of complexity for a simplified algorithm for distributed loadbalancing:
+To demonstrate we will give a motivating example if the reduction of complexity for a simplified algorithm for distributed loadbalancing:
 
-The original code has to fight with not knowing what ports data comes in and having to verify the initalization of state on every event.
+The original code has to contend with not knowing what ports data comes in and having to verify the initalization of state on every event.
 
 ```trickle
 define grouper::bucket operator bucketing;
@@ -220,7 +220,7 @@ This introduces two new parts to the to the seelct statement.
 
 ## `state`
 
-The `state` section is introduced as an optional section to provide an initial stat. One alternative would be calling it `init` however using that would introduce a new keyword and by that break backwards compatibility and reduce the number of possible idents.
+The `state` section is introduced as an optional section to provide an initial state. One alternative would be calling it `init` however using that would introduce a new keyword and by that break backwards compatibility and reduce the number of possible idents.
 
 The content of `state` would get executed as part of the initialisation and then set once before the script is executes for the first time.
 
