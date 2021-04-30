@@ -289,3 +289,22 @@ None at this point.
 [future-possibilities]: #future-possibilities
 
 A `system::port()` (or equivalent) function would be a good addition.
+
+Another possibility this opens is to allow analyzing different script path and their respective ports. that way we can make a more detailed cycle analysis on a script that has a control plane and a data plane that do not overlap.
+
+For example:
+
+```
+define script control_and_data
+script for "control"
+  let state = sevent;
+  drop
+script for event
+  // do something with event
+end;
+
+select event from  control_and_data/metrics to control_and_data/control;
+select event from in into out;
+```
+
+Here we could determine that the "control" section never emits data, so no loop is created.
