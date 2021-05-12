@@ -8,7 +8,7 @@
 <meta content="The Tremor Team" name="author"/>
 <link href="../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.1.2, mkdocs-material-7.1.4" name="generator"/>
-<title>RFC Template - Tremor RFCs</title>
+<title>0000-correlation - Tremor RFCs</title>
 <link href="../assets/stylesheets/main.bde7dde4.min.css" rel="stylesheet"/>
 <link href="../assets/stylesheets/palette.ef6f36e2.min.css" rel="stylesheet"/>
 <meta content="#000000" name="theme-color"/>
@@ -46,7 +46,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              RFC Template
+              0000-correlation
             
           </span>
 </div>
@@ -141,14 +141,13 @@
         Library Changes
       </a>
 </li>
-<li class="md-nav__item md-nav__item--active">
-<input class="md-nav__toggle md-toggle" data-md-toggle="toc" id="__toc" type="checkbox"/>
-<a class="md-nav__link md-nav__link--active" href="./">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../0000-template/">
         RFC Template
       </a>
 </li>
-<li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" id="__nav_7" type="checkbox"/>
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" id="__nav_7" type="checkbox"/>
 <label class="md-nav__link" for="__nav_7">
         RFCs
         <span class="md-nav__icon md-icon"></span>
@@ -159,8 +158,9 @@
           RFCs
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../0000-correlation/">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" data-md-toggle="toc" id="__toc" type="checkbox"/>
+<a class="md-nav__link md-nav__link--active" href="./">
         0000-correlation
       </a>
 </li>
@@ -237,85 +237,89 @@
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<a class="md-content__button md-icon" href="https://github.com/tremor-rs/tremor-rfcs/edit/main/0000-template.md" title="Edit this page">
+<a class="md-content__button md-icon" href="https://github.com/tremor-rs/tremor-rfcs/edit/main/0000-correlation.md" title="Edit this page">
 <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"></path></svg>
 </a>
 <ul>
-<li>Feature Name: (fill me in with a unique ident, <code>my_awesome_feature</code>)</li>
-<li>Start Date: (fill me in with today's date, YYYY-MM-DD)</li>
+<li>Feature Name: <code>correlation_linked_transport</code></li>
+<li>Start Date: 2021-03-12</li>
 <li>Tremor Issue: <a href="https://github.com/tremor-rs/tremor-runtime/issues/0000">tremor-rs/tremor-runtime#0000</a></li>
 <li>RFC PR: <a href="https://github.com/tremor-rs/tremor-rfcs/pull/0000">tremor-rs/tremor-rfcs#0000</a></li>
 </ul>
 <h1 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">¶</a></h1>
-<p>One paragraph explanation of the feature.</p>
+<p>Linked Transports enable integrating request-response based communications with tremor event-streams. Events coming from pipelines can be turned into requests and responses are turned into events and sent on to other pipelines.
+Nonetheless we currently can't correlate them, that is have request event data present in the context of the response event handling. This RFC is suggesting new means for convenient correlating of events,
+i.e. the special <code>$correlation</code> metadata key.</p>
 <h1 id="motivation">Motivation<a class="headerlink" href="#motivation" title="Permanent link">¶</a></h1>
-<p>Why are we doing this? What use cases does it support? What is the expected outcome?</p>
+<p>When we introduced <a href="../0003-linked-transports/">Linked Transport</a> we enabled request-response communication patterns with the outside world, like HTTP or some Websocket protocols. Right now request and response handling need to either be done in two different pipelines or in the same and be dispatched within the trickle/tremor-script logic. If any part of the request event needs to be around for response handling, the only option is to handle both in 1 pipeline and use the <code>state</code> mechanism to store and retrieve the request event data upon response handling.</p>
+<p>We are currently adding some correlation data e.g. for the <code>elastic</code> offramp, where we store the whole origin <code>event_id</code>, <code>origin_uri</code> and the <code>payload</code> of the document indexed. Or the <code>rest</code> offramp, where we include the HTTP request metadata into the response event. Those are in no means complete in that we can only correlate metadata that is also being sent to as the event itself (HTTP headers, elastic document payload). We want the correlation mechanism to be more flexible and to not affect the actual event payload or outgoing protocol unit. Correlation should be an internal mechanism to your tremor application logic.</p>
 <h1 id="guide-level-explanation">Guide-level explanation<a class="headerlink" href="#guide-level-explanation" title="Permanent link">¶</a></h1>
-<p>Explain the proposal as if it was already included in Tremor and you were teaching it to another Tremor user. That generally means:</p>
-<ul>
-<li>Introducing new named concepts.</li>
-<li>Explaining the feature largely in terms of examples.</li>
-<li>Explaining how stakeholders should <em>think</em> about the feature, and how it should impact the way they use tremor. It should explain the impact as concretely as possible.</li>
-<li>If applicable, provide sample error messages, deprecation warnings, or migration guidance.</li>
-<li>If applicable, describe the differences between teaching this to existing tremor stakeholders and new tremor programmers.</li>
-</ul>
-<p>For implementation-oriented RFCs (e.g. for language internals), this section should focus on how language contributors should think about the change, and give examples of its concrete impact. For policy RFCs, this section should provide an example-driven introduction to the policy, and explain its impact in concrete terms.</p>
+<p>Every Linked Transport onramp or offramp will for every incoming event take the <code>Value</code> at the metadata key <code>$correlation</code>, if any and inject it into the response event metadata under the same key.</p>
+<p>This way users can pass correlation data from request to response without the need to manipulate the event payload and thus the application data to be sent out. Also we only need to keep as much correlation data around as we have in-flight events and most of all we don't require users to write complex and error-prone correlation logic in tremor-script, which will blow up code bases, possibly beyond reasonable maintainability.</p>
+<p>Usage example using the <code>rest</code> offramp:</p>
+<p>Here we have the request handling pipeline, that moves some event field into the special <code>$correlation</code> metadata field.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># request handling</span>
+<span class="kd">define</span><span class="w"> </span><span class="kd">script</span><span class="w"> </span><span class="nx">extract_correlation_id</span><span class="w"></span>
+<span class="kd">script</span><span class="w"></span>
+<span class="w">    </span><span class="c1"># extract application key and put it into correlation</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="err">$</span><span class="nx">correlation</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="err">$</span><span class="nx">request</span><span class="err">.</span><span class="nx">headers</span><span class="err">[</span><span class="s">"X-Application-Key"</span><span class="err">]</span><span class="w"> </span><span class="err">;</span><span class="w"></span>
+<span class="w">    </span><span class="kc">event</span><span class="w"></span>
+<span class="kd">end</span><span class="err">;</span><span class="w"></span>
+
+<span class="kd">select</span><span class="w"> </span><span class="kc">event</span><span class="w"> </span><span class="kd">from</span><span class="w"> </span><span class="nx">in</span><span class="w"> </span><span class="kd">into</span><span class="w"> </span><span class="nx">extract_correlation_id</span><span class="err">;</span><span class="w"></span>
+<span class="kd">select</span><span class="w"> </span><span class="kc">event</span><span class="w"> </span><span class="kd">from</span><span class="w"> </span><span class="nx">extract_correlation_id</span><span class="err">/</span><span class="nx">out</span><span class="w"> </span><span class="kd">into</span><span class="w"> </span><span class="nx">out</span><span class="err">;</span><span class="w"></span>
+<span class="kd">select</span><span class="w"> </span><span class="kc">event</span><span class="w"> </span><span class="kd">from</span><span class="w"> </span><span class="nx">extract_correlation_id</span><span class="err">/</span><span class="nx">err</span><span class="w"> </span><span class="kd">into</span><span class="w"> </span><span class="nx">err</span><span class="err">;</span><span class="w"></span>
+</code></pre></div>
+<p>This is the response handling pipeline which uses the <code>$correlation</code> metadata field in further event processing:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># response handling</span>
+<span class="kd">define</span><span class="w"> </span><span class="kd">script</span><span class="w"> </span><span class="nx">correlation</span><span class="w"></span>
+<span class="kd">script</span><span class="w"></span>
+<span class="w">    </span><span class="c1"># preparation for sending this response further down the road via another rest offramp</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="err">$</span><span class="nx">request</span><span class="err">.</span><span class="nx">headers</span><span class="err">[</span><span class="s">"X-Application-Key"</span><span class="err">]</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="err">$</span><span class="nx">correlation</span><span class="err">;</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="err">$</span><span class="nx">request</span><span class="err">.</span><span class="nx">endpoint</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="s">"http://example.org/application"</span><span class="err">;</span><span class="w"></span>
+<span class="w">    </span><span class="kc">event</span><span class="w"></span>
+<span class="kd">end</span><span class="err">;</span><span class="w"></span>
+
+<span class="kd">select</span><span class="w"> </span><span class="kc">event</span><span class="w"> </span><span class="kd">from</span><span class="w"> </span><span class="nx">in</span><span class="w"> </span><span class="kd">into</span><span class="w"> </span><span class="nx">correlation</span><span class="err">;</span><span class="w"></span>
+<span class="kd">select</span><span class="w"> </span><span class="kc">event</span><span class="w"> </span><span class="kd">from</span><span class="w"> </span><span class="nx">correlation</span><span class="err">/</span><span class="nx">out</span><span class="w"> </span><span class="kd">into</span><span class="w"> </span><span class="nx">out</span><span class="err">;</span><span class="w"></span>
+<span class="kd">select</span><span class="w"> </span><span class="kc">event</span><span class="w"> </span><span class="kd">from</span><span class="w"> </span><span class="nx">correlation</span><span class="err">/</span><span class="nx">err</span><span class="w"> </span><span class="kd">into</span><span class="w"> </span><span class="nx">err</span><span class="err">;</span><span class="w"></span>
+</code></pre></div>
+<p>For cases where the event payload should remain unaffected</p>
 <h1 id="reference-level-explanation">Reference-level explanation<a class="headerlink" href="#reference-level-explanation" title="Permanent link">¶</a></h1>
-<p>This is the technical portion of the RFC. Explain the design in sufficient detail that:</p>
-<ul>
-<li>Its interaction with other features is clear.</li>
-<li>It is reasonably clear how the feature would be implemented.</li>
-<li>Corner cases are dissected by example.</li>
-</ul>
-<p>The section should return to the examples given in the previous section, and explain more fully how the detailed proposal makes those examples work.</p>
+<p>As for the implementation, every linked transport needs to be touched and needs to keep around the correlation <code>Value</code>s for each in-flight event and inject it into the response event.</p>
+<p>This also includes cleaning up the correlation state in case of errors of the external systems, in case of timeouts and the like, so we ensure that we never grow beyond the bounds of the configured concurrency.</p>
+<p>We need to take care that no offramp/onramp uses that field for its own metadata.</p>
 <h1 id="drawbacks">Drawbacks<a class="headerlink" href="#drawbacks" title="Permanent link">¶</a></h1>
-<p>Why should we <em>not</em> do this?</p>
+<p>The state we need to keep at the Linked Transport offramp/onramp will grow with the supported concurrency (in-flight requests).</p>
+<p>Implementing this will further complicate the already quite complex Linked Transport implementations. Maybe we should consider implementing this as part of the <a href="https://github.com/tremor-rs/tremor-rfcs/pull/32">Connectors RFC</a>.</p>
 <h1 id="rationale-and-alternatives">Rationale and alternatives<a class="headerlink" href="#rationale-and-alternatives" title="Permanent link">¶</a></h1>
-<ul>
-<li>Why is this design the best in the space of possible designs?</li>
-<li>What other designs have been considered and what is the rationale for not choosing them?</li>
-<li>What is the impact of not doing this?</li>
-</ul>
+<p>In the initial ideas for this RFC we came up with a <code>correlate</code> operator for "joining" a number of events based on some expression, say <code>$correlation</code>. This was equipped with a <code>timeout</code>, so we take care to not keep to much state around and put a limit to the correlation window.</p>
+<p>I decided against coding this as an operator as it can be implemented with core language features of <code>tremor-query</code>, with a size based tumbling window and a group_by:</p>
+<div class="highlight"><pre><span></span><code>define tumbling window size_2
+with
+  size = 2,
+  eviction_period = 1000
+end;
+
+select aggr::win::collect_flattened(event) from in[size_2] group by $correlation into out;
+</code></pre></div>
+<p>To get exactly the same timeout behaviour the operator would have, we might need to tweak the current <code>eviction_period</code> handling logic, as it currently only gets rid of groups after <code>2 x eviction_period</code>. But as the operator can only live in 1 pipeline, we need to pass both events through the same pipeline anyways, and the above code is much more idiomatic and feels more native and less cumbersome.</p>
+<p>This pattern for correlation will find its way into the docs.</p>
 <h1 id="prior-art">Prior art<a class="headerlink" href="#prior-art" title="Permanent link">¶</a></h1>
-<p>Discuss prior art, both the good and the bad, in relation to this proposal.
-A few examples of what this can include are:</p>
-<ul>
-<li>For language, library, tools, and clustering proposals: Does this feature exist in other programming languages and what experience have their community had?</li>
-<li>For community proposals: Is this done by some other community and what were their experiences with it?</li>
-<li>For other teams: What lessons can we learn from what other communities have done here?</li>
-<li>Papers: Are there any published papers or great posts that discuss this? If you have some relevant papers to refer to, this can serve as a more detailed theoretical background.</li>
-</ul>
-<p>This section is intended to encourage you as an author to think about the lessons from other projects, provide readers of your RFC with a fuller picture.
-If there is no prior art, that is fine - your ideas are interesting to us whether they are brand new or if it is an adaptation from other projects.</p>
-<p>Note that while precedent set by other projects is some motivation, it does not on its own motivate an RFC.
-Please also take into consideration that tremor sometimes intentionally diverges from similar projects.</p>
+<p>Correlating events is a key mechanism for enabling event tracing, which is usually achieved by adding trace ids to events. This is how e.g. <a href="https://zipkin.io">zipkin</a> tracing works. So there is a whole ecosystem around enabling observability with proper tracing that relies on those ids being present and be delivered and maintained across boundaries. While most applications will already include a trace id like this in the event payload, it might still be required to enable keeping those ids while accessing external services via a linked transport. So this enables better tracing scenarios for Tremor.</p>
 <h1 id="unresolved-questions">Unresolved questions<a class="headerlink" href="#unresolved-questions" title="Permanent link">¶</a></h1>
-<ul>
-<li>What parts of the design do you expect to resolve through the RFC process before this gets merged?</li>
-<li>What parts of the design do you expect to resolve through the implementation of this feature before stabilization?</li>
-<li>What related issues do you consider out of scope for this RFC that could be addressed in the future independently of the solution that comes out of this RFC?</li>
-</ul>
+<p>None.</p>
 <h1 id="future-possibilities">Future possibilities<a class="headerlink" href="#future-possibilities" title="Permanent link">¶</a></h1>
-<p>Think about what the natural extension and evolution of your proposal would
-be and how it would affect Tremor as a whole in a holistic way. Try to use
-this section as a tool to more fully consider all possible interactions with the
-project in your proposal. Also consider how the this all fits into the roadmap for
-the project and of the relevant sub-team.</p>
-<p>This is also a good place to "dump ideas", if they are out of scope for the
-RFC you are writing but otherwise related.</p>
-<p>If you have tried and cannot think of any future possibilities,
-you may simply state that you cannot think of anything.</p>
-<p>Note that having something written down in the future-possibilities section
-is not a reason to accept the current or a future RFC; such notes should be
-in the section on motivation or rationale in this or subsequent RFCs.
-The section merely provides additional information.</p>
+<p>One road to take this RFC idea down is to bake the correlation and event tracing mechanism even deeper into the runtime.
+What we have now with the internal <code>EventId</code> is some form of limited tracing in that it tracks the minimum and maximum of event ids per source.
+We could extend this to build causal tracing chains. This is necessary, as at places like a windowed select query, a <code>generic::batch</code> operator we emit new events, with a new id. They do keep track of the events that make up the current one, but we cannot properly trace every single event with this mechanism. Such a tracing chain would be usable for the correlation feature, if made accessible to user pipeline code.</p>
 </article>
 </div>
 </div>
 </main>
 <footer class="md-footer">
 <nav aria-label="Footer" class="md-footer__inner md-grid">
-<a class="md-footer__link md-footer__link--prev" href="../libs_changes/" rel="prev">
+<a class="md-footer__link md-footer__link--prev" href="../0000-template/" rel="prev">
 <div class="md-footer__button md-icon">
 <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
 </div>
@@ -324,17 +328,17 @@ The section merely provides additional information.</p>
 <span class="md-footer__direction">
                 Previous
               </span>
-              Library Changes
+              RFC Template
             </div>
 </div>
 </a>
-<a class="md-footer__link md-footer__link--next" href="../0000-correlation/" rel="next">
+<a class="md-footer__link md-footer__link--next" href="../0001-remove-actix-from-tremor-runtime/" rel="next">
 <div class="md-footer__title">
 <div class="md-ellipsis">
 <span class="md-footer__direction">
                 Next
               </span>
-              0000-correlation
+              0001-remove-actix-from-tremor-runtime
             </div>
 </div>
 <div class="md-footer__button md-icon">
