@@ -18,6 +18,8 @@ Subqueries would allow composition of smaller, reusable queries into higher leve
 
 ## Definition
 
+![DefineSubqueryDefn](../img/rfcs/0000-modular-queries/DefineSubqueryDefn.png)
+
 ```
 DefineSubqueryDefn ::= 'define' 'subquery' Id DocComment? ('from' Ports)? ('into' Ports)? WithPartialParams? Subquery
 ```
@@ -49,6 +51,8 @@ end;
     - The streams named inside the `from` and `into` clauses are created inside the subquery implicitly. i.e. there is no need to `create stream output_stream` inside the subquery.
 
 ## Creation
+
+![CreateSubqueryDefn](../img/rfcs/0000-modular-queries/CreateSubqueryDefn.png)
 
 ```
 CreateSubqueryDefn ::= 'create' 'subquery' Id ( 'from' ModularId )? WithParams?
@@ -181,6 +185,7 @@ The subqueries syntax builds upon the existing modularity features to enable the
 
 - **Stmt**
     - Two new statement types are introduced in `Stmt` for defining and creating subqueries.
+    - ![Stmt](../img/rfcs/0000-modular-queries/Stmt.png)
 ```
 Stmt ::= 
     ModuleStmt
@@ -197,6 +202,7 @@ Stmt ::=
 
 - **ModuleStmtInner**
     - The definition of `ModuleStmtInner` is extended to include subquery definitions.
+    - ![ModuleStmtInner](../img/rfcs/0000-modular-queries/ModuleStmtInner.png)
 ```
 ModuleStmtInner ::=
     ModuleStmt
@@ -210,26 +216,28 @@ ModuleStmtInner ::=
 
 -  **CreateSubqueryDefn**
     - A new keyword `subquery` is introduced.
+    - ![CreateSubqueryDefn](../img/rfcs/0000-modular-queries/CreateSubqueryDefn.png)
 ```
 CreateSubqueryDefn ::= 'create' 'subquery' Id ( 'from' ModularId )? WithParams?
 ```
 -  **DefineSubqueryDefn**
-    -  
+    - ![DefineSubqueryDefn](../img/rfcs/0000-modular-queries/DefineSubqueryDefn.png)
 ```
 DefineSubqueryDefn ::= 'define' 'subquery' Id ('from' Ports)? ('into' Ports)? WithPartialParams? DocComment? Subquery
 ```
 - **Ports**
-    - 
+    - ![Ports](../img/rfcs/0000-modular-queries/Ports.png)
 ```
 Ports ::= Id ',' Ports | Id
 ```
 - **Subquery**
-    - 
+    - ![Subquery](../img/rfcs/0000-modular-queries/Subquery.png)
 ```
 Subquery ::= 'subquery' SubqueryStmtInner 'end'
 ```
 - **SubqueryStmtInner**
     - Currently, the definition of  `SubqueryStmtInner` is equivalent to that of `Query`.
+    - ![SubqueryStmtInner](../img/rfcs/0000-modular-queries/SubqueryStmtInner.png)
 ```
 SubqueryStmtInner ::= ( Stmt ';' )+ | Stmt
 ```
