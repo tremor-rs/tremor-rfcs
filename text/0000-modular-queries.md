@@ -21,12 +21,12 @@ Subqueries would allow composition of smaller, reusable queries into higher leve
 ![DefineSubqueryDefn](../img/rfcs/0000-modular-queries/DefineSubqueryDefn.png)
 
 ```
-DefineSubqueryDefn ::= 'define' 'subquery' Id DocComment? ('from' Ports)? ('into' Ports)? WithPartialParams? Subquery
+DefineSubqueryDefn ::= DocComment? 'define' 'subquery' Id ('from' Ports)? ('into' Ports)? WithPartialParams? Subquery
 ```
 
 ```
-define subquery custom_subquery
 ## Documentation Comment
+define subquery custom_subquery
 from input_stream_1, input_stream_2
 into output_stream
 with
@@ -223,7 +223,7 @@ CreateSubqueryDefn ::= 'create' 'subquery' Id ( 'from' ModularId )? WithParams?
 -  **DefineSubqueryDefn**
     - ![DefineSubqueryDefn](../img/rfcs/0000-modular-queries/DefineSubqueryDefn.png)
 ```
-DefineSubqueryDefn ::= 'define' 'subquery' Id ('from' Ports)? ('into' Ports)? WithPartialParams? DocComment? Subquery
+DefineSubqueryDefn ::= DocComment? 'define' 'subquery' Id ('from' Ports)? ('into' Ports)? WithPartialParams? Subquery
 ```
 - **Ports**
     - ![Ports](../img/rfcs/0000-modular-queries/Ports.png)
