@@ -98,7 +98,7 @@ mod library with
    } => "invalid";
    end;
 
-   define subquery select_minage
+   define subquery select_min_age
      with
        age = 18 # Parameter with default value of `18`
      subquery
