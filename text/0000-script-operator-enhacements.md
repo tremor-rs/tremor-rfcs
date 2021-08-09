@@ -9,6 +9,11 @@
 
 This RFC aims to add quality of life improvements to the script operator. As it exists today, the operator works well for simple use-cases but-in light of the growing number of complex pipelines and the use of patterns like the configurator pattern it is cumbersome. When first implemented, `state` didn't exist, and ports were not used. Those are the areas of improvement this RFC tackles.
 
+The improvements focus around handling of state and tackle two common cases:
+
+1) decupling the control plane logic (setting / modifying state) and the data plane logic (using state to make decisions)
+2) seeding the state with a value
+
 # Motivation
 
 [motivation]: #motivation
