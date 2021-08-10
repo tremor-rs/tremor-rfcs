@@ -1,9 +1,9 @@
 
 
-- Feature Name: rfc-0000-modular-queries
+- Feature Name: rfc-0014-modular-queries
 - Start Date: (fill me in with today's date, 2021-07-24)
 - Tremor Issue: [tremor-rs/tremor-runtime#940](https://github.com/tremor-rs/tremor-runtime/issues/940)
-- RFC PR: [tremor-rs/tremor-rfcs#TODO](https://github.com/tremor-rs/tremor-rfcs/pull/TODO)
+- RFC PR: [tremor-rs/tremor-rfcs#TODO](https://github.com/tremor-rs/tremor-rfcs/pull/55)
 
 
 # Summary
@@ -18,21 +18,21 @@ Subqueries would allow composition of smaller, reusable queries into higher leve
 
 ## Definition
 
-![DefineSubqueryDefn](../img/rfcs/0000-modular-queries/DefineSubqueryDefn.png)
+![DefineSubqueryDefn](../img/rfcs/0014-modular-queries/DefineSubqueryDefn.png)
 
 ```
-DefineSubqueryDefn ::= DocComment? 'define' 'subquery' Id ('from' Ports)? ('into' Ports)? WithPartialParams? Subquery
+DefineSubqueryDefn ::= DocComment? 'define' 'query' Id ('from' Ports)? ('into' Ports)? WithPartialParams? Subquery
 ```
 
 ```
+define query custom_subquery
 ## Documentation Comment
-define subquery custom_subquery
 from input_stream_1, input_stream_2
 into output_stream
 with
  param1 = "foo",
  param2 = 42
-subquery
+query
  select event from input_stream_1 where event.name == args.param1 into output_stream;
  select event from input_stream_2 where event.id == args.param2 into output_stream;
 end;
@@ -52,18 +52,18 @@ end;
 
 ## Creation
 
-![CreateSubqueryDefn](../img/rfcs/0000-modular-queries/CreateSubqueryDefn.png)
+![CreateSubqueryDefn](../img/rfcs/0014-modular-queries/CreateSubqueryDefn.png)
 
 ```
-CreateSubqueryDefn ::= 'create' 'subquery' Id ( 'from' ModularId )? WithParams?
+CreateSubqueryDefn ::= 'create' 'query' Id ( 'from' ModularId )? WithParams?
 ```
 
 ```
 # Short form
-create subquery custom_subquery;
+create query custom_subquery;
 
 # Full form
-create subquery my_custom_subq from custom_subquery
+create query my_custom_subq from custom_subquery
 with
  param1 = "bar"
 end;
@@ -98,23 +98,23 @@ mod library with
    } => "invalid";
    end;
 
-   define subquery select_min_age
+   define query select_minage
      with
        age = 18 # Parameter with default value of `18`
-     subquery
+     query
        select event from in where in.age >= args.age into out;
    end;
 
  end;
 
- define subquery select_valid_people
+ define query select_valid_people
  with
    age = 21,
    placeholder_name = "NA"
- subquery
+ query
    use utils;
    create script mark_malformed;
-   create subquery select_min_age
+   create query select_min_age
    with
      age = args.age 
    end;
@@ -127,7 +127,7 @@ mod library with
 
 end;
 
-create subquery valid_over_21 from library::select_valid_people
+create query valid_over_21 from library::select_valid_people
 with
  placeholder_name = "John Doe" # Overrides the default value of "NA".
 end;
@@ -149,11 +149,11 @@ Here, we have a subquery, `valid_over_21`, defined in the `library` module. The 
 ## Example 2
 
 ```
-define subquery custom_subquery
+define query custom_subquery
 with
  interval = core::datetime::with_seconds(60),
  minimum_count = 0
-subquery
+query
  define tumbling window interval_window
  with
      interval = args.interval
@@ -165,7 +165,7 @@ subquery
  having count > args.minimum_count;
 end;
 
-create subquery six_per_two_minutes from custom_subquery
+create query six_per_two_minutes from custom_subquery
 with
  interval = core::datetime::with_seconds(120),
  minimum_count = 6
@@ -185,7 +185,7 @@ The subqueries syntax builds upon the existing modularity features to enable the
 
 - **Stmt**
     - Two new statement types are introduced in `Stmt` for defining and creating subqueries.
-    - ![Stmt](../img/rfcs/0000-modular-queries/Stmt.png)
+    - ![Stmt](../img/rfcs/0014-modular-queries/Stmt.png)
 ```
 Stmt ::= 
     ModuleStmt
@@ -202,7 +202,7 @@ Stmt ::=
 
 - **ModuleStmtInner**
     - The definition of `ModuleStmtInner` is extended to include subquery definitions.
-    - ![ModuleStmtInner](../img/rfcs/0000-modular-queries/ModuleStmtInner.png)
+    - ![ModuleStmtInner](../img/rfcs/0014-modular-queries/ModuleStmtInner.png)
 ```
 ModuleStmtInner ::=
     ModuleStmt
@@ -215,29 +215,29 @@ ModuleStmtInner ::=
 ## Grammar Additions
 
 -  **CreateSubqueryDefn**
-    - A new keyword `subquery` is introduced.
-    - ![CreateSubqueryDefn](../img/rfcs/0000-modular-queries/CreateSubqueryDefn.png)
+    - A new keyword `query` is introduced.
+    - ![CreateSubqueryDefn](../img/rfcs/0014-modular-queries/CreateSubqueryDefn.png)
 ```
-CreateSubqueryDefn ::= 'create' 'subquery' Id ( 'from' ModularId )? WithParams?
+CreateSubqueryDefn ::= 'create' 'query' Id ( 'from' ModularId )? WithParams?
 ```
 -  **DefineSubqueryDefn**
-    - ![DefineSubqueryDefn](../img/rfcs/0000-modular-queries/DefineSubqueryDefn.png)
+    - ![DefineSubqueryDefn](../img/rfcs/0014-modular-queries/DefineSubqueryDefn.png)
 ```
-DefineSubqueryDefn ::= DocComment? 'define' 'subquery' Id ('from' Ports)? ('into' Ports)? WithPartialParams? Subquery
+DefineSubqueryDefn ::= DocComment? 'define' 'query' Id ('from' Ports)? ('into' Ports)? WithPartialParams? Subquery
 ```
 - **Ports**
-    - ![Ports](../img/rfcs/0000-modular-queries/Ports.png)
+    - ![Ports](../img/rfcs/0014-modular-queries/Ports.png)
 ```
 Ports ::= Id ',' Ports | Id
 ```
 - **Subquery**
-    - ![Subquery](../img/rfcs/0000-modular-queries/Subquery.png)
+    - ![Subquery](../img/rfcs/0014-modular-queries/Subquery.png)
 ```
-Subquery ::= 'subquery' SubqueryStmtInner 'end'
+Subquery ::= 'query' SubqueryStmtInner 'end'
 ```
 - **SubqueryStmtInner**
     - Currently, the definition of  `SubqueryStmtInner` is equivalent to that of `Query`.
-    - ![SubqueryStmtInner](../img/rfcs/0000-modular-queries/SubqueryStmtInner.png)
+    - ![SubqueryStmtInner](../img/rfcs/0014-modular-queries/SubqueryStmtInner.png)
 ```
 SubqueryStmtInner ::= ( Stmt ';' )+ | Stmt
 ```
