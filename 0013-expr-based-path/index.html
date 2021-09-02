@@ -8,7 +8,7 @@
 <meta content="The Tremor Team" name="author"/>
 <link href="../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.2.2, mkdocs-material-7.2.6" name="generator"/>
-<title>0004-sliding-window-mechanism - Tremor RFCs</title>
+<title>0013-expr-based-path - Tremor RFCs</title>
 <link href="../assets/stylesheets/main.802231af.min.css" rel="stylesheet"/>
 <link href="../assets/stylesheets/palette.3f5d1f46.min.css" rel="stylesheet"/>
 <meta content="#000000" name="theme-color"/>
@@ -46,7 +46,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              0004-sliding-window-mechanism
+              0013-expr-based-path
             
           </span>
 </div>
@@ -175,9 +175,8 @@
         0003-linked-transports
       </a>
 </li>
-<li class="md-nav__item md-nav__item--active">
-<input class="md-nav__toggle md-toggle" data-md-toggle="toc" id="__toc" type="checkbox"/>
-<a class="md-nav__link md-nav__link--active" href="./">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../0004-sliding-window-mechanism/">
         0004-sliding-window-mechanism
       </a>
 </li>
@@ -221,8 +220,9 @@
         0012-correlation
       </a>
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../0013-expr-based-path/">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" data-md-toggle="toc" id="__toc" type="checkbox"/>
+<a class="md-nav__link md-nav__link--active" href="./">
         0013-expr-based-path
       </a>
 </li>
@@ -244,87 +244,79 @@
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<a class="md-content__button md-icon" href="https://github.com/tremor-rs/tremor-rfcs/edit/main/0004-sliding-window-mechanism.md" title="Edit this page">
+<a class="md-content__button md-icon" href="https://github.com/tremor-rs/tremor-rfcs/edit/main/0013-expr-based-path.md" title="Edit this page">
 <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"></path></svg>
 </a>
 <ul>
-<li>Feature Name: rfc_0004_sliding_window_mechanism</li>
-<li>Start Date: 2020-01-27</li>
-<li>Issue: <a href="https://github.com/tremor-rs/tremor-rfcs/issues/7">tremor-rs/tremor-rfcs#0007</a></li>
-<li>RFC PR: <a href="https://github.com/tremor-rs/tremor-rfcs/pull/8">tremor-rs/tremor-rfcs#0008</a></li>
+<li>Feature Name: Expression based path root</li>
+<li>Start Date: 2021-08-01</li>
+<li>Tremor Issue: <a href="https://github.com/tremor-rs/tremor-runtime/pull/1165">tremor-rs/tremor-runtime#1165</a></li>
+<li>RFC PR: <a href="https://github.com/tremor-rs/tremor-rfcs/pull/54">tremor-rs/tremor-rfcs#54</a></li>
 </ul>
 <h1 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">¶</a></h1>
-<p>The tremor-query language currently supports temporal window processing based on a
-provided system ( wall ) clock or data-driven intervals. Currently, however, the only
-supported windowing style in <code>select</code> statements are tumbling.</p>
-<p>There is no mechanism for tunbling windows where there may be multiple simultaneous
-(overlapping) windows. The sliding window mechanism corrects this.</p>
-<p>This RFC addresses these limitations by introducing a <code>sliding window</code> mechamism
-that can be configured with a number of steps.</p>
+<p>This RFC suggests extending that path to allow additional root elements, namely (immutable) expressions. This includes function calls, record, and list (semi)literals and complex expressions enclosed in <code>()</code>.</p>
 <h1 id="motivation">Motivation<a class="headerlink" href="#motivation" title="Permanent link">¶</a></h1>
-<p>The tremor-query language cannot currently easily define windowing mechanics such
-as pair-wise comparisons or sliding data-driven windows that captures 'the last
-seconds worth' of data that update on an event by event basis.</p>
-<p>Sliding windows occur frequently in event processing algorithms and their addition
-to tremor-query is a natural extension to the language.</p>
+<p>It is sometimes cumbersome to store a result in an intermediate value to extract only a single sub-element from the result. It is also counterintuitive not to use an expression such as <code>function(arg).something</code> and can lead to unexpected syntax errors from tremor.</p>
 <h1 id="guide-level-explanation">Guide-level explanation<a class="headerlink" href="#guide-level-explanation" title="Permanent link">¶</a></h1>
-<p>Definition of a simple sliding window of step size 2
-<div class="highlight"><pre><span></span><code><span class="kd">define</span><span class="w"> </span><span class="kd">sliding</span><span class="w"> </span><span class="kd">window</span><span class="w"> </span><span class="nx">pairs</span><span class="w"></span>
-<span class="kd">with</span><span class="w"></span>
-<span class="w">  </span><span class="nx">size</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="mi">2</span><span class="err">,</span><span class="w"></span>
-<span class="kd">end</span><span class="err">;</span><span class="w"></span>
-</code></pre></div></p>
-<p>Application of  the <code>pairs</code> window in a <code>select</code> statement</p>
-<div class="highlight"><pre><span></span><code><span class="kd">select</span><span class="w"> </span><span class="nx">{</span><span class="w"></span>
-<span class="w">  </span><span class="s">"window"</span><span class="err">:</span><span class="w"> </span><span class="kd">window</span><span class="err">,</span><span class="w"></span>
-<span class="w">  </span><span class="s">"count"</span><span class="err">:</span><span class="w"> </span><span class="nx">stats</span><span class="err">::</span><span class="nx">count</span><span class="err">(),</span><span class="w"></span>
-<span class="w">  </span><span class="s">"of"</span><span class="err">:</span><span class="w"> </span><span class="nx">win</span><span class="err">::</span><span class="nx">collect</span><span class="err">(</span><span class="kc">event</span><span class="err">),</span><span class="w"></span>
-<span class="nx">}</span><span class="w"></span>
-<span class="kd">from</span><span class="w"> </span><span class="nx">in</span><span class="err">[</span><span class="nx">pairs</span><span class="err">]</span><span class="w"></span>
-<span class="kd">into</span><span class="w"> </span><span class="nx">out</span><span class="err">;</span><span class="w"></span>
-</code></pre></div>
-<p>Sliding windows should work with tilt frames:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">select</span><span class="w"> </span><span class="nx">{</span><span class="w"></span>
-<span class="w">  </span><span class="s">"window"</span><span class="err">:</span><span class="w"> </span><span class="kd">window</span><span class="err">,</span><span class="w"></span>
-<span class="w">  </span><span class="s">"count"</span><span class="err">:</span><span class="w"> </span><span class="nx">stats</span><span class="err">::</span><span class="nx">count</span><span class="err">(),</span><span class="w"></span>
-<span class="w">  </span><span class="s">"of"</span><span class="err">:</span><span class="w"> </span><span class="nx">win</span><span class="err">::</span><span class="nx">collect</span><span class="err">(</span><span class="kc">event</span><span class="err">),</span><span class="w"></span>
-<span class="nx">}</span><span class="w"></span>
-<span class="kd">from</span><span class="w"> </span><span class="nx">in</span><span class="err">[</span><span class="nx">sliding_pairs</span><span class="err">,</span><span class="w"> </span><span class="nx">tumbling_pairs</span><span class="err">,</span><span class="w"> </span><span class="nx">tumbling_triples</span><span class="err">,</span><span class="w"> </span><span class="nx">sliding_quads</span><span class="err">]</span><span class="w"></span>
-<span class="kd">into</span><span class="w"> </span><span class="nx">out</span><span class="err">;</span><span class="w"></span>
-</code></pre></div>
-<p>An interval based sliding window of duration 1 second:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">define</span><span class="w"> </span><span class="kd">sliding</span><span class="w"> </span><span class="kd">window</span><span class="w"> </span><span class="nx">last_second</span><span class="w"></span>
-<span class="kd">with</span><span class="w"></span>
-<span class="w">  </span><span class="nx">interval</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="nx">datetime</span><span class="err">::</span><span class="nx">with_seconds</span><span class="err">(</span><span class="mi">1</span><span class="err">),</span><span class="w"></span>
-<span class="kd">end</span><span class="err">;</span><span class="w"></span>
-</code></pre></div>
-<p>The addition of a sliding window mechanism is a fairly cosmetic language change
-but a fairly significant change to runtime facililities in window processing
-semantics and mechanics, grouping mechanism, tilt framing and may involve other
-enhancements or changes in order to manage memory pressure optimally.</p>
-<p>This RFC does not concern itself with implementation specifics.</p>
+<p>No new concepts are introduced. The existing concept of a path is extended. As of today, a path could originate from:</p>
+<ul>
+<li><code>event</code> an event</li>
+<li><code>$</code> the event metadata</li>
+<li>a local variable</li>
+<li>a constant</li>
+<li>the build-in keywords <code>args</code>, <code>group</code> and <code>state</code></li>
+</ul>
+<p>We suggest extending this with four more variants:</p>
+<ul>
+<li><code>{...}</code> record literals</li>
+<li><code>[...]</code> array literals</li>
+<li><code>struct::keys(a_record)</code> a function call or a the return for it</li>
+<li><code>(&lt;immutable expr&gt;)</code> any immutable expression in paratheses</li>
+</ul>
 <h1 id="reference-level-explanation">Reference-level explanation<a class="headerlink" href="#reference-level-explanation" title="Permanent link">¶</a></h1>
-<p>None.</p>
+<p>This is realized by either:</p>
+<ul>
+<li>using the returned reference from the expression as a root for a lookup</li>
+<li>introducing a new temporary local variable to assign the returned owned variable to and then using a reference to this as a root for the lookup</li>
+</ul>
 <h1 id="drawbacks">Drawbacks<a class="headerlink" href="#drawbacks" title="Permanent link">¶</a></h1>
-<p>Sliding window mechanism uses relatively more memory when compared with tumbling windows
-and this should feature clearly in documentation and examples.</p>
+<p>The only drawback discovered during this PR is that it introduces a possibility to create less readable scripts where it would have made sense to introduce a named variable for readability, but instead, an expression root was used.</p>
+<p>For example the first can be more readable then the second especially if the match statement grows:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">key</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="kd">match</span><span class="w"> </span><span class="kc">event</span><span class="w"> </span><span class="kd">of</span><span class="w"></span>
+<span class="w">   </span><span class="kd">case</span><span class="w"> </span><span class="err">%</span><span class="nx">{</span><span class="kd">present</span><span class="w"> </span><span class="nx">k1}</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="kc">event</span><span class="err">.</span><span class="nx">k1</span><span class="w"></span>
+<span class="w">   </span><span class="kd">case</span><span class="w"> </span><span class="err">%</span><span class="nx">{</span><span class="kd">present</span><span class="w"> </span><span class="nx">k2}</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="kc">event</span><span class="err">.</span><span class="nx">k2</span><span class="w"></span>
+<span class="w">   </span><span class="kd">case</span><span class="w"> </span><span class="err">%</span><span class="nx">{</span><span class="kd">present</span><span class="w"> </span><span class="nx">k3}</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="kc">event</span><span class="err">.</span><span class="nx">k3</span><span class="w"></span>
+<span class="w">   </span><span class="kd">case</span><span class="w"> </span><span class="kc">_</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="kc">event</span><span class="w"></span>
+<span class="kd">end</span><span class="err">;</span><span class="w"></span>
+<span class="nx">key</span><span class="err">.</span><span class="nx">badger</span><span class="w"></span>
+
+<span class="c1">## or:</span>
+
+<span class="err">(</span><span class="kd">match</span><span class="w"> </span><span class="kc">event</span><span class="w"> </span><span class="kd">of</span><span class="w"></span>
+<span class="w">   </span><span class="kd">case</span><span class="w"> </span><span class="err">%</span><span class="nx">{</span><span class="kd">present</span><span class="w"> </span><span class="nx">k1}</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="kc">event</span><span class="err">.</span><span class="nx">k1</span><span class="w"></span>
+<span class="w">   </span><span class="kd">case</span><span class="w"> </span><span class="err">%</span><span class="nx">{</span><span class="kd">present</span><span class="w"> </span><span class="nx">k2}</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="kc">event</span><span class="err">.</span><span class="nx">k2</span><span class="w"></span>
+<span class="w">   </span><span class="kd">case</span><span class="w"> </span><span class="err">%</span><span class="nx">{</span><span class="kd">present</span><span class="w"> </span><span class="nx">k3}</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="kc">event</span><span class="err">.</span><span class="nx">k3</span><span class="w"></span>
+<span class="w">   </span><span class="kd">case</span><span class="w"> </span><span class="kc">_</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="kc">event</span><span class="w"></span>
+<span class="kd">end</span><span class="err">).</span><span class="nx">badger</span><span class="w"></span>
+</code></pre></div>
 <h1 id="rationale-and-alternatives">Rationale and alternatives<a class="headerlink" href="#rationale-and-alternatives" title="Permanent link">¶</a></h1>
-<p>As described in the <a href="#summary">summary</a>.</p>
+<p>An alternative would be leaving it as it is, but in many cases, this is counterintuitive. For example, <code>struct::keys(event)[0]</code> for "get me the first event key" feels natural while <code>let keys = struct::keys(event); keys[0]</code> does not.</p>
 <h1 id="prior-art">Prior art<a class="headerlink" href="#prior-art" title="Permanent link">¶</a></h1>
-<p>Sliding windows are a <a href="https://www.researchgate.net/figure/Sliding-Window-in-CEP_fig2_283199451">common</a> feature in CEP/ESP and aggregation systems.</p>
+<p>The current expression syntax is realistically the prior art this lead to, along with many other languages that allow path expressions on functions, expressions, or literals.</p>
 <h1 id="unresolved-questions">Unresolved questions<a class="headerlink" href="#unresolved-questions" title="Permanent link">¶</a></h1>
-<p>This RFC does not specify internals or implementation which is left to the
-implementor. The motiviating example should be sufficient to drive a suitable
-implementation.</p>
+<p>Should we allow <strong>any</strong> expression as a root? Right now, we purposefully exclude mutable expressions to prevent complexity from creeping into scripts. Still, there also is an argument to be made to allow any expression as a root since tremor-script is ultimately an expression-oriented language.</p>
 <h1 id="future-possibilities">Future possibilities<a class="headerlink" href="#future-possibilities" title="Permanent link">¶</a></h1>
-<p>None known at this time.</p>
+<ul>
+<li>Extend this to other expressions as root elements.</li>
+<li>Include constant folding for looking up keys in constant roots.</li>
+</ul>
 </article>
 </div>
 </div>
 </main>
 <footer class="md-footer">
 <nav aria-label="Footer" class="md-footer__inner md-grid">
-<a aria-label="Previous: 0003-linked-transports" class="md-footer__link md-footer__link--prev" href="../0003-linked-transports/" rel="prev">
+<a aria-label="Previous: 0012-correlation" class="md-footer__link md-footer__link--prev" href="../0012-correlation/" rel="prev">
 <div class="md-footer__button md-icon">
 <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
 </div>
@@ -333,21 +325,8 @@ implementation.</p>
 <span class="md-footer__direction">
                 Previous
               </span>
-              0003-linked-transports
+              0012-correlation
             </div>
-</div>
-</a>
-<a aria-label="Next: 0005-circuit-breaker-mechanism" class="md-footer__link md-footer__link--next" href="../0005-circuit-breaker-mechanism/" rel="next">
-<div class="md-footer__title">
-<div class="md-ellipsis">
-<span class="md-footer__direction">
-                Next
-              </span>
-              0005-circuit-breaker-mechanism
-            </div>
-</div>
-<div class="md-footer__button md-icon">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"></path></svg>
 </div>
 </a>
 </nav>
