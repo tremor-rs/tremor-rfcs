@@ -1,7 +1,7 @@
 - Feature Name: Expression based path root
 - Start Date: 2021-08-01
 - Tremor Issue: [tremor-rs/tremor-runtime#1165](https://github.com/tremor-rs/tremor-runtime/pull/1165)
-- RFC PR: [tremor-rs/tremor-rfcs#0000](https://github.com/tremor-rs/tremor-rfcs/pull/0000)
+- RFC PR: [tremor-rs/tremor-rfcs#54](https://github.com/tremor-rs/tremor-rfcs/pull/54)
 
 # Summary
 [summary]: #summary
